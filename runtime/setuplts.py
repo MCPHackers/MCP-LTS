@@ -179,8 +179,8 @@ class InstallMC:
         else:
             ver = inp
         serverdltime = time.time()
-        self.download(minecraftversions.versions["server"][ver]["url"],
-                      os.path.join(self.jardir, "minecraft_server.jar"))
+        if ver in minecraftversions.versions["server"]:
+            self.download(minecraftversions.versions["server"][ver]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
         self.logger.info('> Done in %.2f seconds' % (time.time() - serverdltime))
 
     def download(self, url, dst):

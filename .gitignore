@@ -16,8 +16,10 @@ bin/
 runtime/bin/pypy*
 !runtime/bin/
 
-# Block .idea folder
+# Block IDE folders
 .idea/
+.vscode/
+.metadata/
 
 # Block python runtime.
 runtime/bin/python/
