@@ -1,16 +1,8 @@
-# 1.7.3-LTS
+# MCP-LTS
 
-1.7.3-LTS is a modification of the Minecraft Coder Pack to create a "Long Term Service" patch for Minecraft Beta 1.7.3
+MCP-LTS is a modification of the Minecraft Coder Pack to create a "Long Term Service" patch for Minecraft
 
 # Features
-
-**Gameplay Features**
-
-*
-
-**Modder Features**
-
-* Mapped out functions and fields
 
 # Roadmap
 
@@ -35,7 +27,7 @@ With that in mind, all credit towards MCP goes to the original creators. Read do
 
 # Contributing
 
-If you enounter any issues or bugs with 1.7.3-LTS, please create an issue and explain it in detail!
+If you enounter any issues or bugs with MCP-LTS, please create an issue and explain it in detail!
 
 If you want to contribute, please keep pull requests about one topic instead of one huge pull request.
 
