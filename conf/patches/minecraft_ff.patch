@@ -1,0 +1,35 @@
+diff -r -U 3 minecraft/net/minecraft/src/ChunkProviderIso.java minecraft_patched/net/minecraft/src/ChunkProviderIso.java
+--- minecraft/net/minecraft/src/ChunkProviderIso.java	2021-10-18 00:25:09.353921800 +0300
++++ minecraft_patched/net/minecraft/src/ChunkProviderIso.java	2021-10-18 00:28:50.292558800 +0300
+@@ -41,12 +41,7 @@
+     }
+ 
+     private synchronized Chunk getChunkAt(int var1, int var2) {
+-        try {
+-            return this.chunkLoader.loadChunk(this.worldObj, var1, var2);
+-        } catch (IOException var4) {
+-            var4.printStackTrace();
+-            return null;
+-        }
++        return this.chunkLoader.loadChunk(this.worldObj, var1, var2);
+     }
+ 
+     public void populate(IChunkProvider var1, int var2, int var3) {
+diff -r -U 3 minecraft/net/minecraft/src/ChunkProviderLoadOrGenerate.java minecraft_patched/net/minecraft/src/ChunkProviderLoadOrGenerate.java
+--- minecraft/net/minecraft/src/ChunkProviderLoadOrGenerate.java	2021-10-18 00:25:09.354921900 +0300
++++ minecraft_patched/net/minecraft/src/ChunkProviderLoadOrGenerate.java	2021-10-18 00:28:56.145893600 +0300
+@@ -118,12 +118,8 @@
+ 
+     private void saveChunk(Chunk var1) {
+         if (this.chunkLoader != null) {
+-            try {
+-                var1.lastSaveTime = this.worldObj.worldTime;
+-                this.chunkLoader.saveChunk(this.worldObj, var1);
+-            } catch (IOException var3) {
+-                var3.printStackTrace();
+-            }
++            var1.lastSaveTime = this.worldObj.worldTime;
++			this.chunkLoader.saveChunk(this.worldObj, var1);
+ 
+         }
+     }

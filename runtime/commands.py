@@ -355,7 +355,7 @@ class Commands(object):
     def checksources(self, side):
         srclk = {0: self.srcclient, 1: self.srcserver}
         if side == 0:
-            if not os.path.exists(os.path.join(srclk[side], 'net/minecraft/client/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'com/mojang/minecraft/Minecraft.java')):
+            if not os.path.exists(os.path.join(srclk[side], 'net/minecraft/client/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'com/mojang/minecraft/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'net/minecraft/src/Minecraft.java')):
                 self.logger.warning('!! Can not find client sources !!')
                 return False
             else:
@@ -371,7 +371,7 @@ class Commands(object):
     def checkbins(self, side):
         binlk = {0: self.binclient, 1: self.binserver}
         if side == 0:
-            if not os.path.exists(os.path.join(binlk[side], 'net/minecraft/client/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'com/mojang/minecraft/Minecraft.class')):
+            if not os.path.exists(os.path.join(binlk[side], 'net/minecraft/client/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'com/mojang/minecraft/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'net/minecraft/src/Minecraft.class')):
                 self.logger.warning('!! Can not find client bins !!')
                 return False
             else:
