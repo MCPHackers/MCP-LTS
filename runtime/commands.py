@@ -916,7 +916,7 @@ class Commands(object):
                     pkg = row['package'] + '/'
                     if row['package'] == self.nullpkg:
                         pkg = ''
-                    classes['%s/%s' % (row['package'], row['name'])] = pkg + row['notch']
+                    classes['%s/%s' % (row['package'], row['name'])] = row['notch']
 
         if not os.path.exists(outpathlk[side]):
             os.mkdir(outpathlk[side])
