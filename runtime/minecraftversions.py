@@ -204,7 +204,7 @@ versions = {
             "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.1.0.jar"
         },
         "a1.1.2_01": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.1.2_01.jar"
+            "url": "https://web.archive.org/web/20101009003034/http://www.minecraft.net/download/minecraft_server.jar?v=1286508187877"
         },
         "a1.2.0": {
             "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.0.jar"
