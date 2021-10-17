@@ -165,6 +165,9 @@ versions = {
         "inf-20100618": {
             "url": "https://launcher.mojang.com/v1/objects/89eab2c1a353707cc00f074dffba9cb7a4f5e304/client.jar"
         },
+        "in-20100223": {
+            "url": "https://archive.org/download/Minecraft-JE-Indev/in-20100223/in-20100223.jar"
+        },
         "c0.30_01c": {
             "url": "https://launcher.mojang.com/v1/objects/54622801f5ef1bcc1549a842c5b04cb5d5583005/client.jar"
         },
