@@ -171,6 +171,9 @@ versions = {
         "c0.0.13a_03": {
             "url": "https://launcher.mojang.com/v1/objects/7ba9e63aec8a15a99ecd47900c848cdce8a51a03/client.jar"
         },
+        "c0.0.12a_03": {
+            "url": "https://archive.org/download/Minecraft-JE-Classic/c0.0.12a_03/c0.0.12a_03.jar"
+        },
         "c0.0.11a": {
             "url": "https://launcher.mojang.com/v1/objects/3a799f179b6dcac5f3a46846d687ebbd95856984/client.jar"
         },
