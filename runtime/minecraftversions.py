@@ -159,6 +159,9 @@ versions = {
         "a1.0.4": {
             "url": "https://launcher.mojang.com/v1/objects/e5838277b3bb193e58408713f1fc6e005c5f3c0c/client.jar"
         },
+        "a1.0.1_01": {
+            "url": "https://archive.org/download/Minecraft-JE-Alpha/a1.0.1_01/a1.0.1_01.jar"
+        },
         "inf-20100618": {
             "url": "https://launcher.mojang.com/v1/objects/89eab2c1a353707cc00f074dffba9cb7a4f5e304/client.jar"
         },
