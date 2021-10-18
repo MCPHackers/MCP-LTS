@@ -153,7 +153,9 @@ class InstallMC:
 
         inp = ""
         while inp not in versions:
-            self.logger.info("> Current versions are: " + versionsstring)
+            self.logger.info("> Current versions are:")
+            for ver in versions:
+                self.logger.info(' - ' + ver)
             self.logger.info("> What version would you like to install?")
 
             inp = str(input(": "))

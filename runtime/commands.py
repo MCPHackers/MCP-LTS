@@ -166,8 +166,6 @@ class Commands(object):
         self.dirnatives = config.get('JAR', 'DirNatives')
         self.jarclient = config.get('JAR', 'Client')
         self.jarserver = config.get('JAR', 'Server')
-        self.md5jarclt = config.get('JAR', 'MD5Client')
-        self.md5jarsrv = config.get('JAR', 'MD5Server')
 
         # HINT: We read keys relevant to retroguard
         self.rgclientout = config.get('OBFUSCATE', 'ClientOut')
@@ -356,8 +354,9 @@ class Commands(object):
             md5jar = md5(jar_file.read()).hexdigest()
 
         validjar = False
-        for md5jar in md5jarlk[side]:
-            validjar = True
+        for x in md5jarlk[side]:
+            if x == md5jar:
+                validjar = True
         
         if not validjar:
             self.logger.warning('!! Modified jar detected. Unpredictable results !!')
