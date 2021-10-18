@@ -141,44 +141,47 @@ class InstallMC:
 
     def setupmc(self):
         self.logger.info("> If you wish to supply your own configuration, type \"none\".")
-        self.logger.info("> Any two versions joined by a comma (b1.5_01,1.5_02) are client vs server version.")
 
-        versionsstring = ""
         versions = []
         for version in os.listdir(self.confdir):
             if os.path.isdir(os.path.join(self.confdir, version)) and version != "patches" and not os.path.exists(os.path.join(self.confdir, version, "DISABLED")):
-                versionsstring += version + ", "
                 versions.append(version)
-        versionsstring = versionsstring.strip(", ")
 
         inp = ""
-        while inp not in versions:
+        confname = inp
+        foundmatch = False
+        while not foundmatch:
             self.logger.info("> Current versions are:")
             for ver in versions:
-                self.logger.info(' - ' + ver)
+                for x in ver.split(","):
+                    if x == "b1.5_01":
+                        x = "b1.5_01 (b1.5_02 server)"
+                    self.logger.info(' - ' + x)
             self.logger.info("> What version would you like to install?")
 
             inp = str(input(": "))
 
             if inp == "none":
                 return
+            for y in versions:
+                for x in y.split(","):
+                    if x == inp:
+                        foundmatch = True
+                        confname = y
 
         self.logger.info("> Copying config.")
         copytime = time.time()
-        self.copydir(os.path.join(self.confdir, inp), self.confdir)
+        self.copydir(os.path.join(self.confdir, confname), self.confdir)
         self.logger.info('> Done in %.2f seconds' % (time.time() - copytime))
 
         self.logger.info("> Downloading Minecraft client...")
         clientdltime = time.time()
-        self.download(minecraftversions.versions["client"][inp.split(",")[0]]["url"],
+        self.download(minecraftversions.versions["client"][inp]["url"],
                       os.path.join(self.jardir, "bin", "minecraft.jar"))
         self.logger.info('> Done in %.2f seconds' % (time.time() - clientdltime))
 
         self.logger.info("> Downloading Minecraft server...")
-        if inp.__contains__(","):
-            ver = inp.split(",")[0][0] + inp.split(",")[1]
-        else:
-            ver = inp
+        ver = inp
         serverdltime = time.time()
         if ver in minecraftversions.versions["server"]:
             self.download(minecraftversions.versions["server"][ver]["url"], os.path.join(self.jardir, "minecraft_server.jar"))

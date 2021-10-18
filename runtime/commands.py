@@ -225,8 +225,6 @@ class Commands(object):
         self.ignorepkg = config.get('REOBF', 'IgnorePkg').split(',')
         self.dirreobfclt = config.get('REOBF', 'ReobfDirClient')
         self.dirreobfsrv = config.get('REOBF', 'ReobfDirServer')
-        self.fixsound = config.get('REOBF', 'FixSound')
-        self.fixstart = config.get('REOBF', 'FixStart')
 
         self.mcplogfile = config.get('MCP', 'LogFile')
         self.mcperrlogfile = config.get('MCP', 'LogFileErr')
@@ -237,6 +235,8 @@ class Commands(object):
             version.read_file(version_file)
         self.md5jarclt = version.get('VERSION', 'MD5Client').split(',')
         self.md5jarsrv = version.get('VERSION', 'MD5Server').split(',')
+        self.fixsound = version.get('VERSION', 'FixSound')
+        self.fixstart = version.get('VERSION', 'FixStart')
         
         # LTS Updater
         # Disabled due to version.cfg repurpose

@@ -132,6 +132,9 @@ versions = {
         "a1.1.2": {
             "url": "https://launcher.mojang.com/v1/objects/f9b4b66f9c18bf4800d80f1c8865a837f92c6105/client.jar"
         },
+        "a1.1.1": {
+            "url": "https://archive.org/download/Minecraft-JE-Alpha/a1.1.1/a1.1.1.jar"
+        },
         "a1.1.0": {
             "url": "https://launcher.mojang.com/v1/objects/d58d1db929994ff383bdbe6fed31887e04b965c3/client.jar"
         },
@@ -212,6 +215,12 @@ versions = {
         "a1.1.0": {
             "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.1.0.jar"
         },
+        "a1.1.1": {
+            "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
+        },
+        "a1.1.2": {
+            "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
+        },
         "a1.1.2_01": {
             "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
         },
@@ -260,7 +269,7 @@ versions = {
         "b1.4_01": {
             "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.4_01.jar"
         },
-        "b1.5_02": {
+        "b1.5_01": {
             "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.5_02.jar"
         },
         "b1.6.6": {
