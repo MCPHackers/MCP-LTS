@@ -1,6 +1,6 @@
 diff -r -U 3 minecraft/net/minecraft/client/CanvasMinecraftApplet.java minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java
---- minecraft/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-17 19:24:58.613398000 -0400
-+++ minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-17 19:04:23.280735000 -0400
+--- minecraft/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-17 20:02:34.742480300 -0400
++++ minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-17 19:46:56.731682300 -0400
 @@ -8,7 +8,6 @@
  
      CanvasMinecraftApplet(MinecraftApplet var1) {
@@ -10,8 +10,8 @@ diff -r -U 3 minecraft/net/minecraft/client/CanvasMinecraftApplet.java minecraft
  
      public final synchronized void addNotify() {
 diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLevelDialog.java minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java
---- minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-17 19:24:58.679221600 -0400
-+++ minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-17 19:04:23.346553900 -0400
+--- minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-17 20:02:34.801351800 -0400
++++ minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-17 19:46:56.803490600 -0400
 @@ -9,7 +9,6 @@
  
      GuiLevelDialog(GuiLoadLevelScreen var1) {
@@ -21,8 +21,8 @@ diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLevelDialog.java minecraft_pa
  
      public final void run() {
 diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java minecraft_patched/net/minecraft/client/gui/GuiLoadLevelScreen.java
---- minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-10-17 19:24:58.691189300 -0400
-+++ minecraft_patched/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-10-17 19:17:13.905850600 -0400
+--- minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-10-17 20:02:34.810327300 -0400
++++ minecraft_patched/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-10-17 19:46:56.813462900 -0400
 @@ -15,7 +15,7 @@
      private GuiScreen parent;
      private boolean finished = false;
@@ -45,8 +45,8 @@ diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java minecraf
                  this.setLevels(this.levels);
                  this.loaded = true;
 diff -r -U 3 minecraft/net/minecraft/client/gui/SlotArmor.java minecraft_patched/net/minecraft/client/gui/SlotArmor.java
---- minecraft/net/minecraft/client/gui/SlotArmor.java	2021-10-17 19:24:58.709142500 -0400
-+++ minecraft_patched/net/minecraft/client/gui/SlotArmor.java	2021-10-17 19:04:23.380439600 -0400
+--- minecraft/net/minecraft/client/gui/SlotArmor.java	2021-10-17 20:02:34.825259300 -0400
++++ minecraft_patched/net/minecraft/client/gui/SlotArmor.java	2021-10-17 19:46:56.829420300 -0400
 @@ -9,8 +9,8 @@
      private int armorType;
  
@@ -59,8 +59,8 @@ diff -r -U 3 minecraft/net/minecraft/client/gui/SlotArmor.java minecraft_patched
  
      public final boolean isItemValid(ItemStack var1) {
 diff -r -U 3 minecraft/net/minecraft/client/Minecraft.java minecraft_patched/net/minecraft/client/Minecraft.java
---- minecraft/net/minecraft/client/Minecraft.java	2021-10-17 19:24:58.623370900 -0400
-+++ minecraft_patched/net/minecraft/client/Minecraft.java	2021-10-17 19:21:56.042669800 -0400
+--- minecraft/net/minecraft/client/Minecraft.java	2021-10-17 20:02:34.751484600 -0400
++++ minecraft_patched/net/minecraft/client/Minecraft.java	2021-10-17 19:46:56.744647800 -0400
 @@ -98,7 +98,7 @@
      private String server;
      private TextureWaterFX textureWaterFX;
@@ -97,8 +97,8 @@ diff -r -U 3 minecraft/net/minecraft/client/Minecraft.java minecraft_patched/net
          } catch (Throwable var3) {
          }
 diff -r -U 3 minecraft/net/minecraft/client/MinecraftApplet.java minecraft_patched/net/minecraft/client/MinecraftApplet.java
---- minecraft/net/minecraft/client/MinecraftApplet.java	2021-10-17 19:24:58.624368000 -0400
-+++ minecraft_patched/net/minecraft/client/MinecraftApplet.java	2021-10-17 19:17:49.778945500 -0400
+--- minecraft/net/minecraft/client/MinecraftApplet.java	2021-10-17 20:02:34.752482100 -0400
++++ minecraft_patched/net/minecraft/client/MinecraftApplet.java	2021-10-17 19:46:56.744647800 -0400
 @@ -24,8 +24,8 @@
              var10002.minecraftUri = var10000.append(var10002.minecraftUri).append(":").append(this.getDocumentBase().getPort()).toString();
          }
@@ -111,8 +111,8 @@ diff -r -U 3 minecraft/net/minecraft/client/MinecraftApplet.java minecraft_patch
                  this.getParameter("mppass");
              }
 diff -r -U 3 minecraft/net/minecraft/client/player/PlayerControllerCreative.java minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java
---- minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-17 19:24:58.792348400 -0400
-+++ minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-17 19:04:23.471661000 -0400
+--- minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-17 20:02:34.904048300 -0400
++++ minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-17 19:46:56.899263400 -0400
 @@ -1,5 +1,6 @@
  package net.minecraft.client.player;
  
@@ -134,8 +134,8 @@ diff -r -U 3 minecraft/net/minecraft/client/player/PlayerControllerCreative.java
      public final void blankPlayerFunction(EntityPlayer var1) {
          for(int var2 = 0; var2 < 9; ++var2) {
 diff -r -U 3 minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java
---- minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-17 19:24:58.874370900 -0400
-+++ minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-17 19:04:23.561374700 -0400
+--- minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-17 20:02:34.990845100 -0400
++++ minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-17 19:46:56.985099900 -0400
 @@ -41,7 +41,7 @@
          if ((var6 = var5.inventory.armorInventory[var4]) != null && (var7 = var6.getItem()) instanceof ItemArmor) {
              ItemArmor var8 = (ItemArmor)var7;
@@ -146,8 +146,8 @@ diff -r -U 3 minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java mi
              var9.bipedHeadwear.showModel = var3 == 0;
              var9.bipedBody.showModel = var3 == 1 || var3 == 2;
 diff -r -U 3 minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java
---- minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-17 19:24:58.834236900 -0400
-+++ minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-17 19:04:23.518236800 -0400
+--- minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-17 20:02:34.949926100 -0400
++++ minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-17 19:46:56.943148300 -0400
 @@ -16,7 +16,6 @@
          this.imageData = var1;
          this.location = var2;
@@ -156,9 +156,92 @@ diff -r -U 3 minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java mi
      }
  
      public final void run() {
+diff -r -U 3 minecraft/net/minecraft/client/ThreadDownloadResources.java minecraft_patched/net/minecraft/client/ThreadDownloadResources.java
+--- minecraft/net/minecraft/client/ThreadDownloadResources.java	2021-10-17 20:02:34.764449600 -0400
++++ minecraft_patched/net/minecraft/client/ThreadDownloadResources.java	2021-10-17 19:51:48.107107500 -0400
+@@ -1,11 +1,14 @@
+ package net.minecraft.client;
+ 
++import java.io.BufferedReader;
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
+ import java.io.File;
+ import java.io.FileOutputStream;
+ import java.io.IOException;
++import java.io.InputStreamReader;
+ import java.net.URL;
++import java.util.ArrayList;
+ 
+ public final class ThreadDownloadResources extends Thread {
+     private File resourcesFolder;
+@@ -23,7 +26,63 @@
+     }
+ 
+     public final void run() {
+-        // $FF: Couldn't be decompiled
++        try {
++            final ArrayList<String> list = new ArrayList<String>();
++            final URL url = new URL("http://www.minecraft.net/resources/");
++            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
++            String line;
++            while ((line = bufferedReader.readLine()) != null) {
++                list.add(line);
++            }
++            bufferedReader.close();
++            for (int i = 0; i < list.size(); ++i) {
++                final URL url2 = url;
++                final String s = list.get(i);
++                final URL context = url2;
++                Label_0334: {
++                    try {
++                        final String[] split;
++                        final String child = (split = s.split(","))[0];
++                        final int int1 = Integer.parseInt(split[1]);
++                        Long.parseLong(split[2]);
++                        final File file;
++                        if (!(file = new File(this.resourcesFolder, child)).exists() || file.length() != int1) {
++                            file.getParentFile().mkdirs();
++                            this.downloadResource(new URL(context, child.replaceAll(" ", "%20")), file);
++                            if (this.closing) {
++                                break Label_0334;
++                            }
++                        }
++                        final Minecraft mc = this.mc;
++                        final String s2 = child;
++                        final File file2 = file;
++                        final String s3 = s2;
++                        final Minecraft minecraft = mc;
++                        final int index = s3.indexOf("/");
++                        final String substring = s3.substring(0, index);
++                        final String substring2 = s3.substring(index + 1);
++                        if (substring.equalsIgnoreCase("sound")) {
++                            minecraft.sndManager.addSound(substring2, file2);
++                        }
++                        else if (substring.equalsIgnoreCase("newsound")) {
++                            minecraft.sndManager.addSound(substring2, file2);
++                        }
++                        else if (substring.equalsIgnoreCase("music")) {
++                            minecraft.sndManager.addMusic(substring2, file2);
++                        }
++                    }
++                    catch (Exception ex) {
++                        ex.printStackTrace();
++                    }
++                }
++                if (this.closing) {
++                    return;
++                }
++            }
++        }
++        catch (IOException ex2) {
++            ex2.printStackTrace();
++        }
+     }
+ 
+     private void downloadResource(URL var1, File var2) throws IOException {
 diff -r -U 3 minecraft/net/minecraft/game/item/Item.java minecraft_patched/net/minecraft/game/item/Item.java
---- minecraft/net/minecraft/game/item/Item.java	2021-10-17 19:24:59.009785100 -0400
-+++ minecraft_patched/net/minecraft/game/item/Item.java	2021-10-17 19:04:23.703625000 -0400
+--- minecraft/net/minecraft/game/item/Item.java	2021-10-17 20:02:35.123490900 -0400
++++ minecraft_patched/net/minecraft/game/item/Item.java	2021-10-17 19:46:57.124035300 -0400
 @@ -76,7 +76,7 @@
      public final int shiftedIndex;
      protected int maxStackSize = 64;
@@ -169,8 +252,8 @@ diff -r -U 3 minecraft/net/minecraft/game/item/Item.java minecraft_patched/net/m
      protected Item(int var1) {
          this.shiftedIndex = var1 + 256;
 diff -r -U 3 minecraft/net/minecraft/game/level/BlockMapSlot.java minecraft_patched/net/minecraft/game/level/BlockMapSlot.java
---- minecraft/net/minecraft/game/level/BlockMapSlot.java	2021-10-17 19:24:59.039676500 -0400
-+++ minecraft_patched/net/minecraft/game/level/BlockMapSlot.java	2021-10-17 19:04:23.733518900 -0400
+--- minecraft/net/minecraft/game/level/BlockMapSlot.java	2021-10-17 20:02:35.152412500 -0400
++++ minecraft_patched/net/minecraft/game/level/BlockMapSlot.java	2021-10-17 19:46:57.152984700 -0400
 @@ -11,7 +11,6 @@
  
      private BlockMapSlot(BlockMap var1, byte var2) {
@@ -180,8 +263,8 @@ diff -r -U 3 minecraft/net/minecraft/game/level/BlockMapSlot.java minecraft_patc
  
      public final BlockMapSlot init(float var1, float var2, float var3) {
 diff -r -U 3 minecraft/net/minecraft/game/level/LevelLoader.java minecraft_patched/net/minecraft/game/level/LevelLoader.java
---- minecraft/net/minecraft/game/level/LevelLoader.java	2021-10-17 19:24:59.042669300 -0400
-+++ minecraft_patched/net/minecraft/game/level/LevelLoader.java	2021-10-17 19:04:23.736546400 -0400
+--- minecraft/net/minecraft/game/level/LevelLoader.java	2021-10-17 20:02:35.155404100 -0400
++++ minecraft_patched/net/minecraft/game/level/LevelLoader.java	2021-10-17 19:46:57.155980200 -0400
 @@ -43,8 +43,13 @@
              this.guiLoading.setText("Reading..");
          }
