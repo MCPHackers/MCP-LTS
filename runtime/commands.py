@@ -37,6 +37,7 @@ class Commands(object):
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'
+    _version_config = 'conf/version.cfg'
 
     def __init__(self, conffile=None):
         # HINT: This is for the singleton pattern. If we already did __init__, we skip it
@@ -231,13 +232,21 @@ class Commands(object):
 
         self.mcplogfile = config.get('MCP', 'LogFile')
         self.mcperrlogfile = config.get('MCP', 'LogFileErr')
-
-        # LTS Updater
+        
+        
         version = configparser.ConfigParser()
         with open('conf/version.cfg') as version_file:
             version.read_file(version_file)
+        self.md5jarclt = version.get('VERSION', 'MD5Client').split(',')
+        self.md5jarsrv = version.get('VERSION', 'MD5Server').split(',')
+        
+        # LTS Updater
+        # Disabled due to version.cfg repurpose
+        """vermcp = configparser.ConfigParser()
+        with open('mcpversion.cfg') as version_mcp:
+            vermcp.read_file(version_mcp)
 
-        self.mcpversion = version.get('VERSION', 'MCPVersion')
+        self.mcpversion = vermcp.get('VERSION', 'MCPVersion')"""
 
     def createsrgs(self, side):
         """Write the srgs files."""
@@ -346,7 +355,11 @@ class Commands(object):
         with open(jarlk[side], 'rb') as jar_file:
             md5jar = md5(jar_file.read()).hexdigest()
 
-        if not md5jar == md5jarlk[side]:
+        validjar = False
+        for md5jar in md5jarlk[side]:
+            validjar = True
+        
+        if not validjar:
             self.logger.warning('!! Modified jar detected. Unpredictable results !!')
             self.logger.debug('md5: ' + md5jar)
 
@@ -404,6 +417,7 @@ class Commands(object):
     # LTS Check for updates
     def checkforupdates(self, silent=False):
         # Disabled due to an issue with configparser.
+        # Change this to mcpversion.cfg
         """
         try:
             latestversionconf = configparser.ConfigParser()

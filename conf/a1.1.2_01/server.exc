@@ -101,7 +101,6 @@ net/minecraft/src/Packet52MultiBlockChange.writePacket(Ljava/io/DataOutputStream
 net/minecraft/src/Packet52MultiBlockChange.readPacketData(Ljava/io/DataInputStream;)V=java/io/IOException
 net/minecraft/src/Packet53BlockChange.writePacket(Ljava/io/DataOutputStream;)V=java/io/IOException
 net/minecraft/src/Packet53BlockChange.readPacketData(Ljava/io/DataInputStream;)V=java/io/IOException
-net/minecraft/src/Packet59ComplexEntity.<init>(IIILnet/minecraft/src/TileEntity;)V=java/io/IOException
 net/minecraft/src/Packet59ComplexEntity.writePacket(Ljava/io/DataOutputStream;)V=java/io/IOException
 net/minecraft/src/Packet59ComplexEntity.readPacketData(Ljava/io/DataInputStream;)V=java/io/IOException
 net/minecraft/src/Packet5PlayerInventory.writePacket(Ljava/io/DataOutputStream;)V=java/io/IOException
@@ -113,15 +112,11 @@ net/minecraft/src/NetworkListenThread.<init>(Lnet/minecraft/server/MinecraftServ
 net/minecraft/src/NetworkManager.processReadPackets()V=java/io/IOException
 net/minecraft/src/NetLoginHandler.<init>(Lnet/minecraft/server/MinecraftServer;Ljava/net/Socket;Ljava/lang/String;)V=java/lang/Exception
 
-net/minecraft/src/EntityPlayerMP.i()V=java/io/IOException
-net/minecraft/src/onUpdate()V=java/io/IOException
-net/minecraft/src/NetLoginHandler.a()V=java/io/IOException
-net/minecraft/src/NetServerHandler.a()V=java/io/IOException
+net/minecraft/src/NetLoginHandler.tryLogin()V=java/io/IOException
+net/minecraft/src/NetServerHandler.handlePackets()V=java/io/IOException
 net/minecraft/src/PlayerManager.updatePlayerInstances()V=java/io/IOException
 net/minecraft/src/ServerConfiguration.onTick()V=java/io/IOException
-net/minecraft/src/ServerConfiguration.sentTileEntityToPlayer(IIILnet/minecraft/src/TileEntity;)V=java/io/IOException
-net/minecraft/src/IWorldAccess.doNothingWithTileEntity(IIILnet/minecraft/src/TileEntity;)V=java/io/IOException
-net/minecraft/src/WorldManager.doNothingWithTileEntity(IIILnet/minecraft/src/TileEntity;)V=java/io/IOException
 net/minecraft/src/PlayerInstance.onUpdate()V=java/io/IOException
 net/minecraft/src/ServerConfigurationManager.onTick()V=java/io/IOException
-net/minecraft/src/ServerConfigurationManager.sentTileEntityToPlayer(IIILnet/minecraft/src/TileEntity;)V=java/io/IOException
+net/minecraft/src/IChunkLoader.saveChunk(Lnet/minecraft/src/World;Lnet/minecraft/src/Chunk;)V=java/io/IOException
+net/minecraft/src/IChunkLoader.loadChunk(Lnet/minecraft/src/World;II)Lnet/minecraft/src/Chunk;=java/io/IOException

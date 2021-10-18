@@ -1,39 +1,3 @@
-diff -r -U 3 minecraft/net/minecraft/src/ChunkProviderIso.java minecraft_patched/net/minecraft/src/ChunkProviderIso.java
---- minecraft/net/minecraft/src/ChunkProviderIso.java	2021-10-16 15:30:50.154636600 -0400
-+++ minecraft_patched/net/minecraft/src/ChunkProviderIso.java	2021-10-16 15:32:18.805895800 -0400
-@@ -41,12 +41,7 @@
-     }
- 
-     private synchronized Chunk getChunkAt(int var1, int var2) {
--        try {
--            return this.chunkLoader.loadChunk(this.worldObj, var1, var2);
--        } catch (IOException var4) {
--            var4.printStackTrace();
--            return null;
--        }
-+        return this.chunkLoader.loadChunk(this.worldObj, var1, var2);
-     }
- 
-     public void populate(IChunkProvider var1, int var2, int var3) {
-diff -r -U 3 minecraft/net/minecraft/src/ChunkProviderLoadOrGenerate.java minecraft_patched/net/minecraft/src/ChunkProviderLoadOrGenerate.java
---- minecraft/net/minecraft/src/ChunkProviderLoadOrGenerate.java	2021-10-16 15:30:50.157627400 -0400
-+++ minecraft_patched/net/minecraft/src/ChunkProviderLoadOrGenerate.java	2021-10-16 15:32:28.609059500 -0400
-@@ -115,13 +115,8 @@
- 
-     private void saveChunk(Chunk var1) {
-         if (this.chunkLoader != null) {
--            try {
--                var1.lastSaveTime = this.worldObj.worldTime;
--                this.chunkLoader.saveChunk(this.worldObj, var1);
--            } catch (IOException var3) {
--                var3.printStackTrace();
--            }
--
-+            var1.lastSaveTime = this.worldObj.worldTime;
-+            this.chunkLoader.saveChunk(this.worldObj, var1);
-         }
-     }
- 
 diff -r -U 3 minecraft/net/minecraft/src/CodecMus.java minecraft_patched/net/minecraft/src/CodecMus.java
 --- minecraft/net/minecraft/src/CodecMus.java	2021-10-16 15:30:50.173586300 -0400
 +++ minecraft_patched/net/minecraft/src/CodecMus.java	2021-10-16 15:32:48.733241500 -0400
@@ -50,19 +14,3 @@ diff -r -U 3 minecraft/net/minecraft/src/CodecMus.java minecraft_patched/net/min
 +        }
      }
  }
-diff -r -U 3 minecraft/net/minecraft/src/NetworkManager.java minecraft_patched/net/minecraft/src/NetworkManager.java
---- minecraft/net/minecraft/src/NetworkManager.java	2021-10-16 15:30:51.271864300 -0400
-+++ minecraft_patched/net/minecraft/src/NetworkManager.java	2021-10-16 15:33:04.895813100 -0400
-@@ -156,7 +156,11 @@
- 
-         while(!this.readPackets.isEmpty() && var1-- >= 0) {
-             Packet var2 = (Packet)this.readPackets.remove(0);
--            var2.processPacket(this.netHandler);
-+            try {
-+                var2.processPacket(this.netHandler);
-+            } catch (IOException ex) {
-+                ex.printStackTrace();
-+            }
-         }
- 
-         if (this.isTerminating && this.readPackets.isEmpty()) {

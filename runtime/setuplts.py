@@ -142,7 +142,6 @@ class InstallMC:
     def setupmc(self):
         self.logger.info("> If you wish to supply your own configuration, type \"none\".")
         self.logger.info("> Any two versions joined by a comma (b1.5_01,1.5_02) are client vs server version.")
-        self.logger.info("> Only b1.7.3 is \"officially\" supported as of now.")
 
         versionsstring = ""
         versions = []
