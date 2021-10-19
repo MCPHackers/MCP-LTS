@@ -165,9 +165,9 @@ versions = {
         "a1.0.1_01": {
             "url": "https://archive.org/download/Minecraft-JE-Alpha/a1.0.1_01/a1.0.1_01.jar"
         },
-	    "a1.0.0": {
-		    "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100630-2/inf-20100630-2.jar"
-	    },
+	"a1.0.0": {
+	    "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100630-2/inf-20100630-2.jar"
+	},
         "inf-20100630-1": {
             "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100630-1/inf-20100630-1.jar"
         },
