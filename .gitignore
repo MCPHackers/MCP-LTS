@@ -17,6 +17,7 @@ runtime/bin/pypy*
 !runtime/bin/
 
 # Block eclipse folder
+eclipse/
 
 # Block python runtime.
 runtime/bin/python/
