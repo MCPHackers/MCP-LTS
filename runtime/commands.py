@@ -416,11 +416,10 @@ class Commands(object):
     # LTS Check for updates
     def checkforupdates(self, silent=False):
         # Disabled due to an issue with configparser.
-        # Change this to mcpversion.cfg
         """
         try:
             latestversionconf = configparser.ConfigParser()
-            url = urllib.request.urlopen('https://raw.githubusercontent.com/ModificationStation/1.7.3-LTS/master/conf/version.cfg')
+            url = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/mcpversion.cfg')
             content = url.read().decode("UTF-8")
             print(content)
             latestversionconf.read_file(content)
@@ -596,7 +595,7 @@ class Commands(object):
             forkcmd = cmdlk[side].format(classpath=cps, sourcepath=pathsrclk[side], outpath=pathbinlk[side],
                                          pkgs="@temp/recompclasslist.txt")
 
-        self.logger.info("recompile: '" + forkcmd + "'")
+        self.logger.debug("recompile: '" + forkcmd + "'")
         p = subprocess.Popen(forkcmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         linebuffer = []
         errormsgs = []
@@ -1006,7 +1005,7 @@ class Commands(object):
             filename = 'mcp_' + self.latestversion + '.zip'
             # FIXME
             os.system('runtime\\bin\\wget.exe -q -O ' + filename +
-                      'http://github.com/ModificationStation/1.7.3-LTS/archive/master.zip')
+                      'http://github.com/MCPHackers/MCP-LTS/archive/master.zip')
             self.logger.info('Download complete! Saved to ' + filename + '!')
         else:
             self.logger.info('You are using the latest version of MCP! (' + self.mcpversion + ')')

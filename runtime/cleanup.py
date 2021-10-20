@@ -86,7 +86,7 @@ class Cleanup:
                 if os.path.exists(os.path.join(self.confdir, "patches")) and os.path.isdir(os.path.join(self.confdir, "patches")):
                     shutil.rmtree(os.path.join(self.confdir, "patches"))
                 for file in os.listdir(self.confdir):
-                    if os.path.isfile(os.path.join(self.confdir, file)) and file not in ["mcp.cfg", "version.cfg"]:
+                    if os.path.isfile(os.path.join(self.confdir, file)) and file not in ["mcp.cfg"]:
                         os.unlink(os.path.join(self.confdir, file))
         except Exception as e:
             no_error = False

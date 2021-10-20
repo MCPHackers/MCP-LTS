@@ -1,6 +1,6 @@
 diff -r -U 3 minecraft/net/minecraft/client/CanvasMinecraftApplet.java minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java
---- minecraft/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-17 20:02:34.742480300 -0400
-+++ minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-17 19:46:56.731682300 -0400
+--- minecraft/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-20 01:31:21.515944300 +0300
++++ minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-20 01:38:54.566857300 +0300
 @@ -8,7 +8,6 @@
  
      CanvasMinecraftApplet(MinecraftApplet var1) {
@@ -10,8 +10,8 @@ diff -r -U 3 minecraft/net/minecraft/client/CanvasMinecraftApplet.java minecraft
  
      public final synchronized void addNotify() {
 diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLevelDialog.java minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java
---- minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-17 20:02:34.801351800 -0400
-+++ minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-17 19:46:56.803490600 -0400
+--- minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-20 01:31:21.572947600 +0300
++++ minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-20 01:34:36.074072400 +0300
 @@ -9,7 +9,6 @@
  
      GuiLevelDialog(GuiLoadLevelScreen var1) {
@@ -20,122 +20,46 @@ diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLevelDialog.java minecraft_pa
      }
  
      public final void run() {
-diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java minecraft_patched/net/minecraft/client/gui/GuiLoadLevelScreen.java
---- minecraft/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-10-17 20:02:34.810327300 -0400
-+++ minecraft_patched/net/minecraft/client/gui/GuiLoadLevelScreen.java	2021-10-17 19:46:56.813462900 -0400
-@@ -15,7 +15,7 @@
-     private GuiScreen parent;
-     private boolean finished = false;
-     private boolean loaded = false;
--    private String[] levels = null;
-+    private String[] levels = {"Load From Button","Load From Button","Load From Button","Load From Button","Load From Button"};
-     private String status = "";
-     protected String title = "Load level";
-     private boolean frozen = false;
-@@ -41,9 +41,9 @@
-     public void run() {
-         try {
-             this.status = "Getting level list..";
--            URL var1 = new URL("http://" + this.mc.minecraftUri + "/listmaps.jsp?user=" + this.mc.session.username);
-+            /*URL var1 = new URL("http://" + this.mc.minecraftUri + "/listmaps.jsp?user=" + this.mc.session.username);
-             BufferedReader var3 = new BufferedReader(new InputStreamReader(var1.openConnection().getInputStream()));
--            this.levels = var3.readLine().split(";");
-+            this.levels = var3.readLine().split(";");*/
-             if (this.levels.length >= 5) {
-                 this.setLevels(this.levels);
-                 this.loaded = true;
 diff -r -U 3 minecraft/net/minecraft/client/gui/SlotArmor.java minecraft_patched/net/minecraft/client/gui/SlotArmor.java
---- minecraft/net/minecraft/client/gui/SlotArmor.java	2021-10-17 20:02:34.825259300 -0400
-+++ minecraft_patched/net/minecraft/client/gui/SlotArmor.java	2021-10-17 19:46:56.829420300 -0400
+--- minecraft/net/minecraft/client/gui/SlotArmor.java	2021-10-20 01:31:21.590948600 +0300
++++ minecraft_patched/net/minecraft/client/gui/SlotArmor.java	2021-10-20 01:37:21.281521700 +0300
 @@ -9,8 +9,8 @@
      private int armorType;
  
      SlotArmor(GuiInventory var1, GuiContainer var2, IInventory var3, int var4, int var5, int var6, int var7) {
 -        this.armorType = var7;
--        super(var2, var3, var4, 8, var6);
-+    	super(var2, var3, var4, 8, var6);
-+    	this.armorType = var7;
+         super(var2, var3, var4, 8, var6);
++        this.armorType = var7;
      }
  
      public final boolean isItemValid(ItemStack var1) {
-diff -r -U 3 minecraft/net/minecraft/client/Minecraft.java minecraft_patched/net/minecraft/client/Minecraft.java
---- minecraft/net/minecraft/client/Minecraft.java	2021-10-17 20:02:34.751484600 -0400
-+++ minecraft_patched/net/minecraft/client/Minecraft.java	2021-10-17 19:46:56.744647800 -0400
-@@ -98,7 +98,7 @@
-     private String server;
-     private TextureWaterFX textureWaterFX;
-     private TextureLavaFX textureLavaFX;
--    volatile boolean running;
-+    public volatile boolean running;
-     public String debug;
-     public boolean inventoryScreen;
-     private int prevFrameTime;
-@@ -791,7 +791,7 @@
-     public final void generateLevel(int var1, int var2, int var3, int var4) {
-         this.setLevel((World)null);
-         System.gc();
--        String var5 = this.session != null ? this.session.username : "anonymous";
-+        final String var5 = (this.session != null) ? this.session.username : "anonymous";
-         LevelGenerator var6;
-         (var6 = new LevelGenerator(this.loadingScreen)).islandGen = var3 == 1;
-         var6.floatingGen = var3 == 2;
-@@ -817,11 +817,11 @@
-         }
- 
-         try {
--            BufferedReader var2;
--            Integer.parseInt((var2 = new BufferedReader(new InputStreamReader((new URL(this.mcApplet.getDocumentBase() + "?n=" + this.session.username + "&i=" + this.session.sessionId)).openStream()))).readLine());
--            var2.close();
--            if (this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
--                this.theWorld = var1;
-+            //BufferedReader var2;
-+            //Integer.parseInt((var2 = new BufferedReader(new InputStreamReader((new URL(this.mcApplet.getDocumentBase() + "?n=" + this.session.username + "&i=" + this.session.sessionId)).openStream()))).readLine());
-+            //var2.close();
-+            if (!this.mcApplet.getDocumentBase().toString().startsWith("http://www.minecraft.net/") || !this.mcApplet.getDocumentBase().toString().startsWith("http://minecraft.net/")) {
-+               this.theWorld = var1;
-             }
-         } catch (Throwable var3) {
-         }
-diff -r -U 3 minecraft/net/minecraft/client/MinecraftApplet.java minecraft_patched/net/minecraft/client/MinecraftApplet.java
---- minecraft/net/minecraft/client/MinecraftApplet.java	2021-10-17 20:02:34.752482100 -0400
-+++ minecraft_patched/net/minecraft/client/MinecraftApplet.java	2021-10-17 19:46:56.744647800 -0400
-@@ -24,8 +24,8 @@
-             var10002.minecraftUri = var10000.append(var10002.minecraftUri).append(":").append(this.getDocumentBase().getPort()).toString();
-         }
- 
--        if (this.getParameter("username") != null && this.getParameter("sessionid") != null) {
--            this.mc.session = new SessionData(this.getParameter("username"), this.getParameter("sessionid"));
-+        if (this.getParameter("username") == null && this.getParameter("sessionid") == null) {
-+        	this.mc.session = new SessionData(this.getParameter("username"), this.getParameter("sessionid"));
-             if (this.getParameter("mppass") != null) {
-                 this.getParameter("mppass");
-             }
 diff -r -U 3 minecraft/net/minecraft/client/player/PlayerControllerCreative.java minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java
---- minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-17 20:02:34.904048300 -0400
-+++ minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-17 19:46:56.899263400 -0400
+--- minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-20 01:31:21.647951900 +0300
++++ minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-20 01:37:09.855868200 +0300
 @@ -1,5 +1,6 @@
  package net.minecraft.client.player;
  
 +import net.minecraft.client.Minecraft;
- import net.minecraft.client.SessionData;
+ import net.minecraft.client.Session;
  import net.minecraft.game.block.Block;
  import net.minecraft.game.entity.player.EntityPlayer;
-@@ -8,7 +9,11 @@
+@@ -8,7 +9,12 @@
  import net.minecraft.game.level.World;
  
  public final class PlayerControllerCreative extends PlayerController {
--    private MobSpawner mobSpawner;
-+    public PlayerControllerCreative(Minecraft client) {
-+		super(client);
-+	}
+-    private Spawner mobSpawner;
 +
-+	private MobSpawner mobSpawner;
++	private Spawner mobSpawner;
++	
++    public PlayerControllerCreative(Minecraft var1) {
++		super(var1);
++	}
  
      public final void blankPlayerFunction(EntityPlayer var1) {
          for(int var2 = 0; var2 < 9; ++var2) {
 diff -r -U 3 minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java
---- minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-17 20:02:34.990845100 -0400
-+++ minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-17 19:46:56.985099900 -0400
+--- minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-20 01:31:21.726956400 +0300
++++ minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-20 01:36:19.577992500 +0300
 @@ -41,7 +41,7 @@
          if ((var6 = var5.inventory.armorInventory[var4]) != null && (var7 = var6.getItem()) instanceof ItemArmor) {
              ItemArmor var8 = (ItemArmor)var7;
@@ -146,8 +70,8 @@ diff -r -U 3 minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java mi
              var9.bipedHeadwear.showModel = var3 == 0;
              var9.bipedBody.showModel = var3 == 1 || var3 == 2;
 diff -r -U 3 minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java
---- minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-17 20:02:34.949926100 -0400
-+++ minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-17 19:46:56.943148300 -0400
+--- minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-20 01:31:21.688954200 +0300
++++ minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-20 01:36:25.642339400 +0300
 @@ -16,7 +16,6 @@
          this.imageData = var1;
          this.location = var2;
@@ -156,6 +80,29 @@ diff -r -U 3 minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java mi
      }
  
      public final void run() {
+diff -r -U 3 minecraft/net/minecraft/game/item/Item.java minecraft_patched/net/minecraft/game/item/Item.java
+--- minecraft/net/minecraft/game/item/Item.java	2021-10-20 01:31:21.842963000 +0300
++++ minecraft_patched/net/minecraft/game/item/Item.java	2021-10-20 01:34:30.726766600 +0300
+@@ -76,7 +76,7 @@
+     public final int shiftedIndex;
+     protected int maxStackSize = 64;
+     protected int maxDamage = 32;
+-    private int iconIndex;
++    protected int iconIndex;
+ 
+     protected Item(int var1) {
+         this.shiftedIndex = var1 + 256;
+diff -r -U 3 minecraft/net/minecraft/game/level/BlockMapSlot.java minecraft_patched/net/minecraft/game/level/BlockMapSlot.java
+--- minecraft/net/minecraft/game/level/BlockMapSlot.java	2021-10-20 01:31:21.867964500 +0300
++++ minecraft_patched/net/minecraft/game/level/BlockMapSlot.java	2021-10-20 01:34:00.925062000 +0300
+@@ -11,7 +11,6 @@
+ 
+     private BlockMapSlot(BlockMap var1, byte var2) {
+         this.blockMap = var1;
+-        super();
+     }
+ 
+     public final BlockMapSlot init(float var1, float var2, float var3) {
 diff -r -U 3 minecraft/net/minecraft/client/ThreadDownloadResources.java minecraft_patched/net/minecraft/client/ThreadDownloadResources.java
 --- minecraft/net/minecraft/client/ThreadDownloadResources.java	2021-10-17 20:02:34.764449600 -0400
 +++ minecraft_patched/net/minecraft/client/ThreadDownloadResources.java	2021-10-17 19:51:48.107107500 -0400
@@ -239,45 +186,53 @@ diff -r -U 3 minecraft/net/minecraft/client/ThreadDownloadResources.java minecra
      }
  
      private void downloadResource(URL var1, File var2) throws IOException {
-diff -r -U 3 minecraft/net/minecraft/game/item/Item.java minecraft_patched/net/minecraft/game/item/Item.java
---- minecraft/net/minecraft/game/item/Item.java	2021-10-17 20:02:35.123490900 -0400
-+++ minecraft_patched/net/minecraft/game/item/Item.java	2021-10-17 19:46:57.124035300 -0400
-@@ -76,7 +76,7 @@
-     public final int shiftedIndex;
-     protected int maxStackSize = 64;
-     protected int maxDamage = 32;
--    private int iconIndex;
-+    protected int iconIndex;
+diff -r -U 3 minecraft/net/minecraft/client/gui/GuiIngame.java minecraft_patched/net/minecraft/client/gui/GuiIngame.java
+--- minecraft/net/minecraft/client/gui/GuiIngame.java	2021-10-20 16:04:28.524644100 +0300
++++ minecraft_patched/net/minecraft/client/gui/GuiIngame.java	2021-10-20 15:56:50.029419700 +0300
+@@ -123,26 +123,25 @@
+         GL11.glPopMatrix();
  
-     protected Item(int var1) {
-         this.shiftedIndex = var1 + 256;
-diff -r -U 3 minecraft/net/minecraft/game/level/BlockMapSlot.java minecraft_patched/net/minecraft/game/level/BlockMapSlot.java
---- minecraft/net/minecraft/game/level/BlockMapSlot.java	2021-10-17 20:02:35.152412500 -0400
-+++ minecraft_patched/net/minecraft/game/level/BlockMapSlot.java	2021-10-17 19:46:57.152984700 -0400
-@@ -11,7 +11,6 @@
+         for(var10 = 0; var10 < 9; ++var10) {
+-            float var24 = (float)(var3 / 2 - 90 + var10 * 20 + 2);
+-            var12 = var19 - 16 - 3;
+-            float var21 = var24;
++            int var24 = var3 / 2 - 90 + var10 * 20 + 2;
++            int var21 = var19 - 16 - 3;
+             ItemStack var22;
+             if ((var22 = this.mc.thePlayer.inventory.mainInventory[var10]) != null) {
+                 float var9;
+                 if ((var9 = (float)var22.animationsToGo - var1) > 0.0F) {
+                     GL11.glPushMatrix();
+-                    var24 = 1.0F + var9 / 5.0F;
+-                    GL11.glTranslatef((float)(var21 + 8), (float)(var12 + 12), 0.0F);
+-                    GL11.glScalef(1.0F / var24, (var24 + 1.0F) / 2.0F, 1.0F);
+-                    GL11.glTranslatef((float)(-(var21 + 8)), (float)(-(var12 + 12)), 0.0F);
++                    float var23 = 1.0F + var9 / 5.0F;
++                    GL11.glTranslatef((float)(var24 + 8), (float)(var21 + 12), 0.0F);
++                    GL11.glScalef(1.0F / var23, (var23 + 1.0F) / 2.0F, 1.0F);
++                    GL11.glTranslatef((float)(-(var24 + 8)), (float)(-(var21 + 12)), 0.0F);
+                 }
  
-     private BlockMapSlot(BlockMap var1, byte var2) {
-         this.blockMap = var1;
--        super();
-     }
+-                itemRenderer.renderItemIntoGUI(this.mc.renderEngine, var22, (int)var24, var12);
++                itemRenderer.renderItemIntoGUI(this.mc.renderEngine, var22, var24, var21);
+                 if (var9 > 0.0F) {
+                     GL11.glPopMatrix();
+                 }
  
-     public final BlockMapSlot init(float var1, float var2, float var3) {
-diff -r -U 3 minecraft/net/minecraft/game/level/LevelLoader.java minecraft_patched/net/minecraft/game/level/LevelLoader.java
---- minecraft/net/minecraft/game/level/LevelLoader.java	2021-10-17 20:02:35.155404100 -0400
-+++ minecraft_patched/net/minecraft/game/level/LevelLoader.java	2021-10-17 19:46:57.155980200 -0400
-@@ -43,8 +43,13 @@
-             this.guiLoading.setText("Reading..");
+-                itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, var22, (int)var24, var12);
++                itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, var22, var24, var21);
+             }
          }
  
--        NBTTagCompound var13;
--        NBTTagCompound var2 = (var13 = GuiLevelLoading.writeLevelTags(var1)).getCompoundTag("About");
-+        NBTTagCompound var13 = null;
-+        NBTTagCompound var2 = null;
-+		try {
-+			var2 = (var13 = GuiLevelLoading.writeLevelTags(var1)).getCompoundTag("About");
-+		} catch (IOException ex) {
-+			ex.printStackTrace();
-+		}
-         NBTTagCompound var3 = var13.getCompoundTag("Map");
-         NBTTagCompound var4 = var13.getCompoundTag("Environment");
-         NBTTagList var5 = var13.getTagList("Entities");
+diff -r -U 3 minecraft/net/minecraft/client/Minecraft.java minecraft_patched/net/minecraft/client/Minecraft.java
+--- minecraft/net/minecraft/client/Minecraft.java	2021-10-20 16:04:41.145366000 +0300
++++ minecraft_patched/net/minecraft/client/Minecraft.java	2021-10-20 15:46:05.324544700 +0300
+@@ -97,7 +97,7 @@
+     private String server;
+     private TextureWaterFX textureWaterFX;
+     private TextureLavaFX textureLavaFX;
+-    volatile boolean running;
++    public volatile boolean running;
+     public String debug;
+     public boolean inventoryScreen;
+     private int prevFrameTime;

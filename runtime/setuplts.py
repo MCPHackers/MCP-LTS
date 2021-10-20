@@ -190,7 +190,7 @@ class InstallMC:
     def download(self, url, dst):
         # Because legacy code is stupid.
         try:
-            self.logger.info("> Downloading \"" + url + "\"...")
+            self.logger.debug("> Downloading \"" + url + "\"...")
             response = urllib.request.urlopen(url)
             data = response.read()
             with open(dst, "wb") as file:
