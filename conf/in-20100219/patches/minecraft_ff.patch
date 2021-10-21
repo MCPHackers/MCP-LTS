@@ -1,0 +1,238 @@
+diff -r -U 3 minecraft/net/minecraft/client/CanvasMinecraftApplet.java minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java
+--- minecraft/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-20 01:31:21.515944300 +0300
++++ minecraft_patched/net/minecraft/client/CanvasMinecraftApplet.java	2021-10-20 01:38:54.566857300 +0300
+@@ -8,7 +8,6 @@
+ 
+     CanvasMinecraftApplet(MinecraftApplet var1) {
+         this.mcApplet = var1;
+-        super();
+     }
+ 
+     public final synchronized void addNotify() {
+diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLevelDialog.java minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java
+--- minecraft/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-20 01:31:21.572947600 +0300
++++ minecraft_patched/net/minecraft/client/gui/GuiLevelDialog.java	2021-10-20 01:34:36.074072400 +0300
+@@ -9,7 +9,6 @@
+ 
+     GuiLevelDialog(GuiLoadLevelScreen var1) {
+         this.screen = var1;
+-        super();
+     }
+ 
+     public final void run() {
+diff -r -U 3 minecraft/net/minecraft/client/gui/SlotArmor.java minecraft_patched/net/minecraft/client/gui/SlotArmor.java
+--- minecraft/net/minecraft/client/gui/SlotArmor.java	2021-10-20 01:31:21.590948600 +0300
++++ minecraft_patched/net/minecraft/client/gui/SlotArmor.java	2021-10-20 01:37:21.281521700 +0300
+@@ -9,8 +9,8 @@
+     private int armorType;
+ 
+     SlotArmor(GuiInventory var1, GuiContainer var2, IInventory var3, int var4, int var5, int var6, int var7) {
+-        this.armorType = var7;
+         super(var2, var3, var4, 8, var6);
++        this.armorType = var7;
+     }
+ 
+     public final boolean isItemValid(ItemStack var1) {
+diff -r -U 3 minecraft/net/minecraft/client/player/PlayerControllerCreative.java minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java
+--- minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-20 01:31:21.647951900 +0300
++++ minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-20 01:37:09.855868200 +0300
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.player;
+ 
++import net.minecraft.client.Minecraft;
+ import net.minecraft.client.Session;
+ import net.minecraft.game.block.Block;
+ import net.minecraft.game.entity.player.EntityPlayer;
+@@ -8,7 +9,12 @@
+ import net.minecraft.game.level.World;
+ 
+ public final class PlayerControllerCreative extends PlayerController {
+-    private Spawner mobSpawner;
++
++	private Spawner mobSpawner;
++	
++    public PlayerControllerCreative(Minecraft var1) {
++		super(var1);
++	}
+ 
+     public final void blankPlayerFunction(EntityPlayer var1) {
+         for(int var2 = 0; var2 < 9; ++var2) {
+diff -r -U 3 minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java
+--- minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-20 01:31:21.726956400 +0300
++++ minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-20 01:36:19.577992500 +0300
+@@ -41,7 +41,7 @@
+         if ((var6 = var5.inventory.armorInventory[var4]) != null && (var7 = var6.getItem()) instanceof ItemArmor) {
+             ItemArmor var8 = (ItemArmor)var7;
+             this.loadTexture("/armor/" + armorFilenamePrefix[var8.renderIndex] + "_" + (var3 == 2 ? 2 : 1) + ".png");
+-            ModelBiped var9;
++            ModelBiped var9 = null;
+             (var9 = var3 == 2 ? this.modelArmor : this.modelArmorChestplate).bipedHead.showModel = var3 == 0;
+             var9.bipedHeadwear.showModel = var3 == 0;
+             var9.bipedBody.showModel = var3 == 1 || var3 == 2;
+diff -r -U 3 minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java
+--- minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-20 01:31:21.688954200 +0300
++++ minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-20 01:36:25.642339400 +0300
+@@ -16,7 +16,6 @@
+         this.imageData = var1;
+         this.location = var2;
+         this.buffer = var3;
+-        super();
+     }
+ 
+     public final void run() {
+diff -r -U 3 minecraft/net/minecraft/game/item/Item.java minecraft_patched/net/minecraft/game/item/Item.java
+--- minecraft/net/minecraft/game/item/Item.java	2021-10-20 01:31:21.842963000 +0300
++++ minecraft_patched/net/minecraft/game/item/Item.java	2021-10-20 01:34:30.726766600 +0300
+@@ -76,7 +76,7 @@
+     public final int shiftedIndex;
+     protected int maxStackSize = 64;
+     protected int maxDamage = 32;
+-    private int iconIndex;
++    protected int iconIndex;
+ 
+     protected Item(int var1) {
+         this.shiftedIndex = var1 + 256;
+diff -r -U 3 minecraft/net/minecraft/game/level/BlockMapSlot.java minecraft_patched/net/minecraft/game/level/BlockMapSlot.java
+--- minecraft/net/minecraft/game/level/BlockMapSlot.java	2021-10-20 01:31:21.867964500 +0300
++++ minecraft_patched/net/minecraft/game/level/BlockMapSlot.java	2021-10-20 01:34:00.925062000 +0300
+@@ -11,7 +11,6 @@
+ 
+     private BlockMapSlot(BlockMap var1, byte var2) {
+         this.blockMap = var1;
+-        super();
+     }
+ 
+     public final BlockMapSlot init(float var1, float var2, float var3) {
+diff -r -U 3 minecraft/net/minecraft/client/ThreadDownloadResources.java minecraft_patched/net/minecraft/client/ThreadDownloadResources.java
+--- minecraft/net/minecraft/client/ThreadDownloadResources.java	2021-10-17 20:02:34.764449600 -0400
++++ minecraft_patched/net/minecraft/client/ThreadDownloadResources.java	2021-10-17 19:51:48.107107500 -0400
+@@ -1,11 +1,14 @@
+ package net.minecraft.client;
+ 
++import java.io.BufferedReader;
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
+ import java.io.File;
+ import java.io.FileOutputStream;
+ import java.io.IOException;
++import java.io.InputStreamReader;
+ import java.net.URL;
++import java.util.ArrayList;
+ 
+ public final class ThreadDownloadResources extends Thread {
+     private File resourcesFolder;
+@@ -23,7 +26,63 @@
+     }
+ 
+     public final void run() {
+-        // $FF: Couldn't be decompiled
++        try {
++            final ArrayList<String> list = new ArrayList<String>();
++            final URL url = new URL("http://www.minecraft.net/resources/");
++            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
++            String line;
++            while ((line = bufferedReader.readLine()) != null) {
++                list.add(line);
++            }
++            bufferedReader.close();
++            for (int i = 0; i < list.size(); ++i) {
++                final URL url2 = url;
++                final String s = list.get(i);
++                final URL context = url2;
++                Label_0334: {
++                    try {
++                        final String[] split;
++                        final String child = (split = s.split(","))[0];
++                        final int int1 = Integer.parseInt(split[1]);
++                        Long.parseLong(split[2]);
++                        final File file;
++                        if (!(file = new File(this.resourcesFolder, child)).exists() || file.length() != int1) {
++                            file.getParentFile().mkdirs();
++                            this.downloadResource(new URL(context, child.replaceAll(" ", "%20")), file);
++                            if (this.closing) {
++                                break Label_0334;
++                            }
++                        }
++                        final Minecraft mc = this.mc;
++                        final String s2 = child;
++                        final File file2 = file;
++                        final String s3 = s2;
++                        final Minecraft minecraft = mc;
++                        final int index = s3.indexOf("/");
++                        final String substring = s3.substring(0, index);
++                        final String substring2 = s3.substring(index + 1);
++                        if (substring.equalsIgnoreCase("sound")) {
++                            minecraft.sndManager.addSound(substring2, file2);
++                        }
++                        else if (substring.equalsIgnoreCase("newsound")) {
++                            minecraft.sndManager.addSound(substring2, file2);
++                        }
++                        else if (substring.equalsIgnoreCase("music")) {
++                            minecraft.sndManager.addMusic(substring2, file2);
++                        }
++                    }
++                    catch (Exception ex) {
++                        ex.printStackTrace();
++                    }
++                }
++                if (this.closing) {
++                    return;
++                }
++            }
++        }
++        catch (IOException ex2) {
++            ex2.printStackTrace();
++        }
+     }
+ 
+     private void downloadResource(URL var1, File var2) throws IOException {
+diff -r -U 3 minecraft/net/minecraft/client/gui/GuiIngame.java minecraft_patched/net/minecraft/client/gui/GuiIngame.java
+--- minecraft/net/minecraft/client/gui/GuiIngame.java	2021-10-20 16:04:28.524644100 +0300
++++ minecraft_patched/net/minecraft/client/gui/GuiIngame.java	2021-10-20 15:56:50.029419700 +0300
+@@ -123,26 +123,25 @@
+         GL11.glPopMatrix();
+ 
+         for(var10 = 0; var10 < 9; ++var10) {
+-            float var24 = (float)(var3 / 2 - 90 + var10 * 20 + 2);
+-            var12 = var19 - 16 - 3;
+-            float var21 = var24;
++            int var24 = var3 / 2 - 90 + var10 * 20 + 2;
++            int var21 = var19 - 16 - 3;
+             ItemStack var22;
+             if ((var22 = this.mc.thePlayer.inventory.mainInventory[var10]) != null) {
+                 float var9;
+                 if ((var9 = (float)var22.animationsToGo - var1) > 0.0F) {
+                     GL11.glPushMatrix();
+-                    var24 = 1.0F + var9 / 5.0F;
+-                    GL11.glTranslatef((float)(var21 + 8), (float)(var12 + 12), 0.0F);
+-                    GL11.glScalef(1.0F / var24, (var24 + 1.0F) / 2.0F, 1.0F);
+-                    GL11.glTranslatef((float)(-(var21 + 8)), (float)(-(var12 + 12)), 0.0F);
++                    float var23 = 1.0F + var9 / 5.0F;
++                    GL11.glTranslatef((float)(var24 + 8), (float)(var21 + 12), 0.0F);
++                    GL11.glScalef(1.0F / var23, (var23 + 1.0F) / 2.0F, 1.0F);
++                    GL11.glTranslatef((float)(-(var24 + 8)), (float)(-(var21 + 12)), 0.0F);
+                 }
+ 
+-                itemRenderer.renderItemIntoGUI(this.mc.renderEngine, var22, (int)var24, var12);
++                itemRenderer.renderItemIntoGUI(this.mc.renderEngine, var22, var24, var21);
+                 if (var9 > 0.0F) {
+                     GL11.glPopMatrix();
+                 }
+ 
+-                itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, var22, (int)var24, var12);
++                itemRenderer.renderItemOverlayIntoGUI(this.mc.fontRenderer, var22, var24, var21);
+             }
+         }
+ 
+diff -r -U 3 minecraft/net/minecraft/client/Minecraft.java minecraft_patched/net/minecraft/client/Minecraft.java
+--- minecraft/net/minecraft/client/Minecraft.java	2021-10-20 16:04:41.145366000 +0300
++++ minecraft_patched/net/minecraft/client/Minecraft.java	2021-10-20 15:46:05.324544700 +0300
+@@ -97,7 +97,7 @@
+     private String server;
+     private TextureWaterFX textureWaterFX;
+     private TextureLavaFX textureLavaFX;
+-    volatile boolean running;
++    public volatile boolean running;
+     public String debug;
+     public boolean inventoryScreen;
+     private int prevFrameTime;

@@ -165,9 +165,9 @@ versions = {
         "a1.0.1_01": {
             "url": "https://archive.org/download/Minecraft-JE-Alpha/a1.0.1_01/a1.0.1_01.jar"
         },
-	"a1.0.0": {
-	    "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100630-2/inf-20100630-2.jar"
-	},
+        "a1.0.0": {
+            "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100630-2/inf-20100630-2.jar"
+        },
         "inf-20100630-1": {
             "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100630-1/inf-20100630-1.jar"
         },
@@ -176,6 +176,9 @@ versions = {
         },
         "in-20100223": {
             "url": "https://archive.org/download/Minecraft-JE-Indev/in-20100223/in-20100223.jar"
+        },
+        "in-20100219": {
+            "url": "https://archive.org/download/Minecraft-JE-Indev/in-20100219/in-20100219.jar"
         },
         "c0.30_01c": {
             "url": "https://launcher.mojang.com/v1/objects/54622801f5ef1bcc1549a842c5b04cb5d5583005/client.jar"
