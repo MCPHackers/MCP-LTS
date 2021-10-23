@@ -554,7 +554,7 @@
 "isBlockIndirectlyProvidingPowerTo","isBlockIndirectlyProvidingPowerTo","j","(IIII)Z","(IIII)Z","net/minecraft/src/World","fi","net/minecraft/src","0"
 "markBlockNeedsUpdate","markBlockNeedsUpdate","k","(IIII)V","(IIII)V","net/minecraft/src/World","fi","net/minecraft/src","0"
 "neighborLightPropagationChanged","neighborLightPropagationChanged","a","(Lnet/minecraft/src/EnumSkyBlock;IIII)V","(Lef;IIII)V","net/minecraft/src/World","fi","net/minecraft/src","0"
-"getInitialSpawnLocation","getInitialSpawnLocation","e","(II)Z","(II)Z","net/minecraft/src/World","fi","net/minecraft/src","0"
+"findSpawn","findSpawn","e","(II)Z","(II)Z","net/minecraft/src/World","fi","net/minecraft/src","0"
 "checkChunksExist","checkChunksExist","a","(IIIIII)Z","(IIIIII)Z","net/minecraft/src/World","fi","net/minecraft/src","0"
 "getStarBrightness","getStarBrightness","f","(F)F","(F)F","net/minecraft/src/World","fi","net/minecraft/src","0"
 "tickUpdates","tickUpdates","a","(Z)Z","(Z)Z","net/minecraft/src/World","fi","net/minecraft/src","0"
