@@ -6,18 +6,12 @@ MCP-LTS is a modification of the Minecraft Coder Pack to create a "Long Term Ser
 
 # Roadmap
 
-**Minecraft**
-
-* Fix links for Minecraft's authentication server
-* Fix links for viewing skins
-* Fix minor bugs
-	- Slab Crash (44:4)
-
 **MCP**
 
 * Automatically download Minecraft .jar's from official download links
 * Include an auto patching bat to create patched client and server jars
-* Fix MCP Updater
+* An Eclipse Start class for applet-only versions
+* Reobfuscation (currently for Infdev and Alpha versions only)
 
 # Licensing
 
