@@ -11,7 +11,7 @@ MCP-LTS is a modification of the Minecraft Coder Pack to create a "Long Term Ser
 * Automatically download Minecraft .jar's from official download links
 * Include an auto patching bat to create patched client and server jars
 * An Eclipse Start class for applet-only versions
-* Reobfuscation (currently for Infdev and Alpha versions only)
+* Reobfuscation for all available versions
 
 # Licensing
 
