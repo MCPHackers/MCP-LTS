@@ -9,15 +9,3 @@ diff -r -U 3 minecraft/com/mojang/minecraft/CanvasMinecraftApplet.java minecraft
      }
  
      public final void addNotify() {
-diff -r -U 3 minecraft/com/mojang/minecraft/Minecraft.java minecraft_patched/com/mojang/minecraft/Minecraft.java
---- minecraft/com/mojang/minecraft/Minecraft.java	2021-10-23 17:33:47.366217600 +0300
-+++ minecraft_patched/com/mojang/minecraft/Minecraft.java	2021-10-23 17:34:31.318916900 +0300
-@@ -51,7 +51,7 @@
-     private Textures textureManager;
-     private Font font;
-     private int editMode = 0;
--    volatile boolean running = false;
-+    public volatile boolean running = false;
-     private String fpsString = "";
-     private boolean mouseGrabbed = false;
-     private IntBuffer viewportBuffer = BufferUtils.createIntBuffer(16);

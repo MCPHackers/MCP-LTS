@@ -4,11 +4,9 @@ import java.lang.reflect.Field;
 
 import net.minecraft.client.Minecraft;
 
-public final class GameWindowListener extends WindowAdapter {
-
-   // $FF: synthetic field
+public final class GameWindowListener extends WindowAdapter
+{
    final Minecraft mc;
-   // $FF: synthetic field
    final Thread thread;
 
 
@@ -18,8 +16,10 @@ public final class GameWindowListener extends WindowAdapter {
    }
 
    public void windowClosing(WindowEvent var1) {
-	  mc.running = false;
 	  try {
+		 Field isRunning = mc.getClass().getDeclaredField("running");
+		 isRunning.setAccessible(true);
+		 isRunning.set(mc, false);
          this.thread.join();
       } catch (Exception var3) {
          var3.printStackTrace();

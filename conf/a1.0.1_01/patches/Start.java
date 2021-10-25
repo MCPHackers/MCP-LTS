@@ -27,7 +27,7 @@ public class Start
       Minecraft var7 = new MinecraftImpl(var5, var6, (MinecraftApplet)null, 854, 480, var3, var5);
       Thread var8 = new Thread(var7, "Minecraft main thread");
       var8.setPriority(10);
-      var7.hideQuitButton = false;
+      var7.appletMode = false;
       var7.minecraftUri = "www.minecraft.net";
       if(var0 != null && var1 != null) {
          var7.session = new Session(var0, var1);

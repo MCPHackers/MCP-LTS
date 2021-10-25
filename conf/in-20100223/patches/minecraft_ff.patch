@@ -224,15 +224,3 @@ diff -r -U 3 minecraft/net/minecraft/client/gui/GuiIngame.java minecraft_patched
              }
          }
  
-diff -r -U 3 minecraft/net/minecraft/client/Minecraft.java minecraft_patched/net/minecraft/client/Minecraft.java
---- minecraft/net/minecraft/client/Minecraft.java	2021-10-20 16:04:41.145366000 +0300
-+++ minecraft_patched/net/minecraft/client/Minecraft.java	2021-10-20 15:46:05.324544700 +0300
-@@ -97,7 +97,7 @@
-     private String server;
-     private TextureWaterFX textureWaterFX;
-     private TextureLavaFX textureLavaFX;
--    volatile boolean running;
-+    public volatile boolean running;
-     public String debug;
-     public boolean inventoryScreen;
-     private int prevFrameTime;
