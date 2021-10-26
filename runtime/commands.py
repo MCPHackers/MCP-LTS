@@ -858,7 +858,7 @@ class Commands(object):
         for path, dirlist, filelist in os.walk(pathbinlk[side]):
             path = path.replace('/', os.sep)
             for bin_file in glob.glob(os.path.join(path, '*.class')):
-                if self.fixsound.replace('/', os.sep).replace('\\', os.sep) and not self.fixsound == "" in bin_file:
+                if self.fixsound.replace('/', os.sep).replace('\\', os.sep) in bin_file and not self.fixsound == "":
                     continue
                 if self.fixstart.replace('/', os.sep).replace('\\', os.sep) in bin_file:
                     continue

@@ -49,7 +49,7 @@ class Cleanup:
         no_error = True
 
         print("> Deleting \"" + self.jardir + "\"...")
-        jartime = time.time()
+        deltime = time.time()
         # Delete jars while keeping server.properties.
         try:
             if os.path.exists(self.jardir):
@@ -65,11 +65,9 @@ class Cleanup:
             no_error = False
             print("> Couldn't clear \"" + self.jardir + "\"!")
             traceback.print_exc()
-        print('> Done in %.2f seconds' % (time.time() - jartime))
 
         for dir in [self.reobfdir, self.bindir, self.srcdir, self.tempdir]:
             print("> Deleting \"" + dir + "\"...")
-            deltime = time.time()
             try:
                 if os.path.exists(dir):
                     shutil.rmtree(dir)
@@ -77,10 +75,8 @@ class Cleanup:
                 no_error = False
                 print("> Couldn't clear \"" + dir + "\"!")
                 traceback.print_exc()
-            print('> Done in %.2f seconds' % (time.time() - deltime))
 
         print("> Deleting non-default config...")
-        conftime = time.time()
         try:
             if os.path.exists(self.confdir):
                 if os.path.exists(os.path.join(self.confdir, "patches")) and os.path.isdir(os.path.join(self.confdir, "patches")):
@@ -92,10 +88,8 @@ class Cleanup:
             no_error = False
             print("> Couldn't clear \"" + self.confdir + "\"!")
             traceback.print_exc()
-        print('> Done in %.2f seconds' % (time.time() - conftime))
 
         print("> Deleting system specific files from root...")
-        systime = time.time()
         try:
             for file in ["decompile", "recompile", "reobfuscate", "startclient", "startserver", "updatemcp", "updatemd5"]:
                 if os.path.exists(file + "." + self.systemext) and os.path.isfile(file + "." + self.systemext):
@@ -109,9 +103,8 @@ class Cleanup:
             os.unlink("cleanup." + self.systemext)
         else:
             print("> Cleanup file has not been deleted because an error occurred earlier.")
-        print('> Done in %.2f seconds' % (time.time() - systime))
+        print('> Done in %.2f seconds' % (time.time() - deltime))
 
-        print("> Done!")
         print("> Press enter to continue...")
         input()
 
