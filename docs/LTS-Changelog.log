@@ -1,6 +1,10 @@
-MCP LTS v1.0:
+v1.0:
   * Fixed reobfuscation for versions with packages
   * Modified mappings format
+  * Added version configurations
+  * Improved Start classes for applet-only versions
+  * Betacraft proxy
+  * An option for source cleanup in the cleanup script
   * Added version support for:
     - a1.0.1_01
     - a1.1.1
@@ -12,4 +16,4 @@ MCP LTS v1.0:
     - in-20100219
     - c0.0.12a_03
     - c0.0.14a_08
-===================
+====================================================

@@ -33,7 +33,7 @@ warnings.simplefilter('ignore')
 class Commands(object):
     """Contains the commands and initialisation for a full mcp run"""
 
-    MCPVersion = '1.0'
+    MCPVersion = '0.9'
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'
@@ -1002,11 +1002,21 @@ class Commands(object):
                              ' and you are using ' + Commands.MCPVersion + '!')
             self.logger.info('Downloading!')
 
-            filename = 'mcp-lts' + self.latestversion + '.zip'
+            filename = 'mcp' + self.latestversion.replace('.', '') + '.zip'
             # FIXME
-            os.system('runtime\\bin\\wget.exe -q -O ' + filename +
-                      'http://github.com/MCPHackers/MCP-LTS/archive/master.zip')
+            os.system('runtime\\bin\\wget.exe -q -O ' + filename + ' http://github.com/MCPHackers/MCP-LTS/archive/master.zip')
             self.logger.info('Download complete! Saved to ' + filename + '!')
+            print('')
+            self.logger.info('== CHANGELOG ==')
+            changelog = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/docs/LTS-Changelog.log').readlines()
+            for line in changelog:
+                l = line.decode("UTF-8")
+                if l.startswith("===="):
+                    break
+                self.logger.info(l.strip("\n"))
+                if not l:
+                    break
+            print('')
         else:
             self.logger.info('You are using the latest version of MCP! (' + Commands.MCPVersion + ')')
 
