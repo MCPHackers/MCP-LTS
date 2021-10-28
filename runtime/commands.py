@@ -33,7 +33,7 @@ warnings.simplefilter('ignore')
 class Commands(object):
     """Contains the commands and initialisation for a full mcp run"""
 
-    MCPVersion = '4.3'
+    MCPVersion = '1.0'
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'
@@ -57,7 +57,7 @@ class Commands(object):
 
         self.startlogger()
 
-        self.logger.info('== MCP v%s ==' % self.MCPVersion)
+        self.logger.info('== MCP LTS v%s ==' % Commands.MCPVersion)
 
         if 'linux' in sys.platform:
             self.osname = 'linux'
@@ -229,23 +229,28 @@ class Commands(object):
         self.mcplogfile = config.get('MCP', 'LogFile')
         self.mcperrlogfile = config.get('MCP', 'LogFileErr')
         
-        
-        version = configparser.ConfigParser()
-        with open('conf/version.cfg') as version_file:
-            version.read_file(version_file)
-        self.md5jarclt = version.get('VERSION', 'MD5Client').split(',')
-        self.md5jarsrv = version.get('VERSION', 'MD5Server').split(',')
-        self.fixsound = version.get('VERSION', 'FixSound')
-        self.fixstart = version.get('VERSION', 'FixStart')
-        
-        # LTS Updater
-        # Disabled due to version.cfg repurpose
-        """vermcp = configparser.ConfigParser()
-        with open('mcpversion.cfg') as version_mcp:
-            vermcp.read_file(version_mcp)
+        self.md5jarclt = None
+        self.md5jarsrv = None
+        self.fixsound = None
+        self.fixstart = None
+        self.proxyport = None
+        try:
+            config = configparser.SafeConfigParser()
+            with open(self._version_config) as fh:
+                config.readfp(fh)
+            self.md5jarclt = config.get('VERSION', 'MD5Client').split(',')
+            self.md5jarsrv = config.get('VERSION', 'MD5Server').split(',')
+            self.fixsound = config.get('VERSION', 'FixSound')
+            self.fixstart = config.get('VERSION', 'FixStart')
+            self.proxyport = config.get('VERSION', 'ProxyPort')
+        except IOError:
+            pass
+        except configparser.Error:
+            pass
 
-        self.mcpversion = vermcp.get('VERSION', 'MCPVersion')"""
-
+    def hasserver(self):
+        return len(self.md5jarsrv)
+    
     def createsrgs(self, side):
         """Write the srgs files."""
         sidelk = {0: self.rgsrgsclient, 1: self.rgsrgsserver}
@@ -355,7 +360,7 @@ class Commands(object):
 
         validjar = False
         for x in md5jarlk[side]:
-            if x == md5jar:
+            if x == md5jar or x == "any":
                 validjar = True
         
         if not validjar:
@@ -416,31 +421,26 @@ class Commands(object):
     # LTS Check for updates
     def checkforupdates(self, silent=False):
         # Disabled due to an issue with configparser.
-        """
         try:
-            latestversionconf = configparser.ConfigParser()
-            url = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/mcpversion.cfg')
+            url = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/mcpversion.txt')
             content = url.read().decode("UTF-8")
-            print(content)
-            latestversionconf.read_file(content)
 
-            self.latestversion = latestversionconf.get('VERSION', 'MCPVersion')
+            self.latestversion = content
 
-            self.logger.debug('Current version: ' + self.mcpversion)
+            self.logger.debug('Current version: ' + Commands.MCPVersion)
             self.logger.debug('Latest version: ' + self.latestversion)
         except IOError:
             self.logger.error('Could not fetch the latest version!')
             return False
 
-        if self.mcpversion != self.latestversion:
+        if Commands.MCPVersion != self.latestversion:
             if not silent:
                 self.logger.info(
                     'MCP version ' + self.latestversion + ' has been released! Run updatemcp.bat to download it!')
             result = True
         else:
             result = False
-        return result"""
-        return False
+        return result
 
     def cleanbindirs(self, side):
         pathbinlk = {0: self.binclient, 1: self.binserver}
@@ -646,7 +646,7 @@ class Commands(object):
 
         os.chdir(self.dirjars)
 
-        forkcmd = self.cmdstartsrv.format(classpath=cps)
+        forkcmd = self.cmdstartsrv.format(classpath=cps, proxyport=self.proxyport)
         self.runmc(forkcmd)
 
     def startclient(self):
@@ -657,7 +657,7 @@ class Commands(object):
 
         os.chdir(self.dirjars)
 
-        forkcmd = self.cmdstartclt.format(classpath=cpc, natives='../' + self.dirnatives)
+        forkcmd = self.cmdstartclt.format(classpath=cpc, natives='../' + self.dirnatives, proxyport=self.proxyport)
         self.runmc(forkcmd)
 
     def runcmd(self, forkcmd):
@@ -963,8 +963,8 @@ class Commands(object):
         if 'CHANGELOG' in [i[0] for i in newfiles]:
             print('')
             self.logger.info('== CHANGELOG ==')
-            changelog = urllib.request.urlopen('http://mcp.ocean-labs.de/files/mcprolling/mcp/CHANGELOG').readlines()
-            for line in changelog:
+            changelog = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/docs/LTS-Changelog.log').readlines()
+            for line in changelog and not line.startswith('===='):
                 self.logger.info(line.strip())
                 if not line.strip():
                     break
@@ -999,16 +999,16 @@ class Commands(object):
     def updatemcp(self, force=False):
         if self.checkforupdates(silent=True):
             self.logger.info('Update found! The latest version is ' + self.latestversion + ','
-                             ' and you are using ' + self.mcpversion + '!')
+                             ' and you are using ' + Commands.MCPVersion + '!')
             self.logger.info('Downloading!')
 
-            filename = 'mcp_' + self.latestversion + '.zip'
+            filename = 'mcp-lts' + self.latestversion + '.zip'
             # FIXME
             os.system('runtime\\bin\\wget.exe -q -O ' + filename +
                       'http://github.com/MCPHackers/MCP-LTS/archive/master.zip')
             self.logger.info('Download complete! Saved to ' + filename + '!')
         else:
-            self.logger.info('You are using the latest version of MCP! (' + self.mcpversion + ')')
+            self.logger.info('You are using the latest version of MCP! (' + Commands.MCPVersion + ')')
 
     # LTS BACKPORTED JAVADOC
     def process_javadoc(self, side):

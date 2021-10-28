@@ -1100,7 +1100,7 @@
 "multipleParticleScaleBy","multipleParticleScaleBy","d","(F)Lnet/minecraft/src/EntityFX;","(F)Lnq;","net/minecraft/src/EntityFX","nq","net/minecraft/src","0"
 "renderFur","renderFur","a","(Lnet/minecraft/src/EntitySheep;I)Z","(Lbo;I)Z","net/minecraft/src/RenderSheep","ns","net/minecraft/src","0"
 "setLoadingProgress","setLoadingProgress","a","(I)V","(I)V","net/minecraft/src/IProgressUpdate","nu","net/minecraft/src","0"
-"resetProgressAndWorkingMessage","resetProgressAndWorkingMessage","d","(Ljava/lang/String;)V","(Ljava/lang/String;)V","net/minecraft/src/IProgressUpdate","nu","net/minecraft/src","0"
+"displayLoadingString","displayLoadingString","d","(Ljava/lang/String;)V","(Ljava/lang/String;)V","net/minecraft/src/IProgressUpdate","nu","net/minecraft/src","0"
 "displayProgressMessage","displayProgressMessage","b","(Ljava/lang/String;)V","(Ljava/lang/String;)V","net/minecraft/src/IProgressUpdate","nu","net/minecraft/src","0"
 "replaceSurfaceBlocks","replaceSurfaceBlocks","b","(II[B)V","(II[B)V","net/minecraft/src/ChunkProviderGenerate","nw","net/minecraft/src","0"
 "initializeNoiseField","initializeNoiseField","a","([DIIIIII)[D","([DIIIIII)[D","net/minecraft/src/ChunkProviderGenerate","nw","net/minecraft/src","0"

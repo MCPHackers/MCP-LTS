@@ -865,7 +865,7 @@
 "saveExtraChunkData","saveExtraChunkData","a","(Lnet/minecraft/src/Chunk;)V","(Lkd;)V","net/minecraft/src/ChunkProviderLoadOrGenerate","jk","net/minecraft/src","0"
 "saveChunk","saveChunk","b","(Lnet/minecraft/src/Chunk;)V","(Lkd;)V","net/minecraft/src/ChunkProviderLoadOrGenerate","jk","net/minecraft/src","0"
 "getChunkAt","getChunkAt","c","(II)Lnet/minecraft/src/Chunk;","(II)Lkd;","net/minecraft/src/ChunkProviderLoadOrGenerate","jk","net/minecraft/src","0"
-"resetProgressAndWorkingMessage","resetProgressAndWorkingMessage","d","(Ljava/lang/String;)V","(Ljava/lang/String;)V","net/minecraft/src/IProgressUpdate","jl","net/minecraft/src","0"
+"displayLoadingString","displayLoadingString","d","(Ljava/lang/String;)V","(Ljava/lang/String;)V","net/minecraft/src/IProgressUpdate","jl","net/minecraft/src","0"
 "setLoadingProgress","setLoadingProgress","a","(I)V","(I)V","net/minecraft/src/IProgressUpdate","jl","net/minecraft/src","0"
 "displayProgressMessage","displayProgressMessage","b","(Ljava/lang/String;)V","(Ljava/lang/String;)V","net/minecraft/src/IProgressUpdate","jl","net/minecraft/src","0"
 "generateCaveNode","generateCaveNode","a","(II[BDDDFFFIID)V","(II[BDDDFFFIID)V","net/minecraft/src/ChunkProviderGenerate","jo","net/minecraft/src","0"

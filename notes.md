@@ -6,5 +6,5 @@ If not, MCP will start trying to use whatever Java it manages to find, which is 
 See above.
 
 # Reobfuscation
-If you recompiled with Java 9 or above, when reobfuscating, SpecialSource with error out with "unsupported major class version".
+If you recompiled with Java 9 or above, when reobfuscating, SpecialSource will error out with "unsupported major class version".
 This means MCP went ahead and used whatever Java install it could.

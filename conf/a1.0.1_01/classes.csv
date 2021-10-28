@@ -46,7 +46,7 @@
 "BlockPressurePlate","br","","net/minecraft/src","0"
 "WorldGenerator","bs","","net/minecraft/src","0"
 "ItemSoup","bt","","net/minecraft/src","0"
-"PlayerControllerTest","bu","","net/minecraft/src","0"
+"PlayerControllerCreative","bu","","net/minecraft/src","0"
 "PanelCrashReport","bv","","net/minecraft/src","0"
 "IWorldAccess","bw","","net/minecraft/src","0"
 "GuiErrorScreen","bx","","net/minecraft/src","0"

@@ -29,19 +29,20 @@ def main(conffile=None):
         commands.logger.info('> Extracting modified classes')
         commands.unpackreobfclasses(0)
 
-    commands.logger.info('== Reobfuscating server ==')
-    if commands.checkbins(1):
-        commands.cleanreobfdir(1)
-        commands.logger.info('> Gathering md5 checksums')
-        commands.gathermd5s(1, True)
-        commands.logger.info('> Compacting server bin directory')
-        commands.packbin(1)
-        commands.logger.info('> Creating reobfuscation config')
-        commands.createsrgsforreobf(1)
-        commands.logger.info('> Reobfuscating server jar')
-        commands.reobfuscate(1)
-        commands.logger.info('> Extracting modified classes')
-        commands.unpackreobfclasses(1)
+    if commands.hasserver():
+        commands.logger.info('== Reobfuscating server ==')
+        if commands.checkbins(1):
+            commands.cleanreobfdir(1)
+            commands.logger.info('> Gathering md5 checksums')
+            commands.gathermd5s(1, True)
+            commands.logger.info('> Compacting server bin directory')
+            commands.packbin(1)
+            commands.logger.info('> Creating reobfuscation config')
+            commands.createsrgsforreobf(1)
+            commands.logger.info('> Reobfuscating server jar')
+            commands.reobfuscate(1)
+            commands.logger.info('> Extracting modified classes')
+            commands.unpackreobfclasses(1)
 
 
 if __name__ == '__main__':

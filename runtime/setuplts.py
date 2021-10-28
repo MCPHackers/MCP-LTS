@@ -140,11 +140,11 @@ class InstallMC:
 
 
     def setupmc(self):
-        self.logger.info("> If you wish to supply your own configuration, type \"none\".")
+        self.logger.info("> If you wish to supply your own configuration, type \"custom\".")
 
         versions = []
         for version in os.listdir(self.confdir):
-            if os.path.isdir(os.path.join(self.confdir, version)) and version != "patches" and not os.path.exists(os.path.join(self.confdir, version, "DISABLED")):
+            if os.path.isdir(os.path.join(self.confdir, version)) and version != "patches" and version != "custom" and not os.path.exists(os.path.join(self.confdir, version, "DISABLED")):
                 versions.append(version)
 
         inp = ""
@@ -161,31 +161,36 @@ class InstallMC:
 
             inp = str(input(": "))
 
-            if inp == "none":
-                return
-            for y in versions:
-                for x in y.split(","):
-                    if x == inp:
-                        foundmatch = True
-                        confname = y
+            if inp == "custom":
+                foundmatch = True
+                confname = inp
+            else:
+                for y in versions:
+                    for x in y.split(","):
+                        if x == inp:
+                            foundmatch = True
+                            confname = y
 
         self.logger.info("> Copying config.")
         copytime = time.time()
         self.copydir(os.path.join(self.confdir, confname), self.confdir)
         self.logger.info('> Done in %.2f seconds' % (time.time() - copytime))
 
-        self.logger.info("> Downloading Minecraft client...")
-        clientdltime = time.time()
-        self.download(minecraftversions.versions["client"][inp]["url"],
-                      os.path.join(self.jardir, "bin", "minecraft.jar"))
-        self.logger.info('> Done in %.2f seconds' % (time.time() - clientdltime))
+        if inp != "custom":
+            self.logger.info("> Downloading Minecraft client...")
+            clientdltime = time.time()
+            self.download(minecraftversions.versions["client"][inp]["url"],
+                          os.path.join(self.jardir, "bin", "minecraft.jar"))
+            self.logger.info('> Done in %.2f seconds' % (time.time() - clientdltime))
 
-        self.logger.info("> Downloading Minecraft server...")
-        ver = inp
-        serverdltime = time.time()
-        if ver in minecraftversions.versions["server"]:
-            self.download(minecraftversions.versions["server"][ver]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
-        self.logger.info('> Done in %.2f seconds' % (time.time() - serverdltime))
+            self.logger.info("> Downloading Minecraft server...")
+            ver = inp
+            serverdltime = time.time()
+            if ver in minecraftversions.versions["server"]:
+                self.download(minecraftversions.versions["server"][ver]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
+            self.logger.info('> Done in %.2f seconds' % (time.time() - serverdltime))
+        else:
+            self.logger.info('> Make sure to copy version jars into jars folder!')
 
     def download(self, url, dst):
         # Because legacy code is stupid.

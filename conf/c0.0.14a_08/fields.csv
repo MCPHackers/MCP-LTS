@@ -219,7 +219,7 @@
 "levelGen","levelGen","z","Lcom/mojang/minecraft/level/levelgen/LevelGen;","Lcom/mojang/minecraft/level/b/a;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
 "minecraftUri","minecraftUri","d","Ljava/lang/String;","Ljava/lang/String;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
 "levelRenderer","levelRenderer","o","Lcom/mojang/minecraft/renderer/LevelRenderer;","Lcom/mojang/minecraft/a/g;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
-"session","session","c","Lcom/mojang/minecraft/User;","Lcom/mojang/minecraft/a;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
+"user","user","c","Lcom/mojang/minecraft/User;","Lcom/mojang/minecraft/a;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
 "loadMapUser","loadMapUser","h","Ljava/lang/String;","Ljava/lang/String;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
 "font","font","g","Lcom/mojang/minecraft/gui/Font;","Lcom/mojang/minecraft/b/h;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
 "fogColor1","fogColor1","l","Ljava/nio/FloatBuffer;","Ljava/nio/FloatBuffer;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"

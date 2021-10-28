@@ -20,7 +20,8 @@ def main(conffile=None):
     commands.checkforupdates()
 
     cltdone = decompile_side(0, commands)
-    srvdone = decompile_side(1, commands)
+    if commands.hasserver():
+        srvdone = decompile_side(1, commands)
 
     commands.logger.info('== Post decompiling operations ==')
     if not cltdone or not srvdone:
@@ -29,9 +30,10 @@ def main(conffile=None):
     if not cltdone:
         commands.logger.info('> Generating the md5 (client)')
         commands.gathermd5s(0)
-    if not srvdone:
-        commands.logger.info('> Generating the md5 (server)')
-        commands.gathermd5s(1)
+    if commands.hasserver():
+        if not srvdone:
+            commands.logger.info('> Generating the md5 (server)')
+            commands.gathermd5s(1)
 
 
 def decompile_side(side=0, commands=None, force_jad=False):
@@ -95,7 +97,7 @@ def decompile_side(side=0, commands=None, force_jad=False):
 
 
 if __name__ == '__main__':
-    parser = OptionParser(version='MCP %s' % Commands.MCPVersion)
+    parser = OptionParser(version='MCP LTS %s' % Commands.MCPVersion)
     parser.add_option('-c', '--config', dest='config', help='additional configuration file')
     (options, args) = parser.parse_args()
     main(options.config)
