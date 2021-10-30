@@ -9,9 +9,6 @@ versions = {
         "b1.8": {
             "url": "https://launcher.mojang.com/v1/objects/3139e9c29b2c74f59ea04de760ac2af5bc21b410/client.jar"
         },
-        "b1.7.3-mcp": {
-            "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar"
-        },
         "b1.7.3": {
             "url": "https://launcher.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar"
         },
@@ -127,16 +124,20 @@ versions = {
             "url": "https://launcher.mojang.com/v1/objects/8632ea716fd083c2975f16d612306fd80bee46db/client.jar"
         },
         "a1.1.2_01": {
-            "url": "https://launcher.mojang.com/v1/objects/daa4b9f192d2c260837d3b98c39432324da28e86/client.jar"
+            "url": "https://launcher.mojang.com/v1/objects/daa4b9f192d2c260837d3b98c39432324da28e86/client.jar",
+            "server": "a0.2.1"
         },
         "a1.1.2": {
-            "url": "https://launcher.mojang.com/v1/objects/f9b4b66f9c18bf4800d80f1c8865a837f92c6105/client.jar"
+            "url": "https://launcher.mojang.com/v1/objects/f9b4b66f9c18bf4800d80f1c8865a837f92c6105/client.jar",
+            "server": "a0.2.1"
         },
         "a1.1.1": {
-            "url": "https://archive.org/download/Minecraft-JE-Alpha/a1.1.1/a1.1.1.jar"
+            "url": "https://archive.org/download/Minecraft-JE-Alpha/a1.1.1/a1.1.1.jar",
+            "server": "a0.2.1"
         },
         "a1.1.0": {
-            "url": "https://launcher.mojang.com/v1/objects/d58d1db929994ff383bdbe6fed31887e04b965c3/client.jar"
+            "url": "https://launcher.mojang.com/v1/objects/d58d1db929994ff383bdbe6fed31887e04b965c3/client.jar",
+            "server": "a0.2.0_01"
         },
         "a1.0.17_04": {
             "url": "https://launcher.mojang.com/v1/objects/61cb4c717981f34bf90e8502d2eb8cf2aa6db0cd/client.jar"
@@ -204,9 +205,6 @@ versions = {
         "rd-160052": {
             "url": "https://launcher.mojang.com/v1/objects/b100be8097195b6c9112046dc6a80d326c8df839/client.jar"
         },
-        "rd-20090515": {
-            "url": "https://launcher.mojang.com/v1/objects/6323bd14ed7f83852e17ebc8ec418e55c97ddfe4/client.jar"
-        },
         "rd-132328": {
             "url": "https://launcher.mojang.com/v1/objects/12dace5a458617d3f90337a7ebde86c0593a6899/client.jar"
         },
@@ -221,16 +219,10 @@ versions = {
         "a1.0.17_04": {
             "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.0.17_04.jar"
         },
-        "a1.1.0": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.1.0.jar"
+        "a0.2.0_01": {
+            "url": "https://betacraft.pl/server-archive/minecraft/a0.2.0_01.jar"
         },
-        "a1.1.1": {
-            "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
-        },
-        "a1.1.2": {
-            "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
-        },
-        "a1.1.2_01": {
+        "a0.2.1": {
             "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
         },
         "a1.2.0": {

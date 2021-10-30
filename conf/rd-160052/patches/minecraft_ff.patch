@@ -1,0 +1,15 @@
+diff -r -U 3 minecraft/com/mojang/rubydung/level/DirtyChunkSorter.java minecraft_patched/com/mojang/rubydung/level/DirtyChunkSorter.java
+--- minecraft/com/mojang/rubydung/level/DirtyChunkSorter.java	2021-10-30 00:15:02.972114600 +0300
++++ minecraft_patched/com/mojang/rubydung/level/DirtyChunkSorter.java	2021-10-30 00:14:30.141236800 +0300
+@@ -33,10 +33,4 @@
+             }
+         }
+     }
+-
+-    // $FF: synthetic method
+-    // $FF: bridge method
+-    public int compare(Object var1, Object var2) {
+-        return this.compare((Chunk)var1, (Chunk)var2);
+-    }
+ }
+ 

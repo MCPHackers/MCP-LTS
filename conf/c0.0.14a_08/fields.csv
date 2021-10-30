@@ -142,7 +142,7 @@
 "y","y","y","F","F","com/mojang/minecraft/Entity","com/mojang/minecraft/Entity","com/mojang/minecraft","0"
 "x","x","x","F","F","com/mojang/minecraft/Entity","com/mojang/minecraft/Entity","com/mojang/minecraft","0"
 "textures","textures","g","Lcom/mojang/minecraft/renderer/Textures;","Lcom/mojang/minecraft/a/a;","com/mojang/minecraft/renderer/LevelRenderer","com/mojang/minecraft/a/g","com/mojang/minecraft/renderer","0"
-"renderDistance","renderDistance","c","I","I","com/mojang/minecraft/renderer/LevelRenderer","com/mojang/minecraft/a/g","com/mojang/minecraft/renderer","0"
+"drawDistance","drawDistance","c","I","I","com/mojang/minecraft/renderer/LevelRenderer","com/mojang/minecraft/a/g","com/mojang/minecraft/renderer","0"
 "glRenderList","glRenderList","b","I","I","com/mojang/minecraft/renderer/LevelRenderer","com/mojang/minecraft/a/g","com/mojang/minecraft/renderer","0"
 "dummyBuffer","dummyBuffer","h","Ljava/nio/IntBuffer;","Ljava/nio/IntBuffer;","com/mojang/minecraft/renderer/LevelRenderer","com/mojang/minecraft/a/g","com/mojang/minecraft/renderer","0"
 "cloudTickCounter","cloudTickCounter","f","I","I","com/mojang/minecraft/renderer/LevelRenderer","com/mojang/minecraft/a/g","com/mojang/minecraft/renderer","0"

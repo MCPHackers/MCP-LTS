@@ -1,0 +1,83 @@
+diff -r -U 3 minecraft/com/mojang/minecraft/level/DirtyChunkSorter.java minecraft_patched/com/mojang/minecraft/level/DirtyChunkSorter.java
+--- minecraft/com/mojang/minecraft/level/DirtyChunkSorter.java	2021-10-29 23:45:18.609054800 +0300
++++ minecraft_patched/com/mojang/minecraft/level/DirtyChunkSorter.java	2021-10-29 23:46:49.699264900 +0300
+@@ -21,10 +21,4 @@
+             return c0.distanceToSqr(this.player) < c1.distanceToSqr(this.player) ? -1 : 1;
+         }
+     }
+-
+-    // $FF: synthetic method
+-    // $FF: bridge method
+-    public int compare(Object var1, Object var2) {
+-        return this.compare((Chunk)var1, (Chunk)var2);
+-    }
+ }
+diff -r -U 3 minecraft/com/mojang/minecraft/level/DistanceSorter.java minecraft_patched/com/mojang/minecraft/level/DistanceSorter.java
+--- minecraft/com/mojang/minecraft/level/DistanceSorter.java	2021-10-29 23:45:18.611055000 +0300
++++ minecraft_patched/com/mojang/minecraft/level/DistanceSorter.java	2021-10-29 23:46:53.227466700 +0300
+@@ -13,10 +13,4 @@
+     public int compare(Chunk c0, Chunk c1) {
+         return c0.distanceToSqr(this.player) < c1.distanceToSqr(this.player) ? -1 : 1;
+     }
+-
+-    // $FF: synthetic method
+-    // $FF: bridge method
+-    public int compare(Object var1, Object var2) {
+-        return this.compare((Chunk)var1, (Chunk)var2);
+-    }
+ }
+diff -r -U 3 minecraft/com/mojang/minecraft/level/levelgen/LevelGen.java minecraft_patched/com/mojang/minecraft/level/levelgen/LevelGen.java
+--- minecraft/com/mojang/minecraft/level/levelgen/LevelGen.java	2021-10-29 23:45:18.622055600 +0300
++++ minecraft_patched/com/mojang/minecraft/level/levelgen/LevelGen.java	2021-10-29 23:48:09.968856100 +0300
+@@ -175,7 +175,7 @@
+     public long floodFillLiquid(int x, int y, int z, int source, int tt) {
+         byte target = (byte)tt;
+         ArrayList<int[]> coordBuffer = new ArrayList();
+-        int p = 0;
++        int p1 = 0;
+         int wBits = 1;
+ 
+         int hBits;
+@@ -188,8 +188,8 @@
+ 
+         int hMask = this.height - 1;
+         int wMask = this.width - 1;
+-        int p = p + 1;
+-        this.coords[p] = ((y << hBits) + z << wBits) + x;
++        int p = p1 + 1;
++        this.coords[p1] = ((y << hBits) + z << wBits) + x;
+         long tiles = 0L;
+         int upStep = this.width * this.height;
+ 
+diff -r -U 3 minecraft/com/mojang/minecraft/level/LevelRenderer.java minecraft_patched/com/mojang/minecraft/level/LevelRenderer.java
+--- minecraft/com/mojang/minecraft/level/LevelRenderer.java	2021-10-29 23:45:18.621055500 +0300
++++ minecraft_patched/com/mojang/minecraft/level/LevelRenderer.java	2021-10-29 23:46:40.641746800 +0300
+@@ -154,17 +154,17 @@
+ 
+         int zz;
+         for(zz = -s * d; zz < this.level.width + s * d; zz += s) {
+-            for(int zz = -s * d; zz < this.level.height + s * d; zz += s) {
+-                float yy = y;
+-                if (zz >= 0 && zz >= 0 && zz < this.level.width && zz < this.level.height) {
+-                    yy = 0.0F;
+-                }
+-
+-                t.vertexUV((float)(zz + 0), yy, (float)(zz + s), 0.0F, (float)s);
+-                t.vertexUV((float)(zz + s), yy, (float)(zz + s), (float)s, (float)s);
+-                t.vertexUV((float)(zz + s), yy, (float)(zz + 0), (float)s, 0.0F);
+-                t.vertexUV((float)(zz + 0), yy, (float)(zz + 0), 0.0F, 0.0F);
+-            }
++        	for(int zz1 = -s * d; zz1 < this.level.height + s * d; zz1 += s) {
++        		float yy = y;
++        		if(zz >= 0 && zz1 >= 0 && zz < this.level.width && zz1 < this.level.height) {
++        			yy = 0.0F;
++        		}
++
++        		t.vertexUV((float)(zz + 0), yy, (float)(zz1 + s), 0.0F, (float)s);
++        		t.vertexUV((float)(zz + s), yy, (float)(zz1 + s), (float)s, (float)s);
++        		t.vertexUV((float)(zz + s), yy, (float)(zz1 + 0), (float)s, 0.0F);
++        		t.vertexUV((float)(zz + 0), yy, (float)(zz1 + 0), 0.0F, 0.0F);
++        	}
+         }
+ 
+         t.end();

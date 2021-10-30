@@ -42,9 +42,9 @@ def decompile_side(side=0, commands=None, force_jad=False):
     srcdir = None
 
     if side == 0:
-        srcdir = os.path.join(commands.srcclient, commands.ffsource).replace('/', os.sep).replace('\\', os.sep)
+        srcdir = commands.srcclient.replace('/', os.sep).replace('\\', os.sep)
     if side == 1:
-        srcdir = os.path.join(commands.srcserver, commands.ffsource).replace('/', os.sep).replace('\\', os.sep)
+        srcdir = commands.srcserver.replace('/', os.sep).replace('\\', os.sep)
 
     if not srcdir:
         commands.logger.info('!! Side is not provided !!')

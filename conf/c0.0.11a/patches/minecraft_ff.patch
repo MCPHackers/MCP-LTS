@@ -1,0 +1,56 @@
+diff -r -U 3 minecraft/com/mojang/minecraft/level/DirtyChunkSorter.java minecraft_patched/com/mojang/minecraft/level/DirtyChunkSorter.java
+--- minecraft/com/mojang/minecraft/level/DirtyChunkSorter.java	2021-10-30 00:15:02.972114600 +0300
++++ minecraft_patched/com/mojang/minecraft/level/DirtyChunkSorter.java	2021-10-30 00:14:30.141236800 +0300
+@@ -33,10 +33,4 @@
+             }
+         }
+     }
+-
+-    // $FF: synthetic method
+-    // $FF: bridge method
+-    public int compare(Object var1, Object var2) {
+-        return this.compare((Chunk)var1, (Chunk)var2);
+-    }
+ }
+diff -r -U 3 minecraft/com/mojang/minecraft/level/LevelGen.java minecraft_patched/com/mojang/minecraft/level/LevelGen.java
+--- minecraft/com/mojang/minecraft/level/LevelGen.java	2021-10-30 00:15:06.052290700 +0300
++++ minecraft_patched/com/mojang/minecraft/level/LevelGen.java	2021-10-30 00:14:23.048831100 +0300
+@@ -71,8 +71,8 @@
+         x = w * h * d / 256 / 64;
+ 
+         for(y = 0; y < x; ++y) {
+-            float x = this.random.nextFloat() * (float)w;
+-            float y = this.random.nextFloat() * (float)d;
++            float x1 = this.random.nextFloat() * (float)w;
++            float y1 = this.random.nextFloat() * (float)d;
+             float z = this.random.nextFloat() * (float)h;
+             length = (int)(this.random.nextFloat() + this.random.nextFloat() * 150.0F);
+             float dir1 = (float)((double)this.random.nextFloat() * 3.141592653589793D * 2.0D);
+@@ -81,9 +81,9 @@
+             float dira2 = 0.0F;
+ 
+             for(int l = 0; l < length; ++l) {
+-                x = (float)((double)x + Math.sin((double)dir1) * Math.cos((double)dir2));
++                x1 = (float)((double)x1 + Math.sin((double)dir1) * Math.cos((double)dir2));
+                 z = (float)((double)z + Math.cos((double)dir1) * Math.cos((double)dir2));
+-                y = (float)((double)y + Math.sin((double)dir2));
++                y1 = (float)((double)y1 + Math.sin((double)dir2));
+                 dir1 += dira1 * 0.2F;
+                 dira1 *= 0.9F;
+                 dira1 += this.random.nextFloat() - this.random.nextFloat();
+@@ -93,11 +93,11 @@
+                 dira2 += this.random.nextFloat() - this.random.nextFloat();
+                 float size = (float)(Math.sin((double)l * 3.141592653589793D / (double)length) * 2.5D + 1.0D);
+ 
+-                for(int xx = (int)(x - size); xx <= (int)(x + size); ++xx) {
+-                    for(int yy = (int)(y - size); yy <= (int)(y + size); ++yy) {
++                for(int xx = (int)(x1 - size); xx <= (int)(x1 + size); ++xx) {
++                    for(int yy = (int)(y1 - size); yy <= (int)(y1 + size); ++yy) {
+                         for(int zz = (int)(z - size); zz <= (int)(z + size); ++zz) {
+-                            float xd = (float)xx - x;
+-                            float yd = (float)yy - y;
++                            float xd = (float)xx - x1;
++                            float yd = (float)yy - y1;
+                             float zd = (float)zz - z;
+                             float dd = xd * xd + yd * yd * 2.0F + zd * zd;
+                             if (dd < size * size && xx >= 1 && yy >= 1 && zz >= 1 && xx < this.width - 1 && yy < this.depth - 1 && zz < this.height - 1) {

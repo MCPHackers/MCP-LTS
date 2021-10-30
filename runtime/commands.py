@@ -33,11 +33,36 @@ warnings.simplefilter('ignore')
 class Commands(object):
     """Contains the commands and initialisation for a full mcp run"""
 
-    MCPVersion = '1.0'
+    MCPVersion = '1.1'
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'
     _version_config = 'conf/version.cfg'
+    
+    @classmethod
+    def fullversion(cls):
+        """Read the version configuration file and return a full version string"""
+        full_version = None
+        try:
+            config = configparser.SafeConfigParser()
+            with open(os.path.normpath(cls._version_config)) as fh:
+                config.readfp(fh)
+            client_version = config.get('VERSION', 'ClientVersion')
+            server_version = None
+            try:
+                server_version = config.get('VERSION', 'ServerVersion')
+            except configparser.Error:
+                pass
+            full_version = ' (client: %s, server: %s)' % (client_version, server_version)
+        except IOError:
+            pass
+        except configparser.Error:
+            pass
+
+        if full_version is None:
+            return cls.MCPVersion
+        else:
+            return cls.MCPVersion + full_version
 
     def __init__(self, conffile=None):
         # HINT: This is for the singleton pattern. If we already did __init__, we skip it
@@ -57,7 +82,7 @@ class Commands(object):
 
         self.startlogger()
 
-        self.logger.info('== MCP LTS v%s ==' % Commands.MCPVersion)
+        self.logger.info('== MCP LTS v%s ==' % Commands.fullversion())
 
         if 'linux' in sys.platform:
             self.osname = 'linux'
@@ -372,7 +397,7 @@ class Commands(object):
     def checksources(self, side):
         srclk = {0: self.srcclient, 1: self.srcserver}
         if side == 0:
-            if not os.path.exists(os.path.join(srclk[side], 'net/minecraft/client/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'com/mojang/minecraft/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'net/minecraft/src/Minecraft.java')):
+            if not os.path.exists(os.path.join(srclk[side], 'net/minecraft/client/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'com/mojang/minecraft/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'net/minecraft/src/Minecraft.java')) and not os.path.exists(os.path.join(srclk[side], 'com/mojang/rubydung/RubyDung.java')) and not os.path.exists(os.path.join(srclk[side], 'com/mojang/minecraft/RubyDung.java')):
                 self.logger.warning('!! Can not find client sources !!')
                 return False
             else:
@@ -388,7 +413,7 @@ class Commands(object):
     def checkbins(self, side):
         binlk = {0: self.binclient, 1: self.binserver}
         if side == 0:
-            if not os.path.exists(os.path.join(binlk[side], 'net/minecraft/client/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'com/mojang/minecraft/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'net/minecraft/src/Minecraft.class')):
+            if not os.path.exists(os.path.join(binlk[side], 'net/minecraft/client/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'com/mojang/minecraft/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'net/minecraft/src/Minecraft.class')) and not os.path.exists(os.path.join(binlk[side], 'com/mojang/rubydung/RubyDung.class')) and not os.path.exists(os.path.join(binlk[side], 'com/mojang/minecraft/RubyDung..class')):
                 self.logger.warning('!! Can not find client bins !!')
                 return False
             else:

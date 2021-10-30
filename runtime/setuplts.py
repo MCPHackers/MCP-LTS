@@ -13,6 +13,7 @@ import minecraftversions
 
 class InstallMC:
     _default_config = 'conf/mcp.cfg'
+    _version_config = 'conf/version.cfg'
 
     def __init__(self, conffile=None):
         self.conffile = conffile
@@ -152,8 +153,8 @@ class InstallMC:
         foundmatch = False
         while not foundmatch:
             self.logger.info("> Current versions are:")
-            for ver in versions:
-                for x in ver.split(","):
+            for v in versions:
+                for x in v.split(","):
                     if x == "b1.5_01":
                         x = "b1.5_01 (b1.5_02 server)"
                     self.logger.info(' - ' + x)
@@ -174,6 +175,13 @@ class InstallMC:
         self.logger.info("> Copying config.")
         copytime = time.time()
         self.copydir(os.path.join(self.confdir, confname), self.confdir)
+        with open(self._version_config, "a") as file:
+            file.write('ClientVersion = ' + inp + '\n')
+            if inp in minecraftversions.versions["client"]:
+                if "server" in minecraftversions.versions["client"][inp]:
+                    file.write('ServerVersion = ' + minecraftversions.versions["client"][inp]["server"] + '\n')
+            else:
+                file.write('ServerVersion = ' + inp + '\n')
         self.logger.info('> Done in %.2f seconds' % (time.time() - copytime))
 
         if inp != "custom":
@@ -182,13 +190,15 @@ class InstallMC:
             self.download(minecraftversions.versions["client"][inp]["url"],
                           os.path.join(self.jardir, "bin", "minecraft.jar"))
             self.logger.info('> Done in %.2f seconds' % (time.time() - clientdltime))
-
-            self.logger.info("> Downloading Minecraft server...")
             ver = inp
             serverdltime = time.time()
-            if ver in minecraftversions.versions["server"]:
-                self.download(minecraftversions.versions["server"][ver]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
-            self.logger.info('> Done in %.2f seconds' % (time.time() - serverdltime))
+            if ver in minecraftversions.versions["server"] or "server" in minecraftversions.versions["client"][ver]:
+                self.logger.info("> Downloading Minecraft server...")
+                if "server" in minecraftversions.versions["client"][ver]:
+                    self.download(minecraftversions.versions["server"][minecraftversions.versions["client"][ver]["server"]]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
+                elif ver in minecraftversions.versions["server"]:
+                    self.download(minecraftversions.versions["server"][ver]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
+                self.logger.info('> Done in %.2f seconds' % (time.time() - serverdltime))
         else:
             self.logger.info('> Make sure to copy version jars into jars folder!')
 
@@ -201,7 +211,7 @@ class InstallMC:
             with open(dst, "wb") as file:
                 file.write(data)
 
-            self.logger.info("> Done!")
+            self.logger.debug("> Done!")
         except:
             traceback.print_exc()
             print("> Unable to download \"" + url + "\"")

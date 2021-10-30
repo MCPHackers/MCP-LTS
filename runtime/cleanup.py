@@ -29,23 +29,33 @@ class Cleanup:
 
     def start(self):
         print("> Welcome to the LTS cleanup script!")
-        print("> This script will delete your workspace and set most of it to factory defaults.")
+        print("> Input 'y' to delete your workspace and set most of it to factory defaults.")
         print("> Input 's' if you want to only clear the source and bin folders")
         print("> Are you sure you want to clean up your workspace? [y/N/s]")
-        inp = input(": ")
-        clearsrc = False
-        if inp.lower() == "s":
-            clearsrc = True
-        if inp.lower() != "y" and inp.lower() != "s":
-            return
+        b = True
+        while b:
+            inp = input(": ")
+            clearsrc = False
+            b = inp.lower() != "y" and inp.lower() != "s"
+            if inp.lower() == "n":
+                return
+            if inp.lower() == "s":
+                clearsrc = True
+            if b:
+                print("Invalid option!")
         print("> Are you *REALLY* sure you want to clean up your workspace? [y/N]")
         if clearsrc:
             print("> This deletes ALL your source files!")
         else:
             print("> This deletes ALL your source files and jars! This is NOT recoverable!")
-        inp = input(": ")
-        if inp.lower() != "y":
-            return
+        b = True
+        while b:
+            inp = input(": ")
+            b = inp.lower() != "y"
+            if inp.lower() == "n":
+                return
+            if b:
+                print("Invalid option!")
 
         print("> Commencing the purge of the universe...")
         no_error = True
@@ -109,8 +119,8 @@ class Cleanup:
         elif not no_error:
             print("> Cleanup file has not been deleted because an error occurred earlier.")
         print('> Done in %.2f seconds' % (time.time() - deltime))
-
-        print("> Press enter to continue...")
+        # Using input() instead of pause because the batch gets deleted before the script is finished
+        print('Press enter to continue...')
         input()
 
     def readconf(self):
@@ -128,7 +138,4 @@ class Cleanup:
 
 if __name__ == '__main__':
     cleanup = Cleanup()
-    try:
-        cleanup.start()
-    except:
-        traceback.print_exc()
+    cleanup.start()

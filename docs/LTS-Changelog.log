@@ -1,3 +1,15 @@
+v1.1
+  * Currently set up version (client and server) is now displayed upon running scripts
+  * Minor improvements to the setup script
+  * Fixed source detection to prevent decompiling
+  * Cleanup script only cancels when 'n' is inputted
+  * Added version support for:
+    - c0.0.13a_03
+    - rd-161348
+    - rd-160052
+    - rd-132328
+    - rd-132211
+====================================================
 v1.0:
   * Fixed reobfuscation for versions with packages
   * Modified mappings format
