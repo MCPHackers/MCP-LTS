@@ -172,6 +172,9 @@ versions = {
         "inf-20100630-1": {
             "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100630-1/inf-20100630-1.jar"
         },
+        "inf-20100625-1": {
+            "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100625-1/inf-20100625-1.jar"
+        },
         "inf-20100618": {
             "url": "https://launcher.mojang.com/v1/objects/89eab2c1a353707cc00f074dffba9cb7a4f5e304/client.jar"
         },
@@ -183,6 +186,9 @@ versions = {
         },
         "c0.30_01c": {
             "url": "https://launcher.mojang.com/v1/objects/54622801f5ef1bcc1549a842c5b04cb5d5583005/client.jar"
+        },
+        "c0.0.15a": {
+            "url": "https://archive.org/download/Minecraft-JE-Classic/c0.0.15a-1/c0.0.15a-1.jar"
         },
         "c0.0.14a_08": {
             "url": "https://archive.org/download/Minecraft-JE-Classic/c0.0.14a_08/c0.0.14a_08.jar"

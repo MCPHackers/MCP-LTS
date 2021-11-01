@@ -20,9 +20,9 @@ diff -r -U 3 minecraft/net/minecraft/client/gui/GuiLevelDialog.java minecraft_pa
      }
  
      public final void run() {
-diff -r -U 3 minecraft/net/minecraft/client/gui/SlotArmor.java minecraft_patched/net/minecraft/client/gui/SlotArmor.java
---- minecraft/net/minecraft/client/gui/SlotArmor.java	2021-10-20 01:31:21.590948600 +0300
-+++ minecraft_patched/net/minecraft/client/gui/SlotArmor.java	2021-10-20 01:37:21.281521700 +0300
+diff -r -U 3 minecraft/net/minecraft/client/gui/container/SlotArmor.java minecraft_patched/net/minecraft/client/gui/container/SlotArmor.java
+--- minecraft/net/minecraft/client/gui/container/SlotArmor.java	2021-10-20 01:31:21.590948600 +0300
++++ minecraft_patched/net/minecraft/client/gui/container/SlotArmor.java	2021-10-20 01:37:21.281521700 +0300
 @@ -9,8 +9,8 @@
      private int armorType;
  
@@ -33,33 +33,9 @@ diff -r -U 3 minecraft/net/minecraft/client/gui/SlotArmor.java minecraft_patched
      }
  
      public final boolean isItemValid(ItemStack var1) {
-diff -r -U 3 minecraft/net/minecraft/client/player/PlayerControllerCreative.java minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java
---- minecraft/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-20 01:31:21.647951900 +0300
-+++ minecraft_patched/net/minecraft/client/player/PlayerControllerCreative.java	2021-10-20 01:37:09.855868200 +0300
-@@ -1,5 +1,6 @@
- package net.minecraft.client.player;
- 
-+import net.minecraft.client.Minecraft;
- import net.minecraft.client.Session;
- import net.minecraft.game.block.Block;
- import net.minecraft.game.entity.player.EntityPlayer;
-@@ -8,7 +9,12 @@
- import net.minecraft.game.level.World;
- 
- public final class PlayerControllerCreative extends PlayerController {
--    private Spawner mobSpawner;
-+
-+	private Spawner mobSpawner;
-+	
-+    public PlayerControllerCreative(Minecraft var1) {
-+		super(var1);
-+	}
- 
-     public final void blankPlayerFunction(EntityPlayer var1) {
-         for(int var2 = 0; var2 < 9; ++var2) {
-diff -r -U 3 minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java
---- minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-20 01:31:21.726956400 +0300
-+++ minecraft_patched/net/minecraft/client/renderer/entity/RenderPlayer.java	2021-10-20 01:36:19.577992500 +0300
+diff -r -U 3 minecraft/net/minecraft/client/render/entity/RenderPlayer.java minecraft_patched/net/minecraft/client/render/entity/RenderPlayer.java
+--- minecraft/net/minecraft/client/render/entity/RenderPlayer.java	2021-10-20 01:31:21.726956400 +0300
++++ minecraft_patched/net/minecraft/client/render/entity/RenderPlayer.java	2021-10-20 01:36:19.577992500 +0300
 @@ -41,7 +41,7 @@
          if ((var6 = var5.inventory.armorInventory[var4]) != null && (var7 = var6.getItem()) instanceof ItemArmor) {
              ItemArmor var8 = (ItemArmor)var7;
@@ -69,9 +45,9 @@ diff -r -U 3 minecraft/net/minecraft/client/renderer/entity/RenderPlayer.java mi
              (var9 = var3 == 2 ? this.modelArmor : this.modelArmorChestplate).bipedHead.showModel = var3 == 0;
              var9.bipedHeadwear.showModel = var3 == 0;
              var9.bipedBody.showModel = var3 == 1 || var3 == 2;
-diff -r -U 3 minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java
---- minecraft/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-20 01:31:21.688954200 +0300
-+++ minecraft_patched/net/minecraft/client/renderer/ThreadDownloadImage.java	2021-10-20 01:36:25.642339400 +0300
+diff -r -U 3 minecraft/net/minecraft/client/render/ThreadDownloadImage.java minecraft_patched/net/minecraft/client/render/ThreadDownloadImage.java
+--- minecraft/net/minecraft/client/render/ThreadDownloadImage.java	2021-10-20 01:31:21.688954200 +0300
++++ minecraft_patched/net/minecraft/client/render/ThreadDownloadImage.java	2021-10-20 01:36:25.642339400 +0300
 @@ -16,7 +16,6 @@
          this.imageData = var1;
          this.location = var2;
@@ -612,3 +588,27 @@ diff -r -U 3 minecraft/net/minecraft/game/item/Item.java minecraft_patched/net/m
          painting = var14;
      }
  }
+diff -r -U 3 minecraft/net/minecraft/client/controller/PlayerControllerCreative.java minecraft_patched/net/minecraft/client/controller/PlayerControllerCreative.java
+--- minecraft/net/minecraft/client/controller/PlayerControllerCreative.java	2021-10-31 15:24:59.507627900 +0200
++++ minecraft_patched/net/minecraft/client/controller/PlayerControllerCreative.java	2021-10-31 15:24:23.163549100 +0200
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.player;
+ 
++import net.minecraft.client.Minecraft;
+ import net.minecraft.client.Session;
+ import net.minecraft.game.block.Block;
+ import net.minecraft.game.entity.player.EntityPlayer;
+@@ -9,7 +9,12 @@
+ import net.minecraft.game.level.block.Block;
+ 
+ public final class PlayerControllerCreative extends PlayerController {
+-    private MobSpawner mobSpawner;
++	
++    public PlayerControllerCreative(Minecraft var1) {
++		super(var1);
++	}
++
++	private MobSpawner mobSpawner;
+ 
+     public final void onRespawn(EntityPlayer var1) {
+         for(int var2 = 0; var2 < 9; ++var2) {

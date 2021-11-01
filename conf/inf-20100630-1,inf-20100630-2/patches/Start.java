@@ -3,6 +3,9 @@ import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.io.File;
+import java.lang.reflect.Field;
+
 import net.minecraft.client.MinecraftApplet;
 import net.minecraft.src.Minecraft;
 import net.minecraft.src.Session;
@@ -25,12 +28,23 @@ public class Start
       Minecraft var7 = new MinecraftImpl(var5, var6, (MinecraftApplet)null, 854, 480, var3, var5);
       Thread var8 = new Thread(var7, "Minecraft main thread");
       var8.setPriority(10);
-      var7.hideQuitButton = false;
+      try
+      {
+          Field f = Minecraft.class.getDeclaredField("minecraftDir");
+          Field.setAccessible(new Field[] { f }, true);
+          f.set(null, new File("."));
+      }
+      catch (Exception e)
+      {
+          e.printStackTrace();
+          return;
+      }
+      var7.appletMode = false;
       var7.minecraftUri = "www.minecraft.net";
       if(var0 != null && var1 != null) {
-         var7.sessionData = new Session(var0, var1);
+         var7.session = new Session(var0, var1);
       } else {
-         var7.sessionData = new Session("Player" + System.currentTimeMillis() % 1000L, "");
+         var7.session = new Session("Player" + System.currentTimeMillis() % 1000L, "");
       }
 
       if(var2 != null) {

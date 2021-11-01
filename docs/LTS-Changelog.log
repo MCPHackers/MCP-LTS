@@ -1,3 +1,13 @@
+v1.2
+  * Infdev and Alpha versions now use a custom directory to save worlds (instead of %appdata%/.minecraft)
+  * Added version support for:
+    - c0.0.15a
+    - inf-20100625-1 (by MrLordSith)
+  * Fixed decompilation:
+    - inf-20100630-1
+    - inf-20100630-2
+  * Minor Updates to existing mappings
+====================================================
 v1.1
   * Currently set up version (client and server) is now displayed upon running scripts
   * Minor improvements to the setup script
@@ -22,7 +32,7 @@ v1.0:
     - a1.1.1
     - a1.1.2
     - a1.1.2_01
-    - inf-20100630-1
+    - inf-20100630-1 (by Silver)
     - inf-20100630-2
     - in-20100223
     - in-20100219
