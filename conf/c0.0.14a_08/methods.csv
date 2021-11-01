@@ -75,6 +75,7 @@
 "render","render","a","()V","()V","com/mojang/minecraft/character/Cube","com/mojang/minecraft/character/d","com/mojang/minecraft/character","0"
 "setPos","setPos","a","(FFF)V","(FFF)V","com/mojang/minecraft/character/Cube","com/mojang/minecraft/character/d","com/mojang/minecraft/character","0"
 "addBox","addBox","a","(FFFIII)V","(FFFIII)V","com/mojang/minecraft/character/Cube","com/mojang/minecraft/character/d","com/mojang/minecraft/character","0"
+"render","render","a","(Lcom/mojang/minecraft/player/Player;F)V","(Lcom/mojang/minecraft/player/Player;F)V","com/mojang/minecraft/particle/ParticleEngine","com/mojang/minecraft/particle/a","com/mojang/minecraft/particle","0"
 "distanceTo","distanceTo","a","(Lcom/mojang/minecraft/player/Player;I)F","(Lcom/mojang/minecraft/player/Player;I)F","com/mojang/minecraft/HitResult","com/mojang/minecraft/d","com/mojang/minecraft","0"
 "releaseMouse","releaseMouse","d","()V","()V","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
 "getBuffer","getBuffer","a","(FFFF)Ljava/nio/FloatBuffer;","(FFFF)Ljava/nio/FloatBuffer;","com/mojang/minecraft/Minecraft","com/mojang/minecraft/c","com/mojang/minecraft","0"
