@@ -19,7 +19,7 @@ import subprocess
 import configparser
 import urllib.request
 from hashlib import md5
-from textwrap import TextWrapper  # LTS
+from textwrap import TextWrapper  # RetroMCP
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))  # Workaround for python 3.6's obtuse import system.
 from filehandling.srgsexport import writesrgsfromcsvs
 from filehandling.srgsexport import writesrgsfromcsvnames
@@ -82,7 +82,7 @@ class Commands(object):
 
         self.startlogger()
 
-        self.logger.info('== MCP LTS v%s ==' % Commands.fullversion())
+        self.logger.info('== RetroMCP v%s ==' % Commands.fullversion())
 
         if 'linux' in sys.platform:
             self.osname = 'linux'
@@ -443,11 +443,11 @@ class Commands(object):
         except AttributeError:
             pass
 
-    # LTS Check for updates
+    # Check for updates
     def checkforupdates(self, silent=False):
         # Disabled due to an issue with configparser.
         try:
-            url = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/mcpversion.txt')
+            url = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/RetroMCP/master/mcpversion.txt')
             content = url.read().decode("UTF-8")
 
             self.latestversion = content
@@ -988,7 +988,7 @@ class Commands(object):
         if 'CHANGELOG' in [i[0] for i in newfiles]:
             print('')
             self.logger.info('== CHANGELOG ==')
-            changelog = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/docs/LTS-Changelog.log').readlines()
+            changelog = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/RetroMCP/master/docs/Changelog.log').readlines()
             for line in changelog and not line.startswith('===='):
                 self.logger.info(line.strip())
                 if not line.strip():
@@ -1029,11 +1029,11 @@ class Commands(object):
 
             filename = 'mcp' + self.latestversion.replace('.', '') + '.zip'
             # FIXME
-            os.system('runtime\\bin\\wget.exe -q -O ' + filename + ' http://github.com/MCPHackers/MCP-LTS/archive/master.zip')
+            os.system('runtime\\bin\\wget.exe -q -O ' + filename + ' http://github.com/MCPHackers/RetroMCP/archive/master.zip')
             self.logger.info('Download complete! Saved to ' + filename + '!')
             print('')
             self.logger.info('== CHANGELOG ==')
-            changelog = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/MCP-LTS/master/docs/LTS-Changelog.log').readlines()
+            changelog = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/RetroMCP/master/docs/Changelog.log').readlines()
             for line in changelog:
                 l = line.decode("UTF-8")
                 if l.startswith("===="):

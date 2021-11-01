@@ -97,7 +97,7 @@ def decompile_side(side=0, commands=None, force_jad=False):
 
 
 if __name__ == '__main__':
-    parser = OptionParser(version='MCP LTS %s' % Commands.MCPVersion)
+    parser = OptionParser(version='RetroMCP %s' % Commands.MCPVersion)
     parser.add_option('-c', '--config', dest='config', help='additional configuration file')
     (options, args) = parser.parse_args()
     main(options.config)

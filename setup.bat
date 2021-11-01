@@ -1,7 +1,7 @@
 @echo off
-title Initial LTS Setup
+title Initial RetroMCP Setup
 
-echo Initial LTS Setup
+echo Initial RetroMCP Setup
 echo -------------------
 echo.
 
@@ -61,7 +61,7 @@ exit /b
 :scriptsonly
 
 echo.
-echo ^> Setting up LTS workspace...
+echo ^> Setting up RetroMCP workspace...
 if "%~1" == "" (
     runtime\bin\python\python runtime\setuplts.py scriptsonly
 } else (

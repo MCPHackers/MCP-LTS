@@ -28,7 +28,7 @@ class Cleanup:
             self.systemext = "sh"
 
     def start(self):
-        print("> Welcome to the LTS cleanup script!")
+        print("> Welcome to the RetroMCP cleanup script!")
         print("> Input 'y' to delete your workspace and set most of it to factory defaults.")
         print("> Input 's' if you want to only clear the source and bin folders")
         print("> Are you sure you want to clean up your workspace? [y/N/s]")

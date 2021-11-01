@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Initial LTS Setup"
+echo "Initial RetroMCP Setup"
 echo -------------------
 echo
 
@@ -19,7 +19,7 @@ unpack() {
 }
 
 scriptsonly() {
-    echo "> Setting up LTS workspace..."
+    echo "> Setting up RetroMCP workspace..."
     if [ -z "$1" ]; then
 	    ./runtime/bin/python/bin/pypy3 runtime/setuplts.py scriptsonly
 	else

@@ -97,6 +97,7 @@
 "distort","distort","b","Lcom/mojang/minecraft/level/levelgen/synth/Synth;","Lcom/mojang/minecraft/level/b/a/c;","com/mojang/minecraft/level/levelgen/synth/Distort","com/mojang/minecraft/level/b/a/b","com/mojang/minecraft/level/levelgen/synth","0"
 "levels","levels","b","I","I","com/mojang/minecraft/level/levelgen/synth/PerlinNoise","com/mojang/minecraft/level/b/a/a","com/mojang/minecraft/level/levelgen/synth","0"
 "noiseLevels","noiseLevels","a","[Lcom/mojang/minecraft/level/levelgen/synth/ImprovedNoise;","[Lcom/mojang/minecraft/level/b/a/d;","com/mojang/minecraft/level/levelgen/synth/PerlinNoise","com/mojang/minecraft/level/b/a/a","com/mojang/minecraft/level/levelgen/synth","0"
+"scheduledTime","scheduledTime","e","I","I","com/mojang/minecraft/level/Coord","com/mojang/minecraft/level/b","com/mojang/minecraft/level","0"
 "id","id","d","I","I","com/mojang/minecraft/level/Coord","com/mojang/minecraft/level/b","com/mojang/minecraft/level","0"
 "z","z","c","I","I","com/mojang/minecraft/level/Coord","com/mojang/minecraft/level/b","com/mojang/minecraft/level","0"
 "y","y","b","I","I","com/mojang/minecraft/level/Coord","com/mojang/minecraft/level/b","com/mojang/minecraft/level","0"

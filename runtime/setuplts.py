@@ -69,7 +69,7 @@ class InstallMC:
         """
         self.logger.info("\n> Python: " + sys.version)
 
-        self.logger.info("> Welcome to the LTS setup script!")
+        self.logger.info("> Welcome to the RetroMCP setup script!")
         self.logger.info("> This script will automatically set up your MCP workspace.")
 
         if os.path.exists("src"):
