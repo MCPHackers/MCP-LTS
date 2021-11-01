@@ -1,6 +1,6 @@
-# MCP-LTS
+# RetroMCP
 
-MCP-LTS is a modification of the Minecraft Coder Pack to create a "Long Term Service" patch for Minecraft
+RetroMCP is a modification of the Minecraft Coder Pack to create a "Long Term Service" patch for Minecraft
 
 # Features
 
