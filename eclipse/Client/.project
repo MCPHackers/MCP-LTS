@@ -28,7 +28,7 @@
 		<link>
 			<name>start</name>
 			<type>2</type>
-			<locationURI>MCP_LOC/conf/patches</locationURI>
+			<locationURI>MCP_LOC/conf/patches_client</locationURI>
 		</link>
 	</linkedResources>
 	<filteredResources>

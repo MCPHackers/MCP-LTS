@@ -126,8 +126,14 @@ class InstallMC:
             exttime = time.time()
             nativezip = zipfile.ZipFile(os.path.join(self.jardir, "bin", "lwjgl_natives.zip"))
             nativezip.extractall(os.path.join(self.jardir, "bin", "natives"))
+            nativezip.close()
+            if os.path.isfile(os.path.join(self.jardir, "bin", "lwjgl_natives.zip")):
+                os.unlink(os.path.join(self.jardir, "bin", "lwjgl_natives.zip"))
             nativezip = zipfile.ZipFile(os.path.join(self.jardir, "bin", "jinput_natives.zip"))
             nativezip.extractall(os.path.join(self.jardir, "bin", "natives"))
+            nativezip.close()
+            if os.path.isfile(os.path.join(self.jardir, "bin", "jinput_natives.zip")):
+                os.unlink(os.path.join(self.jardir, "bin", "jinput_natives.zip"))
             self.logger.info('> Done in %.2f seconds' % (time.time() - exttime))
 
             self.logger.info("\n> Copying scripts...")
@@ -194,10 +200,24 @@ class InstallMC:
             serverdltime = time.time()
             if ver in minecraftversions.versions["server"] or "server" in minecraftversions.versions["client"][ver]:
                 self.logger.info("> Downloading Minecraft server...")
+                ver2 = ver
                 if "server" in minecraftversions.versions["client"][ver]:
-                    self.download(minecraftversions.versions["server"][minecraftversions.versions["client"][ver]["server"]]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
-                elif ver in minecraftversions.versions["server"]:
-                    self.download(minecraftversions.versions["server"][ver]["url"], os.path.join(self.jardir, "minecraft_server.jar"))
+                    ver2 = minecraftversions.versions["client"][ver]["server"]
+                dlname = "minecraft_server.jar"
+                extract = False
+                if minecraftversions.versions["server"][ver2]["url"].endswith(".zip"):
+                    dlname = "minecraft_server.zip"
+                    extract = True
+                self.download(minecraftversions.versions["server"][ver2]["url"], os.path.join(self.jardir, dlname))
+                if extract:
+                    self.logger.info("> Extracting Minecraft server...")
+                    serverzip = zipfile.ZipFile(os.path.join(self.jardir, dlname))
+                    serverzip.extractall(self.jardir)
+                    serverzip.close()
+                    if os.path.isfile(os.path.join(self.jardir, "minecraft-server.jar")):
+                        os.rename(os.path.join(self.jardir, "minecraft-server.jar"),os.path.join(self.jardir, "minecraft_server.jar"))
+                    if os.path.isfile(os.path.join(self.jardir, dlname)):
+                        os.unlink(os.path.join(self.jardir, dlname))
                 self.logger.info('> Done in %.2f seconds' % (time.time() - serverdltime))
         else:
             self.logger.info('> Make sure to copy version jars into jars folder!')

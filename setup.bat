@@ -63,10 +63,10 @@ exit /b
 echo.
 echo ^> Setting up RetroMCP workspace...
 if "%~1" == "" (
-    runtime\bin\python\python runtime\setuplts.py scriptsonly
+    runtime\bin\python\python runtime\setup.py scriptsonly
 } else (
     echo ! Running custom python command! Some things may not work correctly!
-    "%~1" runtime\setuplts.py scriptsonly "%~1"
+    "%~1" runtime\setup.py scriptsonly "%~1"
 )
 exit /b
 
@@ -107,17 +107,17 @@ if "%~1" == "" (
 )
 
 ::
-:: Setup LTS workspace
+:: Setup RetroMCP workspace
 ::
 
 echo.
-echo ^> Setting up LTS workspace...
+echo ^> Setting up RetroMCP workspace...
 
 if "%~1" == "" (
-    runtime\bin\python\python runtime\setuplts.py
+    runtime\bin\python\python runtime\setup.py
 ) else (
     echo ! Running custom python command! Some things may not work correctly!
-    "%~1" runtime\setuplts.py "%~1"
+    "%~1" runtime\setup.py "%~1"
 )
 exit /b
 

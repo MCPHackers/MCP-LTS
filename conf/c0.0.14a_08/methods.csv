@@ -102,7 +102,7 @@
 "mayPick","mayPick","c","()Z","()Z","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"
 "renderBackFace","renderBackFace","b","(Lcom/mojang/minecraft/renderer/Tesselator;IIII)V","(Lcom/mojang/minecraft/a/c;IIII)V","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"
 "getAABB","getAABB","b","(III)Lcom/mojang/minecraft/phys/AABB;","(III)Lcom/mojang/minecraft/phys/AABB;","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"
-"updateWater","updateWater","a","(Lcom/mojang/minecraft/level/Level;IIILjava/util/Random;)V","(Lcom/mojang/minecraft/level/Level;IIILjava/util/Random;)V","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"
+"tick","tick","a","(Lcom/mojang/minecraft/level/Level;IIILjava/util/Random;)V","(Lcom/mojang/minecraft/level/Level;IIILjava/util/Random;)V","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"
 "cullFace","cullFace","a","(Lcom/mojang/minecraft/level/Level;IIII)Z","(Lcom/mojang/minecraft/level/Level;IIII)Z","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"
 "shouldRenderFace","shouldRenderFace","a","(Lcom/mojang/minecraft/level/Level;IIIII)Z","(Lcom/mojang/minecraft/level/Level;IIIII)Z","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"
 "setTicking","setTicking","a","(Z)V","(Z)V","com/mojang/minecraft/level/tile/Tile","com/mojang/minecraft/level/a/a","com/mojang/minecraft/level/tile","0"

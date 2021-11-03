@@ -68,12 +68,12 @@ class Cleanup:
                 if os.path.exists(self.jardir):
                     if not os.path.exists(self.tempdir):
                         os.makedirs(self.tempdir)
-                    if os.path.exists(os.path.join(self.jardir, "server.properties")):
-                        shutil.copy2(os.path.join(self.jardir, "server.properties"), self.tempdir)
+                    #if os.path.exists(os.path.join(self.jardir, "server.properties")):
+                    #    shutil.copy2(os.path.join(self.jardir, "server.properties"), self.tempdir)
                     shutil.rmtree(self.jardir)
                     os.makedirs(self.jardir)
-                    if os.path.exists(os.path.join(self.tempdir, "server.properties")):
-                        shutil.copy2(os.path.join(self.tempdir, "server.properties"), self.jardir)
+                    #if os.path.exists(os.path.join(self.tempdir, "server.properties")):
+                    #    shutil.copy2(os.path.join(self.tempdir, "server.properties"), self.jardir)
             except Exception as e:
                 no_error = False
                 print("> Couldn't clear \"" + self.jardir + "\"!")
@@ -94,8 +94,10 @@ class Cleanup:
             print("> Deleting non-default config...")
             try:
                 if os.path.exists(self.confdir):
-                    if os.path.exists(os.path.join(self.confdir, "patches")) and os.path.isdir(os.path.join(self.confdir, "patches")):
-                        shutil.rmtree(os.path.join(self.confdir, "patches"))
+                    if os.path.exists(os.path.join(self.confdir, "patches_client")) and os.path.isdir(os.path.join(self.confdir, "patches_client")):
+                        shutil.rmtree(os.path.join(self.confdir, "patches_client"))
+                    if os.path.exists(os.path.join(self.confdir, "patches_server")) and os.path.isdir(os.path.join(self.confdir, "patches_server")):
+                        shutil.rmtree(os.path.join(self.confdir, "patches_server"))
                     for file in os.listdir(self.confdir):
                         if os.path.isfile(os.path.join(self.confdir, file)) and file not in ["mcp.cfg"]:
                             os.unlink(os.path.join(self.confdir, file))

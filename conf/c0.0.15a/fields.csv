@@ -14,7 +14,7 @@
 "PLAYER_JOIN","PLAYER_JOIN","h","Lcom/mojang/minecraft/net/Packet;","Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"
 "SET_TILE","SET_TILE","g","Lcom/mojang/minecraft/net/Packet;","Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"
 "PLAYER_DISCONNECT","PLAYER_DISCONNECT","j","Lcom/mojang/minecraft/net/Packet;","Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"
-"MOVE_PLAYER","MOVE_PLAYER","i","Lcom/mojang/minecraft/net/Packet;","Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"
+"PLAYER_MOVE","PLAYER_MOVE","i","Lcom/mojang/minecraft/net/Packet;","Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"
 "packets","packets","a","[Lcom/mojang/minecraft/net/Packet;","[Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"
 "LOGIN","LOGIN","b","Lcom/mojang/minecraft/net/Packet;","Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"
 "LOADING_PROGRESS","LOADING_PROGRESS","d","Lcom/mojang/minecraft/net/Packet;","Lcom/mojang/minecraft/net/a;","com/mojang/minecraft/net/Packet","com/mojang/minecraft/net/a","com/mojang/minecraft/net","0"

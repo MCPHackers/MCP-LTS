@@ -33,7 +33,7 @@ warnings.simplefilter('ignore')
 class Commands(object):
     """Contains the commands and initialisation for a full mcp run"""
 
-    MCPVersion = '1.2'
+    MCPVersion = '1.3'
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'
@@ -232,6 +232,7 @@ class Commands(object):
             self.cpathclient = config.get('RECOMPILE', 'ClassPathClient').split(',')
             self.fixesclient = config.get('RECOMPILE', 'ClientFixes')
             self.cpathserver = config.get('RECOMPILE', 'ClassPathServer').split(',')
+            self.fixesserver = config.get('RECOMPILE', 'ServerFixes')
         except configparser.NoOptionError:
             pass
 
@@ -256,8 +257,6 @@ class Commands(object):
         
         self.md5jarclt = None
         self.md5jarsrv = None
-        self.fixsound = None
-        self.fixstart = None
         self.proxyport = None
         try:
             config = configparser.SafeConfigParser()
@@ -265,8 +264,6 @@ class Commands(object):
                 config.readfp(fh)
             self.md5jarclt = config.get('VERSION', 'MD5Client').split(',')
             self.md5jarsrv = config.get('VERSION', 'MD5Server').split(',')
-            self.fixsound = config.get('VERSION', 'FixSound')
-            self.fixstart = config.get('VERSION', 'FixStart')
             self.proxyport = config.get('VERSION', 'ProxyPort')
         except IOError:
             pass
@@ -404,7 +401,7 @@ class Commands(object):
                 return True
 
         if side == 1:
-            if not os.path.exists(os.path.join(srclk[side], 'net/minecraft/server/MinecraftServer.java')):
+            if not os.path.exists(os.path.join(srclk[side], 'net/minecraft/server/MinecraftServer.java')) and not os.path.exists(os.path.join(srclk[side], 'com/mojang/minecraft/server/MinecraftServer.java')):
                 self.logger.warning('!! Can not find server sources !!')
                 return False
             else:
@@ -420,7 +417,7 @@ class Commands(object):
                 return True
 
         if side == 1:
-            if not os.path.exists(os.path.join(binlk[side], 'net/minecraft/server/MinecraftServer.class')):
+            if not os.path.exists(os.path.join(binlk[side], 'net/minecraft/server/MinecraftServer.class')) and not os.path.exists(os.path.join(binlk[side], 'com/mojang/minecraft/server/MinecraftServer.class')):
                 self.logger.warning('!! Can not find server bins !!')
                 return False
             else:
@@ -607,18 +604,18 @@ class Commands(object):
                 pkglist += os.path.join(file) + '\n'
         with open(self.dirtemp + "/recompclasslist.txt", "w") as file:
             file.write(pkglist)
-
-        # HINT: We have to split between client & server because both have different arguments
+        
         forkcmd = ''
+        cp = ''
+        fixesforside = None
         if side == 0:
-            cpc = os.pathsep.join(self.cpathclient)
-            forkcmd = cmdlk[side].format(classpath=cpc, sourcepath=pathsrclk[side], outpath=pathbinlk[side],
-                                         pkgs="@temp/recompclasslist.txt", fixes=self.fixesclient)
+            cp = os.pathsep.join(self.cpathclient)
+            fixesforside = self.fixesclient
 
         if side == 1:
-            cps = os.pathsep.join(self.cpathserver)
-            forkcmd = cmdlk[side].format(classpath=cps, sourcepath=pathsrclk[side], outpath=pathbinlk[side],
-                                         pkgs="@temp/recompclasslist.txt")
+            cp = os.pathsep.join(self.cpathserver)
+            fixesforside = self.fixesserver
+        forkcmd = cmdlk[side].format(classpath=cp, sourcepath=pathsrclk[side], outpath=pathbinlk[side], pkgs="@temp/recompclasslist.txt", fixes=fixesforside)
 
         self.logger.debug("recompile: '" + forkcmd + "'")
         p = subprocess.Popen(forkcmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -883,10 +880,6 @@ class Commands(object):
         for path, dirlist, filelist in os.walk(pathbinlk[side]):
             path = path.replace('/', os.sep)
             for bin_file in glob.glob(os.path.join(path, '*.class')):
-                if self.fixsound.replace('/', os.sep).replace('\\', os.sep) in bin_file and not self.fixsound == "":
-                    continue
-                if self.fixstart.replace('/', os.sep).replace('\\', os.sep) in bin_file:
-                    continue
                 zipjar.write(bin_file, os.sep.join(bin_file.split(os.sep)[2:]))
 
         for pkg in self.ignorepkg:

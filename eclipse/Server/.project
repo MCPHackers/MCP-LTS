@@ -25,6 +25,11 @@
 			<type>2</type>
 			<locationURI>MCP_LOC/src/minecraft_server</locationURI>
 		</link>
+		<link>
+			<name>start</name>
+			<type>2</type>
+			<locationURI>MCP_LOC/conf/patches_server</locationURI>
+		</link>
 	</linkedResources>
 	<filteredResources>
 		<filter>
@@ -37,12 +42,12 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1307409073347</id>
-			<name>src</name>
-			<type>9</type>
+			<id>1307305362773</id>
+			<name>start</name>
+			<type>13</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-net</arguments>
+				<arguments>1.0-name-matches-false-false-*.java</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>

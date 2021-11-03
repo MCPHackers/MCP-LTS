@@ -1,0 +1,3 @@
+com/mojang/network/NetHandler.<init>(Ljava/lang/String;I)V=java/io/IOException
+com/mojang/network/NetHandler.processData()V=java/io/IOException
+com/mojang/minecraft/net/NetClientHandler.<init>(Lcom/mojang/minecraft/Minecraft;Ljava/lang/String;ILjava/lang/String;)V=java/io/IOException

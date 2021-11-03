@@ -1,3 +1,11 @@
+v1.3
+  * Library zips are now deleted after extraction
+  * Classic server support introduced
+  * Changed the structure of conf folders for each version
+  * Updates to existing mappings
+  * Added version support for:
+    - c0.0.16a_02
+====================================================
 v1.2
   * Infdev and Alpha versions now use a custom directory to save worlds (instead of %appdata%/.minecraft)
   * Added version support for:

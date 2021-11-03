@@ -21,10 +21,10 @@ unpack() {
 scriptsonly() {
     echo "> Setting up RetroMCP workspace..."
     if [ -z "$1" ]; then
-	    ./runtime/bin/python/bin/pypy3 runtime/setuplts.py scriptsonly
+	    ./runtime/bin/python/bin/pypy3 runtime/setup.py scriptsonly
 	else
 	    echo "! Running custom python command! Some things may not work correctly!"
-	    "$1" runtime/setuplts.py scriptsonly "$1"
+	    "$1" runtime/setup.py scriptsonly "$1"
 	fi
 }
 
@@ -64,17 +64,17 @@ start() {
     fi
 
 	#
-	# Setup LTS workspace
+	# Setup RetroMCP workspace
 	#
 
 	echo
-	echo Setting up LTS workspace...
+	echo Setting up RetroMCP workspace...
 
     if [ -z "$1" ]; then
-        ./runtime/bin/python/bin/pypy3 runtime/setuplts.py
+        ./runtime/bin/python/bin/pypy3 runtime/setup.py
     else
 	    echo "! Running custom python command! Some things may not work correctly!"
-        "$1" runtime/setuplts.py "$1"
+        "$1" runtime/setup.py "$1"
     fi
 
     echo

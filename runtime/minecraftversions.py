@@ -187,6 +187,10 @@ versions = {
         "c0.30_01c": {
             "url": "https://launcher.mojang.com/v1/objects/54622801f5ef1bcc1549a842c5b04cb5d5583005/client.jar"
         },
+        "c0.0.16a_02": {
+            "url": "https://archive.org/download/Minecraft-JE-Classic/c0.0.16a_02/c0.0.16a_02.jar",
+            "server": "c1.2"
+        },
         "c0.0.15a": {
             "url": "https://archive.org/download/Minecraft-JE-Classic/c0.0.15a-1/c0.0.15a-1.jar"
         },
@@ -219,6 +223,9 @@ versions = {
         }
     },
     "server": {
+        "c1.2": {
+            "url": "https://betacraft.pl/server-archive/minecraft/c1.2.zip"
+        },
         "a1.0.17_02": {
             "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.0.17_02.jar"
         },
