@@ -1,0 +1,45 @@
+diff -r -U 3 minecraft/net/minecraft/src/EntityCreeper.java minecraft_patched/net/minecraft/src/EntityCreeper.java
+--- minecraft/net/minecraft/src/EntityCreeper.java	2021-11-05 13:14:24.565038700 +0200
++++ minecraft_patched/net/minecraft/src/EntityCreeper.java	2021-11-05 13:17:04.583191200 +0200
+@@ -11,7 +11,7 @@
+ 
+     protected void entityInit() {
+         super.entityInit();
+-        this.dataWatcher.addObject(16, -1);
++        this.dataWatcher.addObject(16, (byte)-1);
+         this.dataWatcher.addObject(17, (byte)0);
+     }
+ 
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityChest.java minecraft_patched/net/minecraft/src/TileEntityChest.java
+--- minecraft/net/minecraft/src/TileEntityChest.java	2021-11-05 13:14:25.108069800 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityChest.java	2021-11-05 13:17:31.047704900 +0200
+@@ -88,4 +88,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityDispenser.java minecraft_patched/net/minecraft/src/TileEntityDispenser.java
+--- minecraft/net/minecraft/src/TileEntityDispenser.java	2021-11-05 13:14:25.110069900 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityDispenser.java	2021-11-05 13:17:27.697513300 +0200
+@@ -108,4 +108,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityFurnace.java minecraft_patched/net/minecraft/src/TileEntityFurnace.java
+--- minecraft/net/minecraft/src/TileEntityFurnace.java	2021-11-05 13:14:25.112070000 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityFurnace.java	2021-11-05 13:17:23.378266300 +0200
+@@ -196,4 +196,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }

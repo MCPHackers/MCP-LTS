@@ -33,7 +33,7 @@ warnings.simplefilter('ignore')
 class Commands(object):
     """Contains the commands and initialisation for a full mcp run"""
 
-    MCPVersion = '1.3'
+    MCPVersion = '1.4'
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'
@@ -965,6 +965,7 @@ class Commands(object):
                 self.logger.info('> Outputted %s to %s as %s' % (i.ljust(35), outpathlk[side], i + '.class'))
         zipjar.close()
 
+    #Unused and unfinished
     def downloadupdates(self, force=False):
         newfiles = self.checkupdates(silent=True)
 
@@ -1021,7 +1022,6 @@ class Commands(object):
             self.logger.info('Downloading!')
 
             filename = 'mcp' + self.latestversion.replace('.', '') + '.zip'
-            # FIXME
             os.system('runtime\\bin\\wget.exe -q -O ' + filename + ' http://github.com/MCPHackers/RetroMCP/archive/master.zip')
             self.logger.info('Download complete! Saved to ' + filename + '!')
             print('')

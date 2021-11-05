@@ -186,8 +186,8 @@ class InstallMC:
             if inp in minecraftversions.versions["client"]:
                 if "server" in minecraftversions.versions["client"][inp]:
                     file.write('ServerVersion = ' + minecraftversions.versions["client"][inp]["server"] + '\n')
-            else:
-                file.write('ServerVersion = ' + inp + '\n')
+                elif inp in minecraftversions.versions["server"]:
+                    file.write('ServerVersion = ' + inp + '\n')
         self.logger.info('> Done in %.2f seconds' % (time.time() - copytime))
 
         if inp != "custom":

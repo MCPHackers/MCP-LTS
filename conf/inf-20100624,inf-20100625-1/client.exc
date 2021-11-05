@@ -1,9 +1,9 @@
-net/minecraft/client/CompressedStreamTools.readCompressed(Ljava/io/InputStream;)Lcom/mojang/nbt/NBTTagCompound;=java/io/IOException
-net/minecraft/client/CompressedStreamTools.writeCompressed(Lcom/mojang/nbt/NBTTagCompound;Ljava/io/OutputStream;)V=java/io/IOException
-net/minecraft/client/CompressedStreamTools.decompress([B)Lcom/mojang/nbt/NBTTagCompound;=java/io/IOException
-net/minecraft/client/CompressedStreamTools.compress(Lcom/mojang/nbt/NBTTagCompound;)[B=java/io/IOException
-net/minecraft/client/CompressedStreamTools.read(Ljava/io/DataInput;)Lcom/mojang/nbt/NBTTagCompound;=java/io/IOException
-net/minecraft/client/CompressedStreamTools.write(Lcom/mojang/nbt/NBTTagCompound;Ljava/io/DataOutput;)V=java/io/IOException
+net/minecraft/client/UnexpectedThrowable.readCompressed(Ljava/io/InputStream;)Lcom/mojang/nbt/NBTTagCompound;=java/io/IOException
+net/minecraft/client/UnexpectedThrowable.writeCompressed(Lcom/mojang/nbt/NBTTagCompound;Ljava/io/OutputStream;)V=java/io/IOException
+net/minecraft/client/UnexpectedThrowable.decompress([B)Lcom/mojang/nbt/NBTTagCompound;=java/io/IOException
+net/minecraft/client/UnexpectedThrowable.compress(Lcom/mojang/nbt/NBTTagCompound;)[B=java/io/IOException
+net/minecraft/client/UnexpectedThrowable.read(Ljava/io/DataInput;)Lcom/mojang/nbt/NBTTagCompound;=java/io/IOException
+net/minecraft/client/UnexpectedThrowable.write(Lcom/mojang/nbt/NBTTagCompound;Ljava/io/DataOutput;)V=java/io/IOException
 com/mojang/nbt/NBTBase.readNamedTag(Ljava/io/DataInput;)Lcom/mojang/nbt/NBTBase;=java/io/IOException
 com/mojang/nbt/NBTBase.writeNamedTag(Lcom/mojang/nbt/NBTBase;Ljava/io/DataOutput;)V=java/io/IOException
 com/mojang/nbt/NBTBase.writeTagContents(Ljava/io/DataOutput;)V=java/io/IOException

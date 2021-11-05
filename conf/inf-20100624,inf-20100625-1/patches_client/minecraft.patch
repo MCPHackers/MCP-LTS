@@ -9,14 +9,14 @@ diff -r -U 3 minecraft/net/minecraft/client/CanvasMinecraftApplet.java minecraft
      }
  
      public final synchronized void addNotify() {
-diff -r -U 3 minecraft/net/minecraft/client/CompressedStreamTools.java minecraft_patched/net/minecraft/client/CompressedStreamTools.java
---- minecraft/net/minecraft/client/CompressedStreamTools.java	2021-11-01 13:11:51.964189300 +0200
-+++ minecraft_patched/net/minecraft/client/CompressedStreamTools.java	2021-11-01 13:47:37.286894800 +0200
+diff -r -U 3 minecraft/net/minecraft/client/UnexpectedThrowable.java minecraft_patched/net/minecraft/client/UnexpectedThrowable.java
+--- minecraft/net/minecraft/client/UnexpectedThrowable.java	2021-11-01 13:11:51.964189300 +0200
++++ minecraft_patched/net/minecraft/client/UnexpectedThrowable.java	2021-11-01 13:47:37.286894800 +0200
 @@ -20,9 +20,6 @@
          this.exception = var2;
      }
  
--    public CompressedStreamTools() {
+-    public UnexpectedThrowable() {
 -    }
 -
      public static NBTTagCompound readCompressed(InputStream var0) throws IOException {
@@ -89,7 +89,7 @@ diff -r -U 3 minecraft/net/minecraft/client/MinecraftAppletImpl.java minecraft_p
 +        this.mainFrame = var1;
      }
  
-     public final void displayUnexpectedThrowable(CompressedStreamTools var1) {
+     public final void displayUnexpectedThrowable(UnexpectedThrowable var1) {
 diff -r -U 3 minecraft/net/minecraft/client/render/entity/RenderPlayer.java minecraft_patched/net/minecraft/client/render/entity/RenderPlayer.java
 --- minecraft/net/minecraft/client/render/entity/RenderPlayer.java	2021-11-01 13:11:52.183201900 +0200
 +++ minecraft_patched/net/minecraft/client/render/entity/RenderPlayer.java	2021-11-01 13:47:37.547909700 +0200

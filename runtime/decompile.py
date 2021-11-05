@@ -72,19 +72,10 @@ def decompile_side(side=0, commands=None, force_jad=False):
             commands.extractjar(side)
             commands.logger.info('> Applying patches')
             commands.applyffpatches(side)
-            # LTS JAVADOC
             commands.logger.info('> Adding javadoc')
             commands.process_javadoc(side)
-            # LTS END JAVADOC
             commands.logger.info('> Renaming sources')
             commands.rename(side)
-            if os.path.exists("conf/ModLoader.java") and side == 0:
-                commands.logger.info('> Do you want to install a fixed class for ModLoader? [y/N]')
-                commands.logger.info('> You will still need to change some errored variables from int to boolean.')
-                inp = str(input(": "))
-                if inp.lower() == "yes" or inp.lower() == "y":
-                    shutil.copyfile("conf/ModLoader.java", commands.dirsrc + "/minecraft/net/minecraft/src/ModLoader.java")
-                
             commands.logger.info('> Done in %.2f seconds' % (time.time() - currenttime))
     else:
         if side == 0:

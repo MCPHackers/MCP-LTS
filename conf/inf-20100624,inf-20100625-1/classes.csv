@@ -103,7 +103,7 @@
 "InventoryCrafting","net/minecraft/client/c/a/a","","net/minecraft/client/gui/container","0"
 "EnumOS","net/minecraft/client/g","","net/minecraft/client","0"
 "Minecraft","net/minecraft/client/f","","net/minecraft/client","0"
-"CompressedStreamTools","net/minecraft/client/a","","net/minecraft/client","0"
+"UnexpectedThrowable","net/minecraft/client/a","","net/minecraft/client","0"
 "MinecraftAppletImpl","net/minecraft/client/c","","net/minecraft/client","0"
 "LoadingScreenRenderer","net/minecraft/client/b","","net/minecraft/client","0"
 "MinecraftApplet","net/minecraft/client/MinecraftApplet","","net/minecraft/client","0"

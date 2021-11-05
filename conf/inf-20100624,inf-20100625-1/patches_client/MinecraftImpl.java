@@ -4,7 +4,7 @@ import java.awt.Frame;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MinecraftApplet;
 import net.minecraft.client.PanelCrashReport;
-import net.minecraft.client.CompressedStreamTools;
+import net.minecraft.client.UnexpectedThrowable;
 
 public final class MinecraftImpl extends Minecraft {
 
@@ -17,7 +17,7 @@ public final class MinecraftImpl extends Minecraft {
       this.mcFrame = var7;
    }
 
-   public void displayUnexpectedThrowable(CompressedStreamTools var1) {
+   public void displayUnexpectedThrowable(UnexpectedThrowable var1) {
       this.mcFrame.removeAll();
       this.mcFrame.add(new PanelCrashReport(var1), "Center");
       this.mcFrame.validate();

@@ -355,7 +355,7 @@
 "renderEngine","renderEngine","l","Lnet/minecraft/client/render/RenderEngine;","Lnet/minecraft/client/a/l;","net/minecraft/client/Minecraft","net/minecraft/client/f","net/minecraft/client","0"
 "entityRenderer","entityRenderer","o","Lnet/minecraft/client/render/EntityRenderer;","Lnet/minecraft/client/a/e;","net/minecraft/client/Minecraft","net/minecraft/client/f","net/minecraft/client","0"
 "displayHeight","displayHeight","c","I","I","net/minecraft/client/Minecraft","net/minecraft/client/f","net/minecraft/client","0"
-"exception","exception","a","Ljava/lang/Exception;","Ljava/lang/Exception;","net/minecraft/client/CompressedStreamTools","net/minecraft/client/a","net/minecraft/client","0"
+"exception","exception","a","Ljava/lang/Exception;","Ljava/lang/Exception;","net/minecraft/client/UnexpectedThrowable","net/minecraft/client/a","net/minecraft/client","0"
 "mainFrame","mainFrame","B","Lnet/minecraft/client/MinecraftApplet;","Lnet/minecraft/client/MinecraftApplet;","net/minecraft/client/MinecraftAppletImpl","net/minecraft/client/c","net/minecraft/client","0"
 "mc","mc","b","Lnet/minecraft/client/Minecraft;","Lnet/minecraft/client/f;","net/minecraft/client/LoadingScreenRenderer","net/minecraft/client/b","net/minecraft/client","0"
 "systemTime","systemTime","d","J","J","net/minecraft/client/LoadingScreenRenderer","net/minecraft/client/b","net/minecraft/client","0"

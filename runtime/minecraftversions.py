@@ -175,8 +175,20 @@ versions = {
         "inf-20100625-1": {
             "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100625-1/inf-20100625-1.jar"
         },
+        "inf-20100624": {
+            "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100624/inf-20100624.jar"
+        },
         "inf-20100618": {
             "url": "https://launcher.mojang.com/v1/objects/89eab2c1a353707cc00f074dffba9cb7a4f5e304/client.jar"
+        },
+        "inf-20100420": {
+            "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100420/inf-20100420.jar"
+        },
+        "inf-20100415": {
+            "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100415/inf-20100415.jar"
+        },
+        "inf-20100414": {
+            "url": "https://archive.org/download/Minecraft-JE-Infdev/inf-20100414/inf-20100414.jar"
         },
         "in-20100223": {
             "url": "https://archive.org/download/Minecraft-JE-Indev/in-20100223/in-20100223.jar"
@@ -226,92 +238,32 @@ versions = {
         "c1.2": {
             "url": "https://betacraft.pl/server-archive/minecraft/c1.2.zip"
         },
-        "a1.0.17_02": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.0.17_02.jar"
-        },
-        "a1.0.17_04": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.0.17_04.jar"
-        },
         "a0.2.0_01": {
             "url": "https://betacraft.pl/server-archive/minecraft/a0.2.0_01.jar"
         },
         "a0.2.1": {
             "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
         },
-        "a1.2.0": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.0.jar"
-        },
-        "a1.2.0_02": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.0_02.jar"
-        },
-        "a1.2.2B": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.2B.jar"
-        },
-        "a1.2.3": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.3.jar"
-        },
-        "a1.2.4_01": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.4_01.jar"
-        },
-        "a1.2.5": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.5.jar"
-        },
-        "a1.2.6": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Alpha%201.2.6.jar"
-        },
-        "b1.0.2": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.0.2.jar"
-        },
-        "b1.0": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.0.jar"
-        },
-        "b1.2": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.2.jar"
-        },
-        "b1.2_01": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.2_01.jar"
-        },
-        "b1.2_02": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.2_02.jar"
-        },
-        "b1.3B": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.3B.jar"
-        },
-        "b1.3_01": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.3_01.jar"
-        },
-        "b1.4_01": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.4_01.jar"
-        },
-        "b1.5_01": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.5_02.jar"
-        },
         "b1.6.6": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.6.6.jar"
-        },
-        "b1.6": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.6.jar"
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.6.6.jar"
         },
         "b1.7.3": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.7.3.jar"
-        },
-        "b1.7.3-mcp": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.7.3.jar"
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.7.3.jar"
         },
         "b1.8.1": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.8.1.jar"
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.8.1.jar"
         },
         "b1.8": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.8.jar"
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.8.jar"
         },
         "b1.8-pre1": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.8_PreRelease1.jar"
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.8-pre1-2.jar"
         },
         "b1.8-pre2": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.8_PreRelease2.jar"
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.8-pre2.jar"
         },
         "b1.9-pre1": {
-            "url": "http://files.pymcl.net/server/vanilla/bin/Beta%201.9_PreRelease1.jar"
+            "url": "http://assets.minecraft.net/1_9-pre1/minecraft_server.jar"
         },
         "b1.9-pre2": {
             "url": "http://assets.minecraft.net/1_9-pre2/minecraft_server.jar"
