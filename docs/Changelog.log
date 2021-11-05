@@ -1,3 +1,13 @@
+v1.4
+  * Readded support for some betas (Standart MCP mappings)
+  * Updates to existing mappings
+  * Added version support for:
+    - inf-20100420 (by Strultz)
+    - inf-20100415
+    - b1.6.6
+    - b1.7.3
+    - b1.8.1
+====================================================
 v1.3
   * Library zips are now deleted after extraction
   * Classic server support introduced
