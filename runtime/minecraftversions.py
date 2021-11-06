@@ -1,7 +1,7 @@
 versions = {
     "client": {
         "b1.9-pre5": {
-            "url": "http://assets.minecraft.net/1_9-pre5/minecraft.jar"
+            "url": "https://archive.org/download/Minecraft-JE-Beta/Prereleases/b1.9-pre5/b1.9-pre5.jar"
         },
         "b1.8.1": {
             "url": "https://launcher.mojang.com/v1/objects/6b562463ccc2c7ff12ff350a2b04a67b3adcd37b/client.jar"
@@ -40,7 +40,8 @@ versions = {
             "url": "https://launcher.mojang.com/v1/objects/ecc0288d218fd7479027a17c150cbf283fa950a1/client.jar"
         },
         "b1.5_01": {
-            "url": "https://launcher.mojang.com/v1/objects/e2a692e5e8160c84b29c834ecbf398618db9749c/client.jar"
+            "url": "https://launcher.mojang.com/v1/objects/e2a692e5e8160c84b29c834ecbf398618db9749c/client.jar",
+            "server": "b1.5_02"
         },
         "b1.5": {
             "url": "https://launcher.mojang.com/v1/objects/f5ce1699cd728213c21054fa2f1490d162b002b4/client.jar"
@@ -244,8 +245,23 @@ versions = {
         "a0.2.1": {
             "url": "https://betacraft.pl/server-archive/minecraft/a0.2.1.jar"
         },
+        "b1.4_01": {
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.4_01.jar"
+        },
+        "b1.5_02": {
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.5_02.jar"
+        },
+        "b1.6.4": {
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.6.4.jar"
+        },
+        "b1.6.5": {
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.6.5.jar"
+        },
         "b1.6.6": {
             "url": "https://betacraft.pl/server-archive/minecraft/b1.6.6.jar"
+        },
+        "b1.7.2": {
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.7.2.jar"
         },
         "b1.7.3": {
             "url": "https://betacraft.pl/server-archive/minecraft/b1.7.3.jar"
@@ -275,7 +291,7 @@ versions = {
             "url": "http://assets.minecraft.net/1_9-pre4/minecraft_server.jar"
         },
         "b1.9-pre5": {
-            "url": "http://assets.minecraft.net/1_9-pre5/minecraft_server.jar"
+            "url": "https://betacraft.pl/server-archive/minecraft/b1.9-pre5.jar"
         },
         "b1.9-pre6": {
             "url": "http://assets.minecraft.net/1_9-pre6/minecraft_server.jar"

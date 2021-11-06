@@ -161,8 +161,6 @@ class InstallMC:
             self.logger.info("> Current versions are:")
             for v in versions:
                 for x in v.split(","):
-                    if x == "b1.5_01":
-                        x = "b1.5_01 (b1.5_02 server)"
                     self.logger.info(' - ' + x)
             self.logger.info("> What version would you like to install?")
 

@@ -21,7 +21,7 @@ With that in mind, all credit towards MCP goes to the original creators. Read do
 
 # Contributing
 
-If you enounter any issues or bugs with MCP-LTS, please create an issue and explain it in detail!
+If you enounter any issues or bugs with RetroMCP, please create an issue and explain it in detail!
 
 If you want to contribute, please keep pull requests about one topic instead of one huge pull request.
 
