@@ -5,139 +5,109 @@ import time
 import configparser
 import platform
 import traceback
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))  # Workaround for python 3.6's obtuse import system.
+from commands import Commands
+
+def main(conffile=None):
+    commands = Commands(conffile)
+    commands.logger.info("> Input 'y' to delete your workspace and set most of it to factory defaults.")
+    commands.logger.info("> Input 's' if you want to only clear the source and bin folders")
+    commands.logger.info("> Are you sure you want to clean up your workspace? [y/N/s]")
+    b = True
+    while b:
+        inp = input(": ")
+        clearsrc = False
+        b = inp.lower() != "y" and inp.lower() != "s"
+        if inp.lower() == "n":
+            return
+        if inp.lower() == "s":
+            clearsrc = True
+        if b:
+            print("Invalid option!")
+    commands.logger.info("> Are you *REALLY* sure you want to clean up your workspace? [y/N]")
+    if clearsrc:
+        commands.logger.info("> This deletes ALL your source files!")
+    else:
+        commands.logger.info("> This deletes ALL your source files and jars! This is NOT recoverable!")
+    b = True
+    while b:
+        inp = input(": ")
+        b = inp.lower() != "y"
+        if inp.lower() == "n":
+            return
+        if b:
+            print("Invalid option!")
+
+    commands.logger.info("> Commencing the purge of the universe...")
+    clear(commands, clearsrc)
+    # Pausing execution in python because the batch is already deleted
+    print('Press enter to continue...')
+    input()
+    sys.exit()
+
+def clear(commands, clearsrc=False):
+    no_error = True
 
 
-class Cleanup:
-    _default_config = 'conf/mcp.cfg'
+    deltime = time.time()
+    if not clearsrc:
+        commands.logger.info("> Deleting \"" + commands.dirjars + "\"...")
+        try:
+            if os.path.exists(commands.dirjars):
+                if not os.path.exists(commands.dirtemp):
+                    os.makedirs(commands.dirtemp)
+                shutil.rmtree(commands.dirjars)
+                os.makedirs(commands.dirjars)
+        except Exception as e:
+            no_error = False
+            commands.logger.info("> Couldn't clear \"" + commands.dirjars + "\"!")
+            traceback.print_exc()
 
-    def __init__(self, conffile=None):
-        self.conffile = conffile
-        self.readconf()
-        self.confdir = self.config.get("DEFAULT", "DirConf")
-        self.tempdir = self.config.get("DEFAULT", "DirTemp")
-        self.logdir = self.config.get("DEFAULT", "DirLogs")
-        self.srcdir = self.config.get("DEFAULT", "DirSrc")
-        self.bindir = self.config.get("DEFAULT", "DirBin")
-        self.reobfdir = self.config.get("DEFAULT", "DirReobf")
-        self.jardir = self.config.get("DEFAULT", "DirJars")
-        self.mcplogfile = self.config.get('MCP', 'LogFile')
-        self.mcperrlogfile = self.config.get('MCP', 'LogFileErr')
-        if platform.system() == "Windows":
-            self.systemext = "bat"
-        else:
-            self.systemext = "sh"
+    cleardirs = [commands.dirreobf, commands.dirbin, commands.dirsrc, commands.dirtemp]
+    for dir in cleardirs:
+        commands.logger.info("> Deleting \"" + dir + "\"...")
+        try:
+            if os.path.exists(dir):
+                shutil.rmtree(dir)
+        except Exception as e:
+            no_error = False
+            commands.logger.info("> Couldn't clear \"" + dir + "\"!")
+            traceback.print_exc()
 
-    def start(self):
-        print("> Welcome to the RetroMCP cleanup script!")
-        print("> Input 'y' to delete your workspace and set most of it to factory defaults.")
-        print("> Input 's' if you want to only clear the source and bin folders")
-        print("> Are you sure you want to clean up your workspace? [y/N/s]")
-        b = True
-        while b:
-            inp = input(": ")
-            clearsrc = False
-            b = inp.lower() != "y" and inp.lower() != "s"
-            if inp.lower() == "n":
-                return
-            if inp.lower() == "s":
-                clearsrc = True
-            if b:
-                print("Invalid option!")
-        print("> Are you *REALLY* sure you want to clean up your workspace? [y/N]")
-        if clearsrc:
-            print("> This deletes ALL your source files!")
-        else:
-            print("> This deletes ALL your source files and jars! This is NOT recoverable!")
-        b = True
-        while b:
-            inp = input(": ")
-            b = inp.lower() != "y"
-            if inp.lower() == "n":
-                return
-            if b:
-                print("Invalid option!")
+    if not clearsrc:
+        commands.logger.info("> Deleting config...")
+        try:
+            if os.path.exists(commands.dirconf):
+                for patches in ["patches_client" , "patches_server"]:
+                    if os.path.exists(os.path.join(commands.dirconf, patches)) and os.path.isdir(os.path.join(commands.dirconf, patches)):
+                        shutil.rmtree(os.path.join(commands.dirconf, patches))
+                for file in os.listdir(commands.dirconf):
+                    if os.path.isfile(os.path.join(commands.dirconf, file)) and file not in ["mcp.cfg","versions.json"]:
+                        os.unlink(os.path.join(commands.dirconf, file))
+        except Exception as e:
+            no_error = False
+            commands.logger.info("> Couldn't clear \"" + commands.dirconf + "\"!")
+            traceback.print_exc()
 
-        print("> Commencing the purge of the universe...")
-        no_error = True
+        commands.logger.info("> Deleting system specific files from root...")
+        try:
+            for file in ["decompile", "recompile", "reobfuscate", "startclient", "startserver", "switchversion", "updatemcp", "updatemd5"]:
+                if os.path.exists(file + "." + systemext) and os.path.isfile(file + "." + systemext):
+                    os.unlink(file + "." + systemext)
+        except Exception as e:
+            no_error = False
+            commands.logger.info("> Couldn't clear system specific files!")
+            traceback.print_exc()
 
-        print("> Deleting \"" + self.jardir + "\"...")
-        deltime = time.time()
-        # Delete jars while keeping server.properties.
-        if not clearsrc:
-            try:
-                if os.path.exists(self.jardir):
-                    if not os.path.exists(self.tempdir):
-                        os.makedirs(self.tempdir)
-                    #if os.path.exists(os.path.join(self.jardir, "server.properties")):
-                    #    shutil.copy2(os.path.join(self.jardir, "server.properties"), self.tempdir)
-                    shutil.rmtree(self.jardir)
-                    os.makedirs(self.jardir)
-                    #if os.path.exists(os.path.join(self.tempdir, "server.properties")):
-                    #    shutil.copy2(os.path.join(self.tempdir, "server.properties"), self.jardir)
-            except Exception as e:
-                no_error = False
-                print("> Couldn't clear \"" + self.jardir + "\"!")
-                traceback.print_exc()
-
-        cleardirs = [self.reobfdir, self.bindir, self.srcdir, self.tempdir]
-        for dir in cleardirs:
-            print("> Deleting \"" + dir + "\"...")
-            try:
-                if os.path.exists(dir):
-                    shutil.rmtree(dir)
-            except Exception as e:
-                no_error = False
-                print("> Couldn't clear \"" + dir + "\"!")
-                traceback.print_exc()
-
-        if not clearsrc:
-            print("> Deleting non-default config...")
-            try:
-                if os.path.exists(self.confdir):
-                    if os.path.exists(os.path.join(self.confdir, "patches_client")) and os.path.isdir(os.path.join(self.confdir, "patches_client")):
-                        shutil.rmtree(os.path.join(self.confdir, "patches_client"))
-                    if os.path.exists(os.path.join(self.confdir, "patches_server")) and os.path.isdir(os.path.join(self.confdir, "patches_server")):
-                        shutil.rmtree(os.path.join(self.confdir, "patches_server"))
-                    for file in os.listdir(self.confdir):
-                        if os.path.isfile(os.path.join(self.confdir, file)) and file not in ["mcp.cfg"]:
-                            os.unlink(os.path.join(self.confdir, file))
-            except Exception as e:
-                no_error = False
-                print("> Couldn't clear \"" + self.confdir + "\"!")
-                traceback.print_exc()
-
-            print("> Deleting system specific files from root...")
-            try:
-                for file in ["decompile", "recompile", "reobfuscate", "startclient", "startserver", "updatemcp", "updatemd5"]:
-                    if os.path.exists(file + "." + self.systemext) and os.path.isfile(file + "." + self.systemext):
-                        os.unlink(file + "." + self.systemext)
-            except Exception as e:
-                no_error = False
-                print("> Couldn't clear system specific files!")
-                traceback.print_exc()
-
-        if no_error and not clearsrc:
-            os.unlink("cleanup." + self.systemext)
-        elif not no_error:
-            print("> Cleanup file has not been deleted because an error occurred earlier.")
-        print('> Done in %.2f seconds' % (time.time() - deltime))
-        # Using input() instead of pause because the batch gets deleted before the script is finished
-        print('Press enter to continue...')
-        input()
-
-    def readconf(self):
-        """
-        Reads config and creates a class from it.
-        Code copied from commands.py:126
-        :return:
-        """
-        config = configparser.ConfigParser()
-        with open(self._default_config) as config_file:
-            config.read_file(config_file)
-        if self.conffile is not None:
-            config.read(self.conffile)
-        self.config = config
+    if no_error and not clearsrc:
+        os.unlink("cleanup." + systemext)
+    elif not no_error:
+        commands.logger.info("> Cleanup file has not been deleted because an error occurred earlier.")
+    commands.logger.info('> Done in %.2f seconds' % (time.time() - deltime))
 
 if __name__ == '__main__':
-    cleanup = Cleanup()
-    cleanup.start()
+    if platform.system() == "Windows":
+        systemext = "bat"
+    else:
+        systemext = "sh"
+    main()

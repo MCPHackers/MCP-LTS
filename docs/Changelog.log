@@ -1,3 +1,43 @@
+v2.0
+  * Switched the mapping format from CSV to SRG
+    - SRG-based reobfuscation
+  * Reduced the amount of operations for certain versions
+  * Added checks for patch and exceptor files missing
+  * Added a switchversion script for a more proper version switching
+  * Improved version list display in the setup script
+    - It's sorted from newest to oldest version
+    - It displays in columns
+  * Added versions.json with all download links and dates
+  * Updated libraries and natives
+    - Exceptions related to Controller input are no longer thrown
+  * Changed download links
+  * Updated GL constant annotation
+    - Includes LWJGL input constants
+  * Removed unused code
+  * Renamed SpecialSource jar to a more generic name
+  * Added version support for:
+    - c0.0.17a
+    - c0.0.18a_02
+    - c0.0.19a_04
+    - c0.0.19a_06
+    - inf-20100624
+    - b1.2_01
+    - b1.2_02
+    - b1.3_01
+    - b1.5
+    - b1.6
+    - b1.6.1
+    - b1.6.2
+    - b1.6.3
+    - b1.7
+    - b1.7_01
+    - b1.8
+    - 1.0.0
+    - 1.1
+    - 1.2.3
+    - 1.2.4
+    - 1.2.5
+====================================================
 v1.5
   * Readded support for more betas
   * Updated SpecialSource to 1.9.0

@@ -6,42 +6,37 @@ Created on Fri Apr  8 12:50:02 2011
 @version : v0.1
 """
 
-def readsrgs(filename):
-    """Reads a Searge RG script and returns a dictionnary of lists for packages, classes, methods and fields"""
+def parse_srg(srg_filename):
+    """Reads a SeargeRG file and returns a dictionary of lists for packages, classes, methods and fields"""
+    srg_types = {'PK:': ['obf_name', 'deobf_name'],
+                 'CL:': ['obf_name', 'deobf_name'],
+                 'FD:': ['obf_name', 'deobf_name'],
+                 'MD:': ['obf_name', 'obf_desc', 'deobf_name', 'deobf_desc']}
+    parsed_dict = {'PK': [],
+                   'CL': [],
+                   'FD': [],
+                   'MD': []}
 
-    packages=[]; classes=[]; methods=[]; fields=[]
-    srgsdata = open(filename,'r').read().splitlines()
+    def get_parsed_line(keyword, buf):
+        return dict(zip(srg_types[keyword], [i.strip() for i in buf]))
 
-    for row in srgsdata:
-        row = row.strip()
-        #HINT: We check for comments and whitelines
-        if not row or row[0] == '#':continue
+    with open(srg_filename, 'r') as srg_file:
+        for buf in srg_file:
+            buf = buf.strip()
+            if buf == '' or buf[0] == '#':
+                continue
+            buf = buf.split()
+            parsed_dict[buf[0][:2]].append(get_parsed_line(buf[0], buf[1:]))
+    return parsed_dict
 
-        #HINT: We extract the flag for the row (first element of a split on ':')
-        if not len(row.split(':')) == 2: raise Exception("The row is not conforming to TAG:ENTRY syntax. [%s]"%row)
-        flag = row.split(':')[0]
-        row  = row.split(':')[1].strip()
-        if not flag in ['PK', 'CL', 'FD', 'MD']:raise Exception("Flag not recognized : %s"%flag)
-
-        #HINT: We check the value of the flag, and append the corresponding list
-        #The way we are splitting, the file does support comments after the useful text
-        if flag == 'PK': packages.append([row.split()[0], row.split()[1]])
-        if flag == 'CL':  classes.append([row.split()[0], row.split()[1]])
-        if flag == 'FD':   fields.append([row.split()[0], row.split()[1]])
-        if flag == 'MD':  methods.append([' '.join(row.split()[0:2]), ' '.join(row.split()[2:4])])
-
-    return {'PK':packages, 'CL':classes, 'FD':fields, 'MD':methods}
 
 def writesrgs(filename, data):
     """Writes a srgs file based on data. Data is formatted similar to the output of readsrgs (dict of lists)"""
     if not 'PK' in data or not 'CL' in data or not 'FD' in data or not 'MD' in data:
         raise Exception("Malformed data for writesrgs. Keys should be in ['PK', 'CL', 'FD', 'MD']")
 
-    srgsout = open(filename,'w')
-
-    #HINT: We write all the entries for a given key in order. The line ending is set to \r\n for windows compatibility
-    for key in ['PK', 'CL', 'FD', 'MD']:
-        for entry in data[key]:
-            srgsout.write('%s: %s %s\r\n'%(key, entry[0], entry[1]))
-
-    srgsout.close()
+    with open(filename, 'w') as srgsout:
+        # HINT: We write all the entries for a given key in order
+        for key in ['PK', 'CL', 'FD', 'MD']:
+            for entry in data[key]:
+                srgsout.write('%s: %s %s\n' % (key, entry[0], entry[1]))

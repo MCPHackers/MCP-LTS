@@ -2,7 +2,7 @@
 title Initial RetroMCP Setup
 
 echo Initial RetroMCP Setup
-echo -------------------
+echo ----------------------
 echo.
 
 ::

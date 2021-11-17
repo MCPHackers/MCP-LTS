@@ -1,0 +1,53 @@
+diff -r -U 3 minecraft/com/mojang/minecraft/server/ConsoleInput.java minecraft_patched/com/mojang/minecraft/server/ConsoleInput.java
+--- minecraft/com/mojang/minecraft/server/ConsoleInput.java	2021-11-13 14:04:35.160112900 +0200
++++ minecraft_patched/com/mojang/minecraft/server/ConsoleInput.java	2021-11-13 14:08:17.548832800 +0200
+@@ -10,7 +10,6 @@
+ 
+     ConsoleInput(MinecraftServer var1) {
+         this.minecraft = var1;
+-        super();
+     }
+ 
+     public final void run() {
+diff -r -U 3 minecraft/com/mojang/minecraft/server/HeartbeatThread.java minecraft_patched/com/mojang/minecraft/server/HeartbeatThread.java
+--- minecraft/com/mojang/minecraft/server/HeartbeatThread.java	2021-11-13 14:04:35.161113000 +0200
++++ minecraft_patched/com/mojang/minecraft/server/HeartbeatThread.java	2021-11-13 14:08:14.703670100 +0200
+@@ -17,7 +17,6 @@
+     HeartbeatThread(MinecraftServer var1, String var2) {
+         this.minecraft = var1;
+         this.content = var2;
+-        super();
+     }
+ 
+     public final void run() {
+diff -r -U 3 minecraft/com/mojang/minecraft/server/MonitorBlocksThread.java minecraft_patched/com/mojang/minecraft/server/MonitorBlocksThread.java
+--- minecraft/com/mojang/minecraft/server/MonitorBlocksThread.java	2021-11-13 14:04:35.163113100 +0200
++++ minecraft_patched/com/mojang/minecraft/server/MonitorBlocksThread.java	2021-11-13 14:08:11.429482800 +0200
+@@ -13,7 +13,6 @@
+     MonitorBlocksThread(PlayerInstance var1, byte[] var2) {
+         this.playerInstance = var1;
+         this.blocks = var2;
+-        super();
+     }
+ 
+     public final void run() {
+diff -r -U 3 minecraft/com/mojang/minecraft/server/PlayerInstance.java minecraft_patched/com/mojang/minecraft/server/PlayerInstance.java
+--- minecraft/com/mojang/minecraft/server/PlayerInstance.java	2021-11-13 14:04:35.164113100 +0200
++++ minecraft_patched/com/mojang/minecraft/server/PlayerInstance.java	2021-11-13 14:08:08.178296900 +0200
+@@ -193,6 +193,7 @@
+                 byte var6;
+                 int var9;
+                 short var13;
++                short var10005;
+                 short var10001;
+                 short var10002;
+                 short var10003;
+@@ -247,7 +248,7 @@
+ 
+                     var10000 = true;
+                 } else {
+-                    (Byte)var2[0];
++                	var10005 = (Byte)var2[0];
+                     var10001 = (Short)var2[1];
+                     var10002 = (Short)var2[2];
+                     var10003 = (Short)var2[3];

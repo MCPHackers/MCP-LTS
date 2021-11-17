@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Initial RetroMCP Setup"
-echo -------------------
+echo ----------------------
 echo
 
 #

@@ -10,7 +10,7 @@ RetroMCP is a modification of the Minecraft Coder Pack to create a "Long Term Se
 
 * Automatically download Minecraft .jar's from official download links
 * Include an auto patching bat to create patched client and server jars
-* An Eclipse Start class for applet-only versions
+* A Start class for applet-only versions
 * Reobfuscation for all available versions
 
 # Licensing

@@ -8,14 +8,14 @@ import urllib.request
 import traceback
 import platform
 import zipfile
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))  # Workaround for python 3.6's obtuse import system.
-import minecraftversions
+import json
+from datetime import datetime
 
 class InstallMC:
     _default_config = 'conf/mcp.cfg'
     _version_config = 'conf/version.cfg'
 
-    def __init__(self, conffile=None):
+    def __init__(self, logger=None, conffile=None):
         self.conffile = conffile
         self.readconf()
         if platform.system() == "Windows":
@@ -30,7 +30,9 @@ class InstallMC:
         self.logdir = self.config.get("DEFAULT", "DirLogs")
         self.mcplogfile = self.config.get('MCP', 'LogFile')
         self.mcperrlogfile = self.config.get('MCP', 'LogFileErr')
-        self.startlogger()
+        self.logger = logger
+        if self.logger == None:
+            self.startlogger()
 
     def startlogger(self):
         """
@@ -63,23 +65,22 @@ class InstallMC:
         self.logger.addHandler(eh)
 
     def start(self, scriptsonly=False):
-        """
-        Main entry function.
-        :return:
-        """
-        self.logger.info("\n> Python: " + sys.version)
+        #Main entry function.
+        print()
+        self.logger.info("> Python: " + sys.version)
 
         self.logger.info("> Welcome to the RetroMCP setup script!")
         self.logger.info("> This script will automatically set up your MCP workspace.")
 
         if os.path.exists("src"):
-            self.logger.info("\n! /src exists! Aborting.")
+            print()
+            self.logger.info("! /src exists! Aborting.")
             self.logger.info("! Run cleanup in order to run setup again.")
             sys.exit()
-
-        self.logger.info("\n> Setting up your workspace...")
-
-        self.logger.info("\n> Making sure temp exists...")
+        print()
+        self.logger.info("> Setting up your workspace...")
+        print()
+        self.logger.info("> Making sure temp exists...")
         if not os.path.exists(self.tempdir):
             os.makedirs(self.tempdir)
         self.logger.info("> Making sure jars/bin/natives exists.")
@@ -87,62 +88,46 @@ class InstallMC:
             os.makedirs(os.path.join(self.jardir, "bin", "natives"))
 
         if scriptsonly:
-            self.logger.info("\n> Copying scripts...")
+            print()
+            self.logger.info("> Copying scripts...")
             for file in os.listdir(os.path.join("runtime", self.platform + "_scripts")):
                 shutil.copy2(os.path.join("runtime", self.platform + "_scripts", file), ".")
         else:
             natives = {
-                "windows": {
-                    "lwjgl": "https://repo1.maven.org/maven2/org/lwjgl/lwjgl/lwjgl-platform/2.8.4/lwjgl-platform-2.8.4-natives-windows.jar",
-                    "jinput": "https://repo1.maven.org/maven2/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-windows.jar"
-                },
-                "macosx": {
-                    # macOS requires a newer LWJGL version
-                    "lwjgl": "https://repo1.maven.org/maven2/org/lwjgl/lwjgl/lwjgl-platform/2.9.0/lwjgl-platform-2.9.0-natives-osx.jar",
-                    "jinput": "https://repo1.maven.org/maven2/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-osx.jar"
-                },
-                "linux": {
-                    "lwjgl": "https://repo1.maven.org/maven2/org/lwjgl/lwjgl/lwjgl-platform/2.8.4/lwjgl-platform-2.8.4-natives-linux.jar",
-                    "jinput": "https://repo1.maven.org/maven2/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-linux.jar"
-                }
+                "windows": "https://betacraft.pl/launcher/assets/natives-windows.zip",
+                "macosx": "https://betacraft.pl/launcher/assets/natives-osx.zip",
+                "linux": "https://betacraft.pl/launcher/assets/natives-linux.zip"
             }
-            lwjgl_version = "2.9.0" if self.platform == "macosx" else "2.8.4"
-            self.logger.info("\n> Downloading LWJGL...")
+            print()
+            self.logger.info("> Downloading libraries...")
             libtime = time.time()
-            self.download("https://repo1.maven.org/maven2/org/lwjgl/lwjgl/lwjgl/" + lwjgl_version + "/lwjgl-" + lwjgl_version + ".jar", os.path.join(self.jardir, "bin", "lwjgl.jar"))
-            self.download("https://repo1.maven.org/maven2/org/lwjgl/lwjgl/lwjgl_util/" + lwjgl_version + "/lwjgl_util-" + lwjgl_version + ".jar", os.path.join(self.jardir, "bin", "lwjgl_util.jar"))
+            self.download("https://betacraft.pl/launcher/assets/libs-windows.zip", os.path.join(self.jardir, "bin", "libs.zip"))
             
-            self.logger.info("> Downloading LWJGL natives for your platform...")
-            self.download(natives[self.platform]["lwjgl"], os.path.join(self.jardir, "bin", "lwjgl_natives.zip"))
-
-            self.logger.info("\n> Downloading JInput...")
-            self.download("https://repo1.maven.org/maven2/net/java/jinput/jinput/2.0.5/jinput-2.0.5.jar", os.path.join(self.jardir, "bin", "jinput.jar"))
-            self.logger.info("> Downloading JInput natives for your platform...")
-            self.download(natives[self.platform]["jinput"], os.path.join(self.jardir, "bin", "jinput_natives.zip"))
-
+            self.logger.info("> Downloading natives for your platform...")
+            self.download(natives[self.platform], os.path.join(self.jardir, "bin", "natives.zip"))
             self.logger.info('> Done in %.2f seconds' % (time.time() - libtime))
-
-            self.logger.info("\n> Extracting natives...")
+            print()
+            self.logger.info("> Extracting...")
             exttime = time.time()
-            nativezip = zipfile.ZipFile(os.path.join(self.jardir, "bin", "lwjgl_natives.zip"))
+            nativezip = zipfile.ZipFile(os.path.join(self.jardir, "bin", "libs.zip"))
+            nativezip.extractall(os.path.join(self.jardir, "bin"))
+            nativezip.close()
+            if os.path.isfile(os.path.join(self.jardir, "bin", "libs.zip")):
+                os.unlink(os.path.join(self.jardir, "bin", "libs.zip"))
+            nativezip = zipfile.ZipFile(os.path.join(self.jardir, "bin", "natives.zip"))
             nativezip.extractall(os.path.join(self.jardir, "bin", "natives"))
             nativezip.close()
-            if os.path.isfile(os.path.join(self.jardir, "bin", "lwjgl_natives.zip")):
-                os.unlink(os.path.join(self.jardir, "bin", "lwjgl_natives.zip"))
-            nativezip = zipfile.ZipFile(os.path.join(self.jardir, "bin", "jinput_natives.zip"))
-            nativezip.extractall(os.path.join(self.jardir, "bin", "natives"))
-            nativezip.close()
-            if os.path.isfile(os.path.join(self.jardir, "bin", "jinput_natives.zip")):
-                os.unlink(os.path.join(self.jardir, "bin", "jinput_natives.zip"))
+            if os.path.isfile(os.path.join(self.jardir, "bin", "natives.zip")):
+                os.unlink(os.path.join(self.jardir, "bin", "natives.zip"))
             self.logger.info('> Done in %.2f seconds' % (time.time() - exttime))
-
-            self.logger.info("\n> Copying scripts...")
+            print()
+            self.logger.info("> Copying scripts...")
             scripts_dir = 'unix_scripts' if self.platform != 'windows' else 'windows_scripts'
 
             for file in os.listdir(os.path.join("runtime", scripts_dir)):
                 shutil.copy2(os.path.join("runtime", scripts_dir, file), ".")
-
-            self.logger.info("\n> Setting up minecraft...")
+            print()
+            self.logger.info("> Setting up minecraft...")
             self.setupmc()
 
 
@@ -151,17 +136,31 @@ class InstallMC:
 
         versions = []
         for version in os.listdir(self.confdir):
-            if os.path.isdir(os.path.join(self.confdir, version)) and version != "patches" and version != "custom" and not os.path.exists(os.path.join(self.confdir, version, "DISABLED")):
+            if os.path.isdir(os.path.join(self.confdir, version)) and version != "patches_server" and version != "patches_client" and version != "custom" and not os.path.exists(os.path.join(self.confdir, version, "DISABLED")):
                 versions.append(version)
-
+        f = open(os.path.join("conf","versions.json"))
+        versionsjson = json.load(f)
         inp = ""
         confname = inp
         foundmatch = False
         while not foundmatch:
             self.logger.info("> Current versions are:")
+            versionslist = []
             for v in versions:
-                for x in v.split(","):
-                    self.logger.info(' - ' + x)
+                for y in v.split(","):
+                    x = versionsjson["client"][y]["time"]
+                    versionslist.append({"time": x, "version": y})
+            versionslist.sort(key = lambda x: datetime.strptime(x["time"], '%Y-%m-%d'))
+            versionslist.reverse()
+            rows = 18
+            table_list = [[] for _ in range(rows)]
+            for index, item in enumerate(versionslist):
+                row_index = index % rows
+                table_list[row_index].append(" - " + item["version"].ljust(15))
+
+            table_str = "\n".join(["".join(i) for i in table_list])
+            self.logger.info(table_str)
+            print()
             self.logger.info("> What version would you like to install?")
 
             inp = str(input(": "))
@@ -176,37 +175,49 @@ class InstallMC:
                             foundmatch = True
                             confname = y
 
+        try:
+            if os.path.exists(self.confdir):
+                for patches in ["patches_client" , "patches_server"]:
+                    if os.path.exists(os.path.join(self.confdir, patches)) and os.path.isdir(os.path.join(self.confdir, patches)):
+                        shutil.rmtree(os.path.join(self.confdir, patches))
+                for file in os.listdir(self.confdir):
+                    if os.path.isfile(os.path.join(self.confdir, file)) and file not in ["mcp.cfg","versions.json"]:
+                        os.unlink(os.path.join(self.confdir, file))
+        except Exception as e:
+            self.logger.info("> Couldn't clear config!")
+
         self.logger.info("> Copying config.")
         copytime = time.time()
         self.copydir(os.path.join(self.confdir, confname), self.confdir)
         with open(self._version_config, "a") as file:
-            file.write('ClientVersion = ' + inp + '\n')
-            if inp in minecraftversions.versions["client"]:
-                if "server" in minecraftversions.versions["client"][inp]:
-                    file.write('ServerVersion = ' + minecraftversions.versions["client"][inp]["server"] + '\n')
-                elif inp in minecraftversions.versions["server"]:
+            if inp != "custom":
+                file.write('ClientVersion = ' + inp + '\n')
+            if inp in versionsjson["client"]:
+                if "server" in versionsjson["client"][inp]:
+                    file.write('ServerVersion = ' + versionsjson["client"][inp]["server"] + '\n')
+                elif inp in versionsjson["server"]:
                     file.write('ServerVersion = ' + inp + '\n')
         self.logger.info('> Done in %.2f seconds' % (time.time() - copytime))
 
         if inp != "custom":
             self.logger.info("> Downloading Minecraft client...")
             clientdltime = time.time()
-            self.download(minecraftversions.versions["client"][inp]["url"],
+            self.download(versionsjson["client"][inp]["url"],
                           os.path.join(self.jardir, "bin", "minecraft.jar"))
             self.logger.info('> Done in %.2f seconds' % (time.time() - clientdltime))
             ver = inp
             serverdltime = time.time()
-            if ver in minecraftversions.versions["server"] or "server" in minecraftversions.versions["client"][ver]:
+            if ver in versionsjson["server"] or "server" in versionsjson["client"][ver]:
                 self.logger.info("> Downloading Minecraft server...")
                 ver2 = ver
-                if "server" in minecraftversions.versions["client"][ver]:
-                    ver2 = minecraftversions.versions["client"][ver]["server"]
+                if "server" in versionsjson["client"][ver]:
+                    ver2 = versionsjson["client"][ver]["server"]
                 dlname = "minecraft_server.jar"
                 extract = False
-                if minecraftversions.versions["server"][ver2]["url"].endswith(".zip"):
+                if versionsjson["server"][ver2]["url"].endswith(".zip"):
                     dlname = "minecraft_server.zip"
                     extract = True
-                self.download(minecraftversions.versions["server"][ver2]["url"], os.path.join(self.jardir, dlname))
+                self.download(versionsjson["server"][ver2]["url"], os.path.join(self.jardir, dlname))
                 if extract:
                     self.logger.info("> Extracting Minecraft server...")
                     serverzip = zipfile.ZipFile(os.path.join(self.jardir, dlname))
@@ -263,7 +274,6 @@ class InstallMC:
     def readconf(self):
         """
         Reads config and creates a class from it.
-        Code copied from commands.py:126
         :return:
         """
         config = configparser.ConfigParser()

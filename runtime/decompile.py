@@ -20,11 +20,11 @@ def main(conffile=None):
     commands.checkforupdates()
 
     cltdone = decompile_side(0, commands)
+    srvdone = True
     if commands.hasserver():
         srvdone = decompile_side(1, commands)
-
-    commands.logger.info('== Post decompiling operations ==')
     if not cltdone or not srvdone:
+        commands.logger.info('== Post decompiling operations ==')
         commands.logger.info('> Recompiling')
         recompile.main(conffile)
     if not cltdone:
@@ -51,6 +51,12 @@ def decompile_side(side=0, commands=None, force_jad=False):
         return True
 
     if not os.path.exists(srcdir):
+        excconf = {0: commands.xclientconf, 1: commands.xserverconf}
+        patchlk = {0: commands.patchclient, 1: commands.patchserver}
+        excinput = {0: commands.rgclientout, 1: commands.rgserverout}
+        excoutput = {0: commands.xclientout, 1: commands.xserverout}
+        jarlk = {0: commands.jarclient, 1: commands.jarserver}
+        sidelk = {0: commands.rgsrgsclient, 1: commands.rgsrgsserver}
         if side == 0:
             commands.logger.info('== Decompiling Client ==')
         if side == 1:
@@ -60,22 +66,27 @@ def decompile_side(side=0, commands=None, force_jad=False):
             currenttime = time.time()
             commands.logger.info('> Creating SRGS')
             commands.createsrgs(side)
-            commands.logger.info('> Applying SpecialSource')
-            commands.applyss(side)
-            commands.logger.info('> Applying Exceptor')
-            commands.applyexceptor(side)
+            if os.path.exists(sidelk[side]):
+                commands.logger.info('> Applying SpecialSource')
+                commands.applyss(side)
+            else:
+                shutil.copyfile(jarlk[side], excinput[side])
+            if os.path.exists(excconf[side]):
+                commands.logger.info('> Applying MCInjector')
+                commands.applyexceptor(side)
+            else:
+                shutil.copyfile(excinput[side], excoutput[side])
             commands.logger.info('> Decompiling...')
             commands.applyff(side)
             commands.logger.info('> Unzipping the sources')
             commands.extractsrc(side)
             commands.logger.info('> Unzipping the jar')
             commands.extractjar(side)
-            commands.logger.info('> Applying patches')
-            commands.applyffpatches(side)
-            commands.logger.info('> Adding javadoc')
-            commands.process_javadoc(side)
-            commands.logger.info('> Renaming sources')
-            commands.rename(side)
+            if os.path.exists(patchlk[side]):
+                commands.logger.info('> Applying patches')
+                commands.applyffpatches(side)
+            commands.logger.info('> Replacing LWJGL constants')
+            commands.process_annotate(side)
             commands.logger.info('> Done in %.2f seconds' % (time.time() - currenttime))
     else:
         if side == 0:

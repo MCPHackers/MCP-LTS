@@ -21,8 +21,7 @@ import urllib.request
 from hashlib import md5
 from textwrap import TextWrapper  # RetroMCP
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))  # Workaround for python 3.6's obtuse import system.
-from filehandling.srgsexport import writesrgsfromcsvs
-from filehandling.srgsexport import writesrgsfromcsvnames
+from filehandling.srgshandler import parse_srg
 from pylibs.annotate_gl_constants import annotate_file
 from pylibs.whereis import whereis
 
@@ -33,7 +32,7 @@ warnings.simplefilter('ignore')
 class Commands(object):
     """Contains the commands and initialisation for a full mcp run"""
 
-    MCPVersion = '1.5'
+    MCPVersion = '2.0'
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'
@@ -165,6 +164,7 @@ class Commands(object):
 
         # HINT: We read the directories for cleanup
         try:
+            self.dirconf = config.get("DEFAULT", "DirConf")
             self.dirtemp = config.get('DEFAULT', 'DirTemp')
             self.dirsrc = config.get('DEFAULT', 'DirSrc')
             self.dirlogs = config.get('DEFAULT', 'DirLogs')
@@ -176,14 +176,11 @@ class Commands(object):
         except configparser.NoOptionError:
             pass
 
-        # HINT: We read the position of the CSV files
-        self.csvclasses = config.get('CSV', 'Classes')
-        self.csvmethods = config.get('CSV', 'Methods')
-        self.csvfields = config.get('CSV', 'Fields')
-
         # HINT: We read the names of the SRG output
-        self.rgsrgsclient = config.get('SRGS', 'RGClient')
-        self.rgsrgsserver = config.get('SRGS', 'RGServer')
+        self.srgsconfclient = config.get('SRGS', 'ConfClient')
+        self.srgsconfserver = config.get('SRGS', 'ConfServer')
+        self.rgsrgsclient = config.get('SRGS', 'SSClient')
+        self.rgsrgsserver = config.get('SRGS', 'SSServer')
         self.rosrgsclient = config.get('SRGS', 'ROClient')
         self.rosrgsserver = config.get('SRGS', 'ROServer')
 
@@ -211,7 +208,6 @@ class Commands(object):
         self.ffserverout = config.get('DECOMPILE', 'FFServerOut')
         self.ffclientsrc = config.get('DECOMPILE', 'FFClientSrc')
         self.ffserversrc = config.get('DECOMPILE', 'FFServerSrc')
-        self.ffsource = config.get('DECOMPILE', 'FFSource')
 
         # HINT: We read the output directories
         self.binouttmp = config.get('OUTPUT', 'BinOut')
@@ -241,8 +237,6 @@ class Commands(object):
         self.md5server = config.get('REOBF', 'MD5Server')
         self.md5reobfclient = config.get('REOBF', 'MD5PreReobfClient')
         self.md5reobfserver = config.get('REOBF', 'MD5PreReobfServer')
-        self.reobsrgclient = config.get('REOBF', 'ObfSRGClient')
-        self.reobsrgserver = config.get('REOBF', 'ObfSRGServer')
         self.cmpjarclient = config.get('REOBF', 'RecompJarClient')
         self.cmpjarserver = config.get('REOBF', 'RecompJarServer')
         self.reobfjarclient = config.get('REOBF', 'ObfJarClient')
@@ -271,19 +265,41 @@ class Commands(object):
             pass
 
     def hasserver(self):
-        return len(self.md5jarsrv)
+        return not (len(self.md5jarsrv) == 1 and self.md5jarsrv[0] == '')
     
     def createsrgs(self, side):
-        """Write the srgs files."""
         sidelk = {0: self.rgsrgsclient, 1: self.rgsrgsserver}
-        writesrgsfromcsvs(self.csvclasses, self.csvmethods, self.csvfields, sidelk[side], side)
+        srglk = {0: self.srgsconfclient, 1: self.srgsconfserver}
+        if os.path.exists(srglk[side]):
+            shutil.copyfile(srglk[side], sidelk[side])
+        else:
+            open(sidelk[side], "w").close()
 
     def createsrgsforreobf(self, side):
-        """Write the srgs files."""
         srclk = {0: self.dirtemp + "/client_recomp.jar", 1: self.dirtemp + "/server_recomp.jar"}
-        sidelk = {0: self.reobsrgclient, 1: self.reobsrgserver}
-        writesrgsfromcsvnames(self.csvclasses, self.csvmethods, self.csvfields, sidelk[side], side)
-
+        sidelk = {0: self.rosrgsclient, 1: self.rosrgsserver}
+        sidesrgs = {0: self.rgsrgsclient, 1: self.rgsrgsserver}
+        # Output the SRG with swapped deobf and obf names
+        with open(sidesrgs[side], "r") as srgfile:
+            with open(sidelk[side], "w") as file:
+                while True:
+                    line = srgfile.readline()
+                    if not line:
+                        break
+                    srgline = line.replace("\n","").split(" ")
+                    if len(srgline) >= 3:
+                        swap1 = 1
+                        swap2 = 2
+                        if srgline[0] == "MD:" and len(srgline) >= 4:
+                            swap2 = 3
+                            swap3 = 2
+                            swap4 = 4
+                            get = srgline[swap3], srgline[swap4]
+                            srgline[swap4], srgline[swap3] = get
+                        get = srgline[swap1], srgline[swap2]
+                        srgline[swap2], srgline[swap1] = get
+                    s = ' '.join(map(str, srgline))
+                    file.write(s + "\n")
         existingclasses = self.parsesrgforclasses(sidelk[side])
         with open(sidelk[side], "r") as file:
             text = file.read()
@@ -309,7 +325,7 @@ class Commands(object):
                     file = file[:-6]
                 if file not in existingclasses and not file.__contains__(" ") and file.startswith("net/minecraft/src"):
                     print("Found new class: \"" + file + "\", adding to SRG.")
-                    text += "\n\nCL: " + file + " " + file.split("net/minecraft/src/")[-1]
+                    text += "\nCL: " + file + " " + file.split("net/minecraft/src/")[-1]
         return text
 
     def checkjava(self):
@@ -442,7 +458,6 @@ class Commands(object):
 
     # Check for updates
     def checkforupdates(self, silent=False):
-        # Disabled due to an issue with configparser.
         try:
             url = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/RetroMCP/master/mcpversion.txt')
             content = url.read().decode("UTF-8")
@@ -519,18 +534,12 @@ class Commands(object):
         self.runcmd(forkcmd)
 
     def applyss(self, side):
-        if side == 0:
-            ssinputjar = self.jarclient
-            ssoutputjar = self.rgclientout
-            srgfile = self.rgsrgsclient
+        jarlk = {0: self.jarclient, 1: self.jarserver}
+        ssoutputjar = {0: self.rgclientout, 1: self.rgserverout}
+        srglk = {0: self.rgsrgsclient, 1: self.rgsrgsserver}
 
-        if side == 1:
-            ssinputjar = self.jarserver
-            ssoutputjar = self.rgserverout
-            srgfile = self.rgsrgsserver
-
-        forkcmd = self.cmdspecialsource.format(jarexc=self.specialsource, input=ssinputjar, output=ssoutputjar,
-                                               srg=srgfile)
+        forkcmd = self.cmdspecialsource.format(jarexc=self.specialsource, input=jarlk[side], output=ssoutputjar[side],
+                                               srg=srglk[side])
         self.runcmd(forkcmd)
 
     def applyffpatches(self, side):
@@ -596,7 +605,7 @@ class Commands(object):
             os.mkdir(pathbinlk[side])
 
         # HINT: We create the list of source directories based on the list of packages
-        self.logger.info("> Gathering class list.")
+        self.logger.debug("> Gathering class list")
         pkglist = ""
         for path, dirlist, filelist in os.walk(pathsrclk[side]):
             globlist = glob.glob(os.path.join(path, '*.java'))
@@ -804,55 +813,14 @@ class Commands(object):
                             for line in in_file:
                                 out_file.write(line.rstrip() + '\r\n')
 
-    def rename(self, side, reverse=False):
-        """Rename the sources using the CSV data"""
+    def process_annotate(self, side):
+        """Annotate OpenGL constants"""
         pathsrclk = {0: self.srcclient, 1: self.srcserver}
 
-        # HINT: We read the relevant CSVs
-        with open(self.csvmethods, 'r') as methods_file, open(self.csvfields, 'r') as fields_file:
-            methodsreader = csv.DictReader(methods_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-            fieldsreader = csv.DictReader(fields_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-
-            methods = {}
-            fields = {}
-            for row in methodsreader:
-                if int(row['side']) == side:
-                    if row['searge'] in methods:
-                        self.logger.debug('WTF ? %s' % row['searge'])
-                    methods[row['searge']] = row
-            for row in fieldsreader:
-                if int(row['side']) == side:
-                    if row['searge'] in methods:
-                        self.logger.debug('WTF ? %s' % row['searge'])
-                    fields[row['searge']] = row
-
-        type_hash = {'methods': 'func', 'fields': 'field'}
-        regexp_searge = r'%s_[0-9]+_[a-zA-Z]+_?'
-
         # HINT: We pathwalk the sources
-        for path, dirlist, filelist in os.walk(pathsrclk[side]):
-            for src_file in glob.glob(os.path.join(path, '*.java')):
-                with open(src_file, 'r') as ff, open(src_file + '.tmp', 'w') as fftmp:
-                    ffbuffer = ff.read()
-
-                    # HINT: We check if the sources have func_????_? or field_????_? in them.
-                    # If yes, we replace with the relevant information
-                    for group in ['methods', 'fields']:
-                        results = re.findall(regexp_searge % type_hash[group], ffbuffer)
-
-                        for result in results:
-                            # HINT: It is possible for the csv to contain data
-                            # from previous version or enums, so we catch those
-                            try:
-                                ffbuffer = ffbuffer.replace(result, locals()[group][result]['name'])
-                            except KeyError as msg:
-                                self.logger.debug("Can not replace %s on side %d" % (msg, side))
-
-                    fftmp.write(ffbuffer)
-
-                shutil.move(src_file + '.tmp', src_file)
-
-                # HINT: We annotate the GL constants
+        for path, _, filelist in os.walk(pathsrclk[side], followlinks=True):
+            for cur_file in fnmatch.filter(filelist, '*.java'):
+                src_file = os.path.normpath(os.path.join(path, cur_file))
                 annotate_file(src_file)
 
     def gathermd5s(self, side, reobf=False):
@@ -880,6 +848,8 @@ class Commands(object):
         for path, dirlist, filelist in os.walk(pathbinlk[side]):
             path = path.replace('/', os.sep)
             for bin_file in glob.glob(os.path.join(path, '*.class')):
+                if bin_file in glob.glob(os.path.join(pathbinlk[side], '*.class').replace('/', os.sep)):
+                    continue
                 zipjar.write(bin_file, os.sep.join(bin_file.split(os.sep)[2:]))
 
         for pkg in self.ignorepkg:
@@ -905,116 +875,64 @@ class Commands(object):
         forkcmd = self.cmdspecialsource.format(jarexc=self.specialsource, input=ssinput, output=ssoutput, srg=rosrgfile)
         self.runcmd(forkcmd)
 
-    def unpackreobfclasses(self, side):
+    def unpackreobfclasses(self, side, reobf_all=False):
         jarlk = {0: self.reobfjarclient, 1: self.reobfjarserver}
         md5lk = {0: self.md5client, 1: self.md5server}
         md5reoblk = {0: self.md5reobfclient, 1: self.md5reobfserver}
         outpathlk = {0: self.dirreobfclt, 1: self.dirreobfsrv}
+        srglk = {0: self.rgsrgsclient, 1: self.rgsrgsserver}
 
         # HINT: We need a table for the old md5 and the new ones
         md5table = {}
-        md5reobtable = {}
-
-        with open(md5lk[side], 'r') as md5table_file:
-            for row in md5table_file.read().splitlines():
+        with open(md5lk[side], 'r') as fh:
+            for row in fh:
                 row = row.strip().split()
                 if len(row) == 2:
                     md5table[row[0].replace(os.sep, '/')] = row[1]
-
-        with open(md5reoblk[side], 'r') as md5reobtable_file:
-            for row in md5reobtable_file.read().splitlines():
+        md5reobtable = {}
+        with open(md5reoblk[side], 'r') as fh:
+            for row in fh:
                 row = row.strip().split()
                 if len(row) == 2:
                     md5reobtable[row[0].replace(os.sep, '/')] = row[1]
-
         trgclasses = []
-        for key, value in md5reobtable.items():
-            if not key in md5table:
-                self.logger.info('> New class found      : %s' % key)
-                trgclasses.append(key.split('.')[0])
-                continue
-            if not md5table[key] == md5reobtable[key]:
-                trgclasses.append(key.split('.')[0])
-                self.logger.info('> Modified class found : %s' % key)
-
-        with open(self.csvclasses, 'r') as classes_file:
-            classesreader = csv.DictReader(classes_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-            classes = {}
-            for row in classesreader:
-                if int(row['side']) == side:
-                    # HINT: This pkg equivalence is used to reduce the src pkg to the null one
-                    pkg = row['package'] + '/'
-                    if row['package'] == self.nullpkg:
-                        pkg = ''
-                    classes['%s/%s' % (row['package'], row['name'])] = row['notch']
+        for key in md5reobtable.keys():
+            if key not in md5table:
+                trgclasses.append(key)
+                self.logger.info('> New class found      : %s', key)
+            elif md5table[key] != md5reobtable[key]:
+                trgclasses.append(key)
+                self.logger.info('> Modified class found : %s', key)
+            elif reobf_all:
+                trgclasses.append(key)
+                self.logger.info('> Unchanged class found: %s', key)
+        classes = {}
+        srg_data = parse_srg(srglk[side])
+        for row in srg_data['CL']:
+            classes[row['deobf_name']] = row['obf_name']
 
         if not os.path.exists(outpathlk[side]):
-            os.mkdir(outpathlk[side])
+            os.makedirs(outpathlk[side])
 
         # HINT: We extract the modified class files
         zipjar = zipfile.ZipFile(jarlk[side], 'r')
-        for i in trgclasses:
-            if i in classes:
-                zipjar.extract('%s.class' % classes[i], outpathlk[side])
-                self.logger.info('> Outputted %s to %s as %s' % (i.ljust(35), outpathlk[side], classes[i] + '.class'))
-            else:
-                i = i.replace(self.nullpkg, '')
-                if i[0] == '/':
-                    i = i[1:]
-                zipjar.extract('%s.class' % i, outpathlk[side])
-                self.logger.info('> Outputted %s to %s as %s' % (i.ljust(35), outpathlk[side], i + '.class'))
+        for in_class in trgclasses:
+            try:
+                if in_class in classes:
+                    out_class = classes[in_class] + '.class'
+                    zipjar.extract(out_class, outpathlk[side])
+                    self.logger.info('> Outputted %s to %s as %s', in_class.ljust(35), outpathlk[side], out_class)
+                else:
+                    out_class = in_class + '.class'
+                    out_class = out_class.replace(self.nullpkg, '')
+                    if out_class[0] == '/':
+                        out_class = out_class[1:]
+                    zipjar.extract(out_class, outpathlk[side])
+                    self.logger.info('> Outputted %s to %s as %s', in_class.ljust(35), outpathlk[side], out_class)
+            except KeyError:
+                self.logger.info('> File %s not found', in_class + '.class')
         zipjar.close()
 
-    #Unused and unfinished
-    def downloadupdates(self, force=False):
-        newfiles = self.checkupdates(silent=True)
-
-        if not newfiles:
-            self.logger.info('No new updates found.')
-            return
-
-        for entry in newfiles:
-            if entry[3] == 'U':
-                self.logger.info('New version found for : %s' % entry[0])
-            if entry[3] == 'D':
-                self.logger.info('File tagged for deletion : %s' % entry[0])
-
-        if 'CHANGELOG' in [i[0] for i in newfiles]:
-            print('')
-            self.logger.info('== CHANGELOG ==')
-            changelog = urllib.request.urlopen('https://raw.githubusercontent.com/MCPHackers/RetroMCP/master/docs/Changelog.log').readlines()
-            for line in changelog and not line.startswith('===='):
-                self.logger.info(line.strip())
-                if not line.strip():
-                    break
-            print('')
-            print('')
-
-        if not force:
-            print('WARNING:')
-            print('You are going to update MCP')
-            print('Are you sure you want to continue ?')
-            answer = input('If you really want to update, enter "Yes" ')
-            if not answer.lower() in ['yes', 'y']:
-                print('You have not entered "Yes", aborting the update process')
-                sys.exit(0)
-
-        for entry in newfiles:
-            if entry[3] == 'U':
-                self.logger.info('Retrieving file from server : %s' % entry[0])
-                entrydir = os.path.dirname(entry[0])
-                if not os.path.isdir(entrydir):
-                    try:
-                        os.makedirs(entrydir)
-                    except OSError:
-                        pass
-
-                urllib.request.urlretrieve('http://mcp.ocean-labs.de/files/mcprolling/mcp/' + entry[0], entry[0])
-            if entry[3] == 'D':
-                self.logger.info('Removing file from local install : %s' % entry[0])
-                # Remove file here
-
-    # LTS Update MCP
     def updatemcp(self, force=False):
         if self.checkforupdates(silent=True):
             self.logger.info('Update found! The latest version is ' + self.latestversion + ','
@@ -1037,84 +955,3 @@ class Commands(object):
             print('')
         else:
             self.logger.info('You are using the latest version of MCP! (' + Commands.MCPVersion + ')')
-
-    # LTS BACKPORTED JAVADOC
-    def process_javadoc(self, side):
-        """Add CSV descriptions to methods and fields as javadoc"""
-        pathsrclk = {0: self.srcclient, 1: self.srcserver}
-
-        # HINT: We read the relevant CSVs
-        with open(self.csvmethods, 'r') as methods_file, open(self.csvfields, 'r') as fields_file:
-            methodsreader = csv.DictReader(methods_file)
-            fieldsreader = csv.DictReader(fields_file)
-
-            methods = {}
-            for row in methodsreader:
-                # HINT: Only include methods that have a non-empty description
-                if int(row['side']) == side and 'desc' in row and row['desc']:
-                    methods[row['searge']] = row['desc'].replace('*/', '* /')
-
-            fields = {}
-            for row in fieldsreader:
-                # HINT: Only include fields that have a non-empty description
-                if int(row['side']) == side and 'desc' in row and row['desc']:
-                    fields[row['searge']] = row['desc'].replace('*/', '* /')
-
-        regexps = {
-            'field': re.compile(r'^ {4}(?:[\w$.[\]]+ )*(?P<name>field_[0-9]+_[a-zA-Z_]+) *(?:=|;)'),
-            'method': re.compile(r'^ {4}(?:[\w$.[\]]+ )*(?P<name>func_[0-9]+_[a-zA-Z_]+)\('),
-        }
-        wrapper = TextWrapper(width=120)
-
-        # HINT: We pathwalk the sources
-        for path, _, filelist in os.walk(pathsrclk[side], followlinks=True):
-            for cur_file in fnmatch.filter(filelist, '*.java'):
-                src_file = os.path.normpath(os.path.join(path, cur_file))
-                tmp_file = src_file + '.tmp'
-                with open(src_file, 'r') as fh:
-                    buf_in = fh.readlines()
-
-                buf_out = []
-                # HINT: Look for method/field declarations in this file
-                for line in buf_in:
-                    fielddecl = regexps['field'].match(line)
-                    methoddecl = regexps['method'].match(line)
-                    if fielddecl:
-                        prev_line = buf_out[-1].strip()
-                        indent = '    '
-                        name = fielddecl.group('name')
-                        if name in fields:
-                            desc = fields[name]
-                            if len(desc) < 70:
-                                if prev_line != '' and prev_line != '{':
-                                    buf_out.append('\n')
-                                buf_out.append(indent + '/** ')
-                                buf_out.append(desc)
-                                buf_out.append(' */\n')
-                            else:
-                                wrapper.initial_indent = indent + ' * '
-                                wrapper.subsequent_indent = indent + ' * '
-                                if prev_line != '' and prev_line != '{':
-                                    buf_out.append('\n')
-                                buf_out.append(indent + '/**\n')
-                                buf_out.append(wrapper.fill(desc) + '\n')
-                                buf_out.append(indent + ' */\n')
-                    elif methoddecl:
-                        prev_line = buf_out[-1].strip()
-                        indent = '    '
-                        name = methoddecl.group('name')
-                        if name in methods:
-                            desc = methods[name]
-                            wrapper.initial_indent = indent + ' * '
-                            wrapper.subsequent_indent = indent + ' * '
-                            if prev_line != '' and prev_line != '{':
-                                buf_out.append('\n')
-                            buf_out.append(indent + '/**\n')
-                            buf_out.append(wrapper.fill(desc) + '\n')
-                            buf_out.append(indent + ' */\n')
-                    buf_out.append(line)
-
-                with open(tmp_file, 'w') as fh:
-                    fh.writelines(buf_out)
-                shutil.move(tmp_file, src_file)
-        return True

@@ -1,0 +1,93 @@
+diff -r -U 3 minecraft/net/minecraft/src/CodecMus.java minecraft_patched/net/minecraft/src/CodecMus.java
+--- minecraft/net/minecraft/src/CodecMus.java	2021-11-05 00:45:53.897278200 +0200
++++ minecraft_patched/net/minecraft/src/CodecMus.java	2021-11-05 00:46:57.302904700 +0200
+@@ -1,10 +1,16 @@
+ package net.minecraft.src;
+ 
++import java.io.IOException;
+ import java.io.InputStream;
+ import paulscode.sound.codecs.CodecJOrbis;
+ 
+ public class CodecMus extends CodecJOrbis {
+     protected InputStream openInputStream() {
+-        return new MusInputStream(this, this.url, this.urlConnection.getInputStream());
++        try {
++			return new MusInputStream(this, this.url, this.urlConnection.getInputStream());
++		} catch (IOException ex) {
++			ex.printStackTrace();
++			return null;
++		}
+     }
+ }
+diff -r -U 3 minecraft/net/minecraft/src/EntityCreeper.java minecraft_patched/net/minecraft/src/EntityCreeper.java
+--- minecraft/net/minecraft/src/EntityCreeper.java	2021-11-05 00:35:39.085112900 +0200
++++ minecraft_patched/net/minecraft/src/EntityCreeper.java	2021-11-05 00:48:04.320737900 +0200
+@@ -11,7 +11,7 @@
+ 
+     protected void entityInit() {
+         super.entityInit();
+-        this.dataWatcher.addObject(16, -1);
++        this.dataWatcher.addObject(16, (byte)-1);
+         this.dataWatcher.addObject(17, (byte)0);
+     }
+ 
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityChest.java minecraft_patched/net/minecraft/src/TileEntityChest.java
+--- minecraft/net/minecraft/src/TileEntityChest.java	2021-11-05 00:35:41.744265000 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityChest.java	2021-11-05 00:47:17.585064800 +0200
+@@ -88,4 +88,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityDispenser.java minecraft_patched/net/minecraft/src/TileEntityDispenser.java
+--- minecraft/net/minecraft/src/TileEntityDispenser.java	2021-11-05 00:35:41.746265100 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityDispenser.java	2021-11-05 00:47:40.601381300 +0200
+@@ -108,4 +108,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityFurnace.java minecraft_patched/net/minecraft/src/TileEntityFurnace.java
+--- minecraft/net/minecraft/src/TileEntityFurnace.java	2021-11-05 00:35:41.747265200 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityFurnace.java	2021-11-05 00:47:32.280905400 +0200
+@@ -208,4 +208,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityBrewingStand.java minecraft_patched/net/minecraft/src/TileEntityBrewingStand.java
+--- minecraft/net/minecraft/src/TileEntityBrewingStand.java	2021-11-07 00:13:03.487624900 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityBrewingStand.java	2021-11-07 00:21:27.085429000 +0200
+@@ -207,4 +207,7 @@
+ 
+         return var1;
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/client/Minecraft.java minecraft_patched/net/minecraft/client/Minecraft.java
+--- minecraft/net/minecraft/client/Minecraft.java	2021-11-14 12:28:38.675547900 +0200
++++ minecraft_patched/net/minecraft/client/Minecraft.java	2021-11-14 12:30:43.843707100 +0200
+@@ -1746,7 +1746,11 @@
+     }
+ 
+     public static void startMainThread1(String var0, String var1) {
+-        startMainThread(var0, var1, (String)null);
++        try {
++			startMainThread(var0, var1, (String)null);
++		} catch (LWJGLException var2) {
++			var2.printStackTrace();
++		}
+     }
+ 
+     public static void startMainThread(String var0, String var1, String var2) throws LWJGLException {

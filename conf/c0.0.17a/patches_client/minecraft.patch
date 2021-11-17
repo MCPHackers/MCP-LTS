@@ -1,0 +1,11 @@
+diff -r -U 3 minecraft/com/mojang/minecraft/net/ConnectionThread.java minecraft_patched/com/mojang/minecraft/net/ConnectionThread.java
+--- minecraft/com/mojang/minecraft/net/ConnectionThread.java	2021-11-08 15:14:56.497462600 +0200
++++ minecraft_patched/com/mojang/minecraft/net/ConnectionThread.java	2021-11-08 15:15:17.576668200 +0200
+@@ -26,7 +26,6 @@
+         this.username = var4;
+         this.mpPass = var5;
+         this.minecraft = var6;
+-        super();
+     }
+ 
+     public final void run() {

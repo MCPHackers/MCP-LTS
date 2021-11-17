@@ -14,7 +14,7 @@ public class Start
       Canvas var6 = new Canvas();
       var5.setLayout(new BorderLayout());
       var5.add(var6, "Center");
-      int width = 640;
+      int width = 854;
       int height = 480;
       var6.setPreferredSize(new Dimension(width, height));
       var5.pack();

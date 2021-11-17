@@ -1,0 +1,66 @@
+diff -r -U 3 minecraft/net/minecraft/src/CodecMus.java minecraft_patched/net/minecraft/src/CodecMus.java
+--- minecraft/net/minecraft/src/CodecMus.java	2021-11-06 20:15:55.468828700 +0200
++++ minecraft_patched/net/minecraft/src/CodecMus.java	2021-11-06 20:16:53.669157600 +0200
+@@ -1,10 +1,16 @@
+ package net.minecraft.src;
+ 
++import java.io.IOException;
+ import java.io.InputStream;
+ import paulscode.sound.codecs.CodecJOrbis;
+ 
+ public class CodecMus extends CodecJOrbis {
+     protected InputStream openInputStream() {
+-        return new MusInputStream(this, this.url, this.urlConnection.getInputStream());
++        try {
++			return new MusInputStream(this, this.url, this.urlConnection.getInputStream());
++		} catch (IOException ex) {
++			ex.printStackTrace();
++			return null;
++		}
+     }
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityChest.java minecraft_patched/net/minecraft/src/TileEntityChest.java
+--- minecraft/net/minecraft/src/TileEntityChest.java	2021-11-06 20:15:49.681497700 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityChest.java	2021-11-06 20:16:29.942800500 +0200
+@@ -88,4 +88,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityDispenser.java minecraft_patched/net/minecraft/src/TileEntityDispenser.java
+--- minecraft/net/minecraft/src/TileEntityDispenser.java	2021-11-06 20:08:08.107097200 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityDispenser.java	2021-11-06 20:16:32.543949300 +0200
+@@ -109,4 +109,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/TileEntityFurnace.java minecraft_patched/net/minecraft/src/TileEntityFurnace.java
+--- minecraft/net/minecraft/src/TileEntityFurnace.java	2021-11-06 20:08:08.109097300 +0200
++++ minecraft_patched/net/minecraft/src/TileEntityFurnace.java	2021-11-06 20:16:34.921085300 +0200
+@@ -206,4 +206,7 @@
+             return var1.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+         }
+     }
++
++	public void onInventoryChanged() {
++	}
+ }
+diff -r -U 3 minecraft/net/minecraft/src/EntityCreeper.java minecraft_patched/net/minecraft/src/EntityCreeper.java
+--- minecraft/net/minecraft/src/EntityCreeper.java	2021-11-06 22:37:59.981403000 +0200
++++ minecraft_patched/net/minecraft/src/EntityCreeper.java	2021-11-06 22:37:20.825163300 +0200
+@@ -11,7 +11,7 @@
+ 
+     protected void entityInit() {
+         super.entityInit();
+-        this.dataWatcher.addObject(16, -1);
++        this.dataWatcher.addObject(16, (byte)-1);
+     }
+ 
+     public void writeEntityToNBT(NBTTagCompound var1) {
