@@ -16,10 +16,6 @@ bin/
 runtime/bin/pypy*
 !runtime/bin/
 
-# Block eclipse folder
-eclipse/
-.metadata/
-
 # Block python runtime.
 runtime/bin/python/
 
