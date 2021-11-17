@@ -6,8 +6,9 @@ temp/
 src/
 bin/
 
-# Allow server.properties
-!jars/server.properties
+# Block eclipse folder
+eclipse/
+.metadata/
 
 # Block compiled Python
 *.pyc
