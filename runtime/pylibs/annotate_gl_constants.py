@@ -1404,7 +1404,7 @@ _CONSTANTS_KEYS = {
 
 _CALL_REGEX = re.compile(r'(' + '|'.join(_PACKAGES) + r')\.([\w]+)\(.+\)')
 _CONSTANT_REGEX = re.compile(r'(?<![-.\w])\d+(?![.\w])')
-_INPUT_REGEX = re.compile(r'(Keyboard)\.(getEventKey)\(\)( == ).+')
+_INPUT_REGEX = re.compile(r'(Keyboard)\.((getKeyName|isKeyDown)\(.+\)|getEventKey\(\) == .+)')
 
 def annotate_constants(code):
     code = annotate_constants_input(code)

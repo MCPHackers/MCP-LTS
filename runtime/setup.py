@@ -9,6 +9,7 @@ import traceback
 import platform
 import zipfile
 import json
+import math
 from datetime import datetime
 
 class InstallMC:
@@ -25,6 +26,7 @@ class InstallMC:
         else:
             self.platform = "linux"
         self.confdir = self.config.get("DEFAULT", "DirConf")
+        self.vers = self.config.get("DEFAULT", "DirVers")
         self.jardir = self.config.get("DEFAULT", "DirJars")
         self.tempdir = self.config.get("DEFAULT", "DirTemp")
         self.logdir = self.config.get("DEFAULT", "DirLogs")
@@ -94,14 +96,14 @@ class InstallMC:
                 shutil.copy2(os.path.join("runtime", self.platform + "_scripts", file), ".")
         else:
             natives = {
-                "windows": "https://betacraft.pl/launcher/assets/natives-windows.zip",
-                "macosx": "https://betacraft.pl/launcher/assets/natives-osx.zip",
-                "linux": "https://betacraft.pl/launcher/assets/natives-linux.zip"
+                "windows": "http://files.betacraft.uk/launcher/assets/natives-windows.zip",
+                "macosx": "http://files.betacraft.uk/launcher/assets/natives-osx.zip",
+                "linux": "http://files.betacraft.uk/launcher/assets/natives-linux.zip"
             }
             print()
             self.logger.info("> Downloading libraries...")
             libtime = time.time()
-            self.download("https://betacraft.pl/launcher/assets/libs-windows.zip", os.path.join(self.jardir, "bin", "libs.zip"))
+            self.download("http://files.betacraft.uk/launcher/assets/libs-windows.zip", os.path.join(self.jardir, "bin", "libs.zip"))
             
             self.logger.info("> Downloading natives for your platform...")
             self.download(natives[self.platform], os.path.join(self.jardir, "bin", "natives.zip"))
@@ -135,10 +137,10 @@ class InstallMC:
         self.logger.info("> If you wish to supply your own configuration, type \"custom\".")
 
         versions = []
-        for version in os.listdir(self.confdir):
-            if os.path.isdir(os.path.join(self.confdir, version)) and version != "patches_server" and version != "patches_client" and version != "custom" and not os.path.exists(os.path.join(self.confdir, version, "DISABLED")):
+        for version in os.listdir(self.vers):
+            if os.path.isdir(os.path.join(self.vers, version)) and version not in ["custom","workspace"] and not os.path.exists(os.path.join(self.vers, version, "DISABLED")):
                 versions.append(version)
-        f = open(os.path.join("conf","versions.json"))
+        f = open(os.path.join("versions","versions.json"))
         versionsjson = json.load(f)
         inp = ""
         confname = inp
@@ -152,7 +154,7 @@ class InstallMC:
                     versionslist.append({"time": x, "version": y})
             versionslist.sort(key = lambda x: datetime.strptime(x["time"], '%Y-%m-%d'))
             versionslist.reverse()
-            rows = 18
+            rows = math.ceil(len(versionslist)/3)
             table_list = [[] for _ in range(rows)]
             for index, item in enumerate(versionslist):
                 row_index = index % rows
@@ -186,19 +188,53 @@ class InstallMC:
         except Exception as e:
             self.logger.info("> Couldn't clear config!")
 
-        self.logger.info("> Copying config.")
         copytime = time.time()
-        self.copydir(os.path.join(self.confdir, confname), self.confdir)
+        self.logger.info("> Copying config")
+        self.copydir(os.path.join(self.vers, confname), self.confdir)
         with open(self._version_config, "a") as file:
-            if inp != "custom":
-                file.write('ClientVersion = ' + inp + '\n')
-            if inp in versionsjson["client"]:
+            file.write('ClientVersion = ' + inp + '\n')
+            if inp == "custom":
+                file.write('ServerVersion = ' + inp + '\n')
+            elif inp in versionsjson["client"]:
                 if "server" in versionsjson["client"][inp]:
                     file.write('ServerVersion = ' + versionsjson["client"][inp]["server"] + '\n')
                 elif inp in versionsjson["server"]:
                     file.write('ServerVersion = ' + inp + '\n')
-        self.logger.info('> Done in %.2f seconds' % (time.time() - copytime))
+        no_error = True
+        try:
+            if os.path.exists("eclipse"):
+                shutil.rmtree("eclipse")
+        except:
+            no_error = False
+            commands.logger.info("> Couldn't clear workspace!")
+        if no_error:
+            self.logger.info("> Copying workspace")
+            workspace = 0
+            try:
+                workspace = versionsjson["client"][inp]["workspace_version"]
+            except:
+                pass
+            self.copydir(os.path.join(self.vers, "workspace", "eclipse_" + str(workspace)), "eclipse")
+            for proj in ["Client", "Server"]:
+                p = os.path.join("eclipse", proj, proj + ".iml")
+                if os.path.exists(p):
+                    f = open(p,'r')
+                    filedata = f.read()
+                    f.close()
 
+                    newdata = filedata.replace("$MCP_LOC$", os.getcwd().replace("\\", "/"))
+
+                    f = open(p,'w')
+                    f.write(newdata)
+                    f.close()
+                    
+        self.logger.info('> Done in %.2f seconds' % (time.time() - copytime))
+        
+        if os.path.exists(os.path.join(self.jardir, "minecraft_server.jar")):
+            os.unlink(os.path.join(self.jardir, "minecraft_server.jar"))
+        if os.path.exists(os.path.join(self.jardir, "bin", "minecraft.jar")):
+            os.unlink(os.path.join(self.jardir, "bin", "minecraft.jar"))
+            
         if inp != "custom":
             self.logger.info("> Downloading Minecraft client...")
             clientdltime = time.time()
@@ -218,14 +254,14 @@ class InstallMC:
                     dlname = "minecraft_server.zip"
                     extract = True
                 self.download(versionsjson["server"][ver2]["url"], os.path.join(self.jardir, dlname))
-                if extract:
+                if extract and os.path.exists(os.path.join(self.jardir, dlname)):
                     self.logger.info("> Extracting Minecraft server...")
                     serverzip = zipfile.ZipFile(os.path.join(self.jardir, dlname))
                     serverzip.extractall(self.jardir)
                     serverzip.close()
-                    if os.path.isfile(os.path.join(self.jardir, "minecraft-server.jar")):
+                    if os.path.exists(os.path.join(self.jardir, "minecraft-server.jar")):
                         os.rename(os.path.join(self.jardir, "minecraft-server.jar"),os.path.join(self.jardir, "minecraft_server.jar"))
-                    if os.path.isfile(os.path.join(self.jardir, dlname)):
+                    if os.path.exists(os.path.join(self.jardir, dlname)):
                         os.unlink(os.path.join(self.jardir, dlname))
                 self.logger.info('> Done in %.2f seconds' % (time.time() - serverdltime))
         else:
@@ -242,7 +278,6 @@ class InstallMC:
 
             self.logger.debug("> Done!")
         except:
-            traceback.print_exc()
             print("> Unable to download \"" + url + "\"")
 
     def copydir(self, src, dst, replace=True):

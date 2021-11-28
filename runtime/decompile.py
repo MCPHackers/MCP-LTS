@@ -15,14 +15,14 @@ from commands import Commands
 import recompile as recompile
 
 
-def main(conffile=None):
+def main(conffile, no_patch, rename):
     commands = Commands(conffile)
     commands.checkforupdates()
 
-    cltdone = decompile_side(0, commands)
+    cltdone = decompile_side(0, commands, no_patch, rename)
     srvdone = True
     if commands.hasserver():
-        srvdone = decompile_side(1, commands)
+        srvdone = decompile_side(1, commands, no_patch, rename)
     if not cltdone or not srvdone:
         commands.logger.info('== Post decompiling operations ==')
         commands.logger.info('> Recompiling')
@@ -36,8 +36,8 @@ def main(conffile=None):
             commands.gathermd5s(1)
 
 
-def decompile_side(side=0, commands=None, force_jad=False):
-    use_ff = os.path.exists(commands.fernflower) and not force_jad
+def decompile_side(side=0, commands=None, no_patch=False, rename=False):
+    use_ff = os.path.exists(commands.fernflower)
 
     srcdir = None
 
@@ -66,9 +66,10 @@ def decompile_side(side=0, commands=None, force_jad=False):
             currenttime = time.time()
             commands.logger.info('> Creating SRGS')
             commands.createsrgs(side)
-            if os.path.exists(sidelk[side]):
-                commands.logger.info('> Applying SpecialSource')
-                commands.applyss(side)
+            if os.path.exists(sidelk[side]) and not rename:
+                commands.logger.info('> Applying Retroguard')
+                commands.creatergcfg(reobf=False, keep_lvt=True, keep_generics=False, rg_update=False)
+                commands.applyrg(side)
             else:
                 shutil.copyfile(jarlk[side], excinput[side])
             if os.path.exists(excconf[side]):
@@ -76,18 +77,23 @@ def decompile_side(side=0, commands=None, force_jad=False):
                 commands.applyexceptor(side)
             else:
                 shutil.copyfile(excinput[side], excoutput[side])
-            commands.logger.info('> Decompiling...')
-            commands.applyff(side)
-            commands.logger.info('> Unzipping the sources')
-            commands.extractsrc(side)
-            commands.logger.info('> Unzipping the jar')
+            commands.logger.info('> Unpacking jar')
             commands.extractjar(side)
-            if os.path.exists(patchlk[side]):
+            commands.logger.info('> Copying classes')
+            commands.copycls(side)
+            commands.logger.info('> Decompiling...')
+            commands.applyff(side, rename)
+            commands.logger.info('> Copying sources')
+            commands.copysrc(side)
+            if os.path.exists(patchlk[side]) and not no_patch:
                 commands.logger.info('> Applying patches')
                 commands.applyffpatches(side)
-            commands.logger.info('> Replacing LWJGL constants')
-            commands.process_annotate(side)
+            if side == 0:
+                commands.logger.info('> Replacing LWJGL constants')
+                commands.process_annotate(side)
             commands.logger.info('> Done in %.2f seconds' % (time.time() - currenttime))
+        else:
+            return True
     else:
         if side == 0:
             commands.logger.warn('!! Client already decompiled. Run cleanup before decompiling again !!')
@@ -100,6 +106,8 @@ def decompile_side(side=0, commands=None, force_jad=False):
 
 if __name__ == '__main__':
     parser = OptionParser(version='RetroMCP %s' % Commands.MCPVersion)
+    parser.add_option('-r', '--ren', dest='rename', action='store_true', help='rename ambiguous classes', default=False)
+    parser.add_option('-p', dest='no_patch', action='store_true', help='disable patches', default=False)
     parser.add_option('-c', '--config', dest='config', help='additional configuration file')
     (options, args) = parser.parse_args()
-    main(options.config)
+    main(options.config, options.no_patch, options.rename)

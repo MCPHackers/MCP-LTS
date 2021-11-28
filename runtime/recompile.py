@@ -17,20 +17,18 @@ def main(conffile=None):
     commands = Commands(conffile)
 
     commands.logger.info('> Recompiling client...')
-    clienttime = time.time()
-    if commands.checksources(0):
-        commands.cleanbindirs(0)
-        commands.recompile(0)
-        commands.logger.info('> Done in %.2f seconds' % (time.time() - clienttime))
+    recompile(0, commands)
         
     if commands.hasserver():
         commands.logger.info('> Recompiling server...')
-        servertime = time.time()
-        if commands.checksources(1):
-            commands.cleanbindirs(1)
-            commands.recompile(1)
-            commands.logger.info('> Done in %.2f seconds' % (time.time() - servertime))
+        recompile(1, commands)
 
+def recompile(side=0, commands=None):
+    recomptime = time.time()
+    if commands.checksources(side):
+        commands.cleanbindirs(side)
+        commands.recompile(side)
+        commands.logger.info('> Done in %.2f seconds' % (time.time() - recomptime))
 
 if __name__ == '__main__':
     parser = OptionParser(version='MCP %s' % Commands.MCPVersion)

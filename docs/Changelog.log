@@ -1,3 +1,32 @@
+v2.1
+  * Fixed betacraft dependencies
+  * Replaced SpecialSource with RetroGuard
+  * Moved version mappings and patches from conf to versions
+  * Downgraded Fernflower to reduce decompilation errors
+  * Changed indention string to a tab character
+  * Eclipse workspace setup for each version
+    - Server doesn't show up in the workspace if the version doesn't have it
+    - Workspace is automatically deleted upon cleanup
+    - Workspace is recopied when using setup or switchversion
+  * Fixed switchversion missing
+  * Fixed GL constant replacer not replacing constants inside isKeyDown
+  * Decompiling now outputs unpatched sources to temp/src
+  * Classes are now decompiled from temp/cls instead of minecraft_exc.jar
+  * Cleanup script allows any key to be pressed after the cleanup
+  * Added version support for:
+    - in-20100227
+    - a1.2.3
+    - a1.2.3_01
+    - a1.2.3_02
+    - a1.2.3_04
+    - a1.2.5
+    - a1.2.6
+    - b1.1-1
+    - b1.1-2
+    - b1.1_01
+    - b1.1_02
+    - b1.4
+====================================================
 v2.0
   * Switched the mapping format from CSV to SRG
     - SRG-based reobfuscation

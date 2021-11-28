@@ -20,8 +20,9 @@ def main(conffile=None):
     recompile.main(conffile)
     commands.logger.info('> Generating the md5 (client)')
     commands.gathermd5s(0)
-    commands.logger.info('> Generating the md5 (server)')
-    commands.gathermd5s(1)
+    if commands.hasserver():
+        commands.logger.info('> Generating the md5 (server)')
+        commands.gathermd5s(1)
 
 
 if __name__ == '__main__':

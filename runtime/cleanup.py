@@ -17,11 +17,13 @@ def main(conffile=None):
     while b:
         inp = input(": ")
         clearsrc = False
+        cleareclipse = True
         b = inp.lower() != "y" and inp.lower() != "s"
         if inp.lower() == "n":
             return
         if inp.lower() == "s":
             clearsrc = True
+            cleareclipse = False
         if b:
             print("Invalid option!")
     commands.logger.info("> Are you *REALLY* sure you want to clean up your workspace? [y/N]")
@@ -39,13 +41,12 @@ def main(conffile=None):
             print("Invalid option!")
 
     commands.logger.info("> Commencing the purge of the universe...")
-    clear(commands, clearsrc)
+    clear(commands, clearsrc, cleareclipse)
     # Pausing execution in python because the batch is already deleted
-    print('Press enter to continue...')
-    input()
+    os.system('pause')
     sys.exit()
 
-def clear(commands, clearsrc=False):
+def clear(commands, clearsrc=False, cleareclipse=True):
     no_error = True
 
 
@@ -64,6 +65,8 @@ def clear(commands, clearsrc=False):
             traceback.print_exc()
 
     cleardirs = [commands.dirreobf, commands.dirbin, commands.dirsrc, commands.dirtemp]
+    if cleareclipse:
+        cleardirs.append(commands.direclipse)
     for dir in cleardirs:
         commands.logger.info("> Deleting \"" + dir + "\"...")
         try:

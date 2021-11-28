@@ -21,7 +21,7 @@ def main(conffile=None):
     print()
     installmc = InstallMC(logger=commands.logger, conffile=conffile)
     installmc.setupmc()
-    cleanup.clear(commands, clearsrc=True)
+    cleanup.clear(commands, clearsrc=True, cleareclipse=False)
 
 
 if __name__ == '__main__':
