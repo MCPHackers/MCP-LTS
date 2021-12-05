@@ -1,3 +1,8 @@
+v2.2
+  * Fixed third person freeze in inf-20100227
+  * Added --nolvt option when decompiling (No Local Variable Tables)
+  * Small change to a1.1.2/a1.1.1/a1.1.2_01 mappings
+====================================================
 v2.1
   * Fixed betacraft dependencies
   * Replaced SpecialSource with RetroGuard

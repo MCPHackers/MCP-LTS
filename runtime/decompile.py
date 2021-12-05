@@ -15,14 +15,14 @@ from commands import Commands
 import recompile as recompile
 
 
-def main(conffile, no_patch, rename):
+def main(conffile, no_patch, rename, no_lvt):
     commands = Commands(conffile)
     commands.checkforupdates()
 
-    cltdone = decompile_side(0, commands, no_patch, rename)
+    cltdone = decompile_side(0, commands, no_patch, rename, no_lvt)
     srvdone = True
     if commands.hasserver():
-        srvdone = decompile_side(1, commands, no_patch, rename)
+        srvdone = decompile_side(1, commands, no_patch, rename, no_lvt)
     if not cltdone or not srvdone:
         commands.logger.info('== Post decompiling operations ==')
         commands.logger.info('> Recompiling')
@@ -36,7 +36,7 @@ def main(conffile, no_patch, rename):
             commands.gathermd5s(1)
 
 
-def decompile_side(side=0, commands=None, no_patch=False, rename=False):
+def decompile_side(side=0, commands=None, no_patch=False, rename=False, no_lvt=False):
     use_ff = os.path.exists(commands.fernflower)
 
     srcdir = None
@@ -68,7 +68,7 @@ def decompile_side(side=0, commands=None, no_patch=False, rename=False):
             commands.createsrgs(side)
             if os.path.exists(sidelk[side]) and not rename:
                 commands.logger.info('> Applying Retroguard')
-                commands.creatergcfg(reobf=False, keep_lvt=True, keep_generics=False, rg_update=False)
+                commands.creatergcfg(reobf=False, keep_lvt=not no_lvt, keep_generics=False, rg_update=False)
                 commands.applyrg(side)
             else:
                 shutil.copyfile(jarlk[side], excinput[side])
@@ -108,6 +108,7 @@ if __name__ == '__main__':
     parser = OptionParser(version='RetroMCP %s' % Commands.MCPVersion)
     parser.add_option('-r', '--ren', dest='rename', action='store_true', help='rename ambiguous classes', default=False)
     parser.add_option('-p', dest='no_patch', action='store_true', help='disable patches', default=False)
+    parser.add_option('--nolvt', dest='no_lvt', action='store_true', help='remove local variable tables', default=False)
     parser.add_option('-c', '--config', dest='config', help='additional configuration file')
     (options, args) = parser.parse_args()
-    main(options.config, options.no_patch, options.rename)
+    main(options.config, options.no_patch, options.rename, options.no_lvt)

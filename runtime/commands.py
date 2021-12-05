@@ -31,7 +31,7 @@ warnings.simplefilter('ignore')
 class Commands(object):
     """Contains the commands and initialisation for a full mcp run"""
 
-    MCPVersion = '2.1'
+    MCPVersion = '2.2'
     _instance = None  # Small trick to create a singleton
     _single = False  # Small trick to create a singleton
     _default_config = 'conf/mcp.cfg'

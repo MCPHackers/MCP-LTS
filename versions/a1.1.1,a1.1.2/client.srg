@@ -2595,7 +2595,7 @@ MD: lp/a (DD)D net/minecraft/src/NoiseGeneratorOctaves/generateNoiseOctaves (DD)
 MD: lp/a ([DDDDIIIDDD)[D net/minecraft/src/NoiseGeneratorOctaves/generateNoiseOctaves ([DDDDIIIDDD)[D
 MD: lt/a (Ljj;)V net/minecraft/src/TerrainTextureManager/render (Lnet/minecraft/src/IsoImageBuffer;)V
 MD: lt/a ()V net/minecraft/src/TerrainTextureManager/postProcess ()V
-MD: lu/a (Ljava/lang/String;)V net/minecraft/src/GuiIngame/splitChatMessage (Ljava/lang/String;)V
+MD: lu/a (Ljava/lang/String;)V net/minecraft/src/GuiIngame/addChatMessage (Ljava/lang/String;)V
 MD: lu/a (FZII)V net/minecraft/src/GuiIngame/renderGameOverlay (FZII)V
 MD: lu/a ()V net/minecraft/src/GuiIngame/updateTick ()V
 MD: lu/a (IIIF)V net/minecraft/src/GuiIngame/renderInventorySlot (IIIF)V

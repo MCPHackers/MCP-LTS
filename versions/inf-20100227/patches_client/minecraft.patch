@@ -82,7 +82,7 @@ diff -r -U 3 minecraft/net/minecraft/client/render/EntityRenderer.java minecraft
 -					float var49 = (float)(((var46 & 1) << 1) - 1);
 -					float var44 = (float)(((var46 >> 1 & 1) << 1) - 1);
 -					var10 = (float)(((var46 >> 2 & 1) << 1) - 1);
-+				for(int var47 = 0; var46 < 8; ++var47) {
++				for(int var47 = 0; var47 < 8; ++var47) {
 +					float var49 = (float)(((var47 & 1) << 1) - 1);
 +					float var44 = (float)(((var47 >> 1 & 1) << 1) - 1);
 +					var10 = (float)(((var47 >> 2 & 1) << 1) - 1);
