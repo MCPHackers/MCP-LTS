@@ -1,3 +1,7 @@
+v2.3
+  * Updated MCInjector to not fail on certain Java 8 constructors (by updating the bundled ASM)
+  * Updated Retroguard to not fail to reobfuscate on Java 8+ classes
+====================================================
 v2.2
   * Fixed third person freeze in inf-20100227
   * Added --nolvt option when decompiling (No Local Variable Tables)
