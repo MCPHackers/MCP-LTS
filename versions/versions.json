@@ -393,6 +393,11 @@
             "time": "2010-02-19",
             "workspace_version": 3
         },
+        "in-20100130": {
+            "url": "http://files.betacraft.uk/launcher/assets/versions/in-20100130.jar",
+            "time": "2010-01-30",
+            "workspace_version": 3
+        },
         "c0.30_01c": {
             "url": "https://launcher.mojang.com/v1/objects/54622801f5ef1bcc1549a842c5b04cb5d5583005/client.jar",
             "time": "2011-07-31",
