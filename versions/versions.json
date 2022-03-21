@@ -383,6 +383,11 @@
             "time": "2010-02-27",
             "workspace_version": 3
         },
+        "inf-20100313": {
+            "url": "http://files.betacraft.uk/launcher/assets/versions/inf-20100313.jar",
+            "time": "2010-03-13",
+            "workspace_version": 3
+        },
         "in-20100223": {
             "url": "http://files.betacraft.uk/launcher/assets/versions/in-20100223.jar",
             "time": "2010-02-23",
